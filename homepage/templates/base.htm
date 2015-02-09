@@ -1,0 +1,131 @@
+## this is the skeleton of all pages on in this app - it defines the basic html tags
+
+## set up a StaticRenderer object to enable the CSS/JS automatic inclusion magic.
+<%! from django_mako_plus.controller import static_files %>
+<%  static_renderer = static_files.StaticRenderer(self) %>
+
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<head>
+
+	<title>homepage</title>
+
+	## add any site-wide scripts or CSS here; for example, jquery:
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<link rel="icon" type="image/x-icon" href="\static\homepage\media\favicon.ico" />
+	<link href='http://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
+	
+	## render the css with the same name as this page
+	${ static_renderer.get_template_css(request, context)  }
+
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="header">
+				<%block name="header">
+					The Colonial Heritage Foundation
+					%if request.user.is_authenticated():
+						<span class="welcome">Welcome, ${request.user.first_name}</span>
+					%endif
+				</%block>
+			</div>
+			<div class="container-fluid"
+				<div class="row">
+					<div class="col-md-2 left-menu">
+						<div class="sidebar-nav">
+						  <ul class="nav nav-pills nav-stacked">
+							<li role="presentation" class="active">
+							<a href="/homepage/">
+								<span id="nav-glyphicon" class="glyphicon glyphicon-home" aria-hidden="true"></span> Home
+							</a>
+							</li>
+							<li role="presentation">
+								<a href="/homepage/products/">
+									<span id="nav-glyphicon" class="glyphicon glyphicon-gift" aria-hidden="true"></span> Products
+								</a>
+							</li>
+							%if request.user.has_perm('homepage.is_manager'):
+								<li role="presentation">
+									<a href="/homepage/items/">
+										<span id="nav-glyphicon" class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Items
+									</a>
+								</li>
+								<li role="presentation">
+									<a href="/homepage/users/">
+										<span id="nav-glyphicon" class="glyphicon glyphicon-user" aria-hidden="true"></span> Users
+									</a>
+								</li>
+								<li role="presentation">
+									<a href="/homepage/rentals/">
+										<span id="nav-glyphicon" class="glyphicon glyphicon-time" aria-hidden="true"></span> Rentals
+									</a>
+								</li>
+								<li role="presentation">
+								<a href="/homepage/orders/">
+									<span id="nav-glyphicon" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Orders
+								</a>
+								</li>
+							%endif
+							<li role="presentation">
+								<a href="/homepage/events/">
+									<span id="nav-glyphicon" class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Events
+								</a>
+							</li>
+							<li role="presentation">
+								<a href="/homepage/about/">
+									<span id="nav-glyphicon" class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> About Us	
+								</a>
+							</li>
+							<li role="presentation">
+								<a href="/homepage/contact/">
+									<span id="nav-glyphicon" class="glyphicon glyphicon-comment" aria-hidden="true"></span> Contact
+								</a>
+							</li>
+							<li role="presentation">
+								<a href="/homepage/Terms/">
+									<span id="nav-glyphicon" class="glyphicon glyphicon-th" aria-hidden="true"></span> Terms
+								</a>
+							</li>
+						  </ul>
+						</div>
+					</div>	
+					<div class="col-md-8 content">	
+						<%block name="content">
+						</%block>
+					</div>
+					<div class="col-md-2">
+						%if request.user.is_authenticated():
+							<a href="/homepage/logout/">
+								<button class="btn btn-default" aria-label="Right Align">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+								</button>
+							</a>
+							<span class="label label-primary">Sign Out</span>
+						%else:
+							<a href="/homepage/login/">
+								<button class="btn btn-default" aria-label="Right Align">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+								</button>
+							</a>
+							<span class="label label-danger">Sign In</span>
+						%endif
+					</div>
+				</div>
+			</div>
+
+			<nav class="nav-bar navbar-default navbar-fixed-bottom">
+				<div class="container-fluid">
+					<%block name="footer">
+						Site by Derek Brimley
+					</%block>
+				</div>
+			</nav>
+		</div>
+	</body>
+</html>
+
+## render the JS with the same name as this page
+    ${ static_renderer.get_template_js(request, context)  }

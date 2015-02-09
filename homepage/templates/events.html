@@ -1,0 +1,36 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+	<h1>Events</h1>
+	<table class="table table-striped table-bordered">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			%if request.user.has_perm('homepage.is_manager'):
+				<th>Actions</th
+			%endif
+		</tr>
+		%for event in events:
+			<tr>
+				<td>${event.id}</td>
+				<td>${event.name}</td>
+				<td>${event.start_date}</td>
+				<td>${event.end_date}</td>
+				%if request.user.has_perm('homepage.is_manager'):
+					<td>
+						<a href="/homepage/events.edit/${event.id}/">Edit </a>
+						| 
+						<a href="/homepage/events.delete/${event.id}/">Delete</a>
+					</td>
+				%endif
+			</tr>
+		%endfor
+	</table>
+	%if request.user.has_perm('homepage.is_manager'):
+		<div class="text-right">
+			<a class="btn btn-primary" href="/homepage/events.create/">Add New Event</a>
+		</div>
+	%endif
+</%block>
