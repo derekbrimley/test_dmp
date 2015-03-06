@@ -34,21 +34,29 @@ def edit(request):
 	
 	form = EventEditForm(initial={
 		'name': event.name,
+		'description': event.description,
 		'start_date': event.start_date,
 		'end_date': event.end_date,
+		'map_file': event.map_file,
+		'venue_name': event.venue_name,
+		'address': event.address,
 	})
 	
 	if request.method == "POST":
 		form = EventEditForm(request.POST)
 		if form.is_valid():
 			event.name = form.cleaned_data['name']
+			event.description = form.cleaned_data['description']
 			event.start_date = form.cleaned_data['start_date']
 			event.end_date = form.cleaned_data['end_date']
+			event.map_file = form.cleaned_data['map_file']
+			event.venue_name = form.cleaned_data['map_file']
+			event.address = form.cleaned_data['address']
 			event.save()
 			return HttpResponseRedirect('/homepage/events/')
 
 	params['form'] = form
-			
+	
 	return templater.render_to_response(request,'events.edit.html',params)
 
 class EventEditForm(forms.Form):
@@ -62,7 +70,16 @@ class EventEditForm(forms.Form):
 			}
 		)
 	)
-	start_date = forms.CharField(
+	description = forms.CharField(
+		required=True,
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Description'
+			}
+		)
+	)
+	start_date = forms.DateField(
 		required=True,
 		label = 'Start Date',
 		widget=forms.DateInput(
@@ -72,13 +89,40 @@ class EventEditForm(forms.Form):
 			}
 		)
 	)
-	end_date = forms.CharField(
+	end_date = forms.DateField(
 		required=True,
 		label = 'End Date',
 		widget=forms.DateInput(
 			attrs={
 				'class': 'form-control',
 				'placeholder': 'End Date'
+			}
+		)
+	)
+	map_file = forms.CharField(
+		required=True,
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Map File'
+			}
+		)
+	)
+	venue_name = forms.CharField(
+		required=True,
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Venue Name'
+			}
+		)
+	)
+	address = forms.CharField(
+		required=True,
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Address'
 			}
 		)
 	)
@@ -91,8 +135,12 @@ def create(request):
 	
 	event = hmod.Event()
 	event.name = 'name'
+	event.description = ''
 	event.start_date = '1111-1-1'
 	event.end_date = '1111-1-1'
+	event.map_file = ''
+	event.venue_name = ''
+	event.address_id = '1'
 	event.save()
 	
 	return HttpResponseRedirect('/homepage/events.edit/{}/'.format(event.id))

@@ -1,0 +1,20 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+
+	%for product in products:
+		<div class="product_container">
+			%for product in products:
+				%if product_info.id == product.product_specification_id:
+					<img src="${ STATIC_URL }catalog/media/${ product.id }.jpg"/>
+					<div class="product_name">
+						${product.name}
+					</div>
+				%endif
+			%endfor
+			<div class="text-right">
+				<button id="submit_btn" class="btn btn-warning">Add to Cart</button>
+			</div>
+		</div>
+	%endfor
+</%block>

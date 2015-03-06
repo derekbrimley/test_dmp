@@ -15,11 +15,12 @@ templater = get_renderer('homepage')
 def process_request(request):
 	params = {}
 	
-	products = hmod.Product.objects.all()
+	products = hmod.Item.objects.all()
+	specs = hmod.ProductSpecification.objects.all()
+	
 	params['products'] = products
-	
+	#params['specs'] = specs
 	return templater.render_to_response(request,'products.html',params)
-	
 	
 ######################################################################
 ####EDITS SINGLE PRODUCT
@@ -29,15 +30,14 @@ def edit(request):
 	params = {}
 	
 	try:
-		product = hmod.Product.objects.get(id=request.urlparams[0])
-	except hmod.Product.DoesNotExist:
+		product = hmod.RentalProduct.objects.get(id=request.urlparams[0])
+	except hmod.RentalProduct.DoesNotExist:
 		return HttpResponseRedirect('/homepage/products/')
 
 	form = ProductEditForm(initial={
-		'name': product.name,
-		'description': product.description,
-		'category': product.category,
-		'current_price': product.current_price,
+		'times_rented': product.quantity_on_hand,
+		'price_per_day': product.shelf_location,
+		'replacement_price': product.order_file,
 	})
 	
 	if request.method == 'POST':
@@ -54,35 +54,27 @@ def edit(request):
 	return templater.render_to_response(request,'products.edit.html',params)
 	
 class ProductEditForm(forms.Form):
-	name = forms.CharField(
+	times_rented = forms.CharField(
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Name'
+				'placeholder': 'Times Rented'
 			}
 		)
 	)
-	description = forms.CharField(
+	price_per_day = forms.CharField(
 		widget=forms.Textarea(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Description'
+				'placeholder': 'Price Per Day'
 			}
 		)
 	)
-	category = forms.CharField(
+	replacement_price = forms.CharField(
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Category'
-			}
-		)
-	)
-	current_price = forms.DecimalField(
-		widget=forms.TextInput(
-			attrs={
-				'class': 'form-control',
-				'placeholder': 'Price'
+				'placeholder': 'Replacement Price'
 			}
 		)
 	)
@@ -93,7 +85,7 @@ class ProductEditForm(forms.Form):
 @permission_required('homepage.is_manager',login_url='/homepage/login/')
 def create(request):
 
-	product = hmod.Product()
+	product = hmod.RentalProduct()
 	product.name = ''
 	product.description = ''
 	product.category = ''
@@ -109,7 +101,7 @@ def create(request):
 @permission_required('homepage.is_manager',login_url='/homepage/login/')
 def delete(request):
 	try:
-		product = hmod.Product.objects.get(id=request.urlparams[0])
+		product = hmod.RentalProduct.objects.get(id=request.urlparams[0])
 	except hmod.DoesNotExist:
 		return HttpResponseRedirect('/homepage/products/')
 	

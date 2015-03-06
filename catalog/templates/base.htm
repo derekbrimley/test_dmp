@@ -1,0 +1,46 @@
+<%inherit file="/base_app/templates/base.htm" />
+
+
+<header>
+  Welcome to the catalog app!
+</header>
+
+<%block name="content">
+  Site content goes here in sub-templates.
+</%block>  
+
+<div class="container-fluid"
+			<div class="row">
+				<div class="col-md-2 left-menu">
+					<%block name="nav">
+						<div class="sidebar-nav">
+						  <ul class="nav nav-pills nav-stacked">
+							<li role="presentation" class="active">
+							<a href="/homepage/">
+								<span id="nav-glyphicon" class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back Home
+							</a>
+							</li>
+							<li role="presentation">
+								<a id="open_search_dialog" >
+									<span id="nav-glyphicon" class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+								</a>
+							</li>
+								<li role="presentation">
+									<a href="/catalog/items/">
+										<span id="nav-glyphicon" class="glyphicon glyphicon-filter" aria-hidden="true"></span> Categories
+									</a>
+								</li>
+								<li role="presentation">
+									<a href="/catalog/users/">
+										<span id="nav-glyphicon" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Shopping Cart
+									</a>
+								</li>
+						  </ul>
+						</div>
+					</%block>
+				</div>	
+			</div>
+		</div>
+
+## render the JS with the same name as this page
+${ static_renderer.get_template_js(request, context)  }

@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1423369459.689034
+_modified_time = 1425438822.17803
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/events.edit.html'
 _template_uri = 'events.edit.html'
@@ -49,7 +49,7 @@ def render_content(context,**pageargs):
         def content():
             return render_content(context)
         __M_writer = context.writer()
-        __M_writer('\r\n\t<h1>Edit Event</h1><br/>\r\n\t<form class="form-horizontal" method="POST">\r\n')
+        __M_writer('\r\n\t<h1>Edit Event</h1>\r\n\t<form class="form-horizontal" method="POST">\r\n')
         for field in form:
             __M_writer('\t\t\t<div class="form-group">\r\n\t\t\t\t<label for=')
             __M_writer(str(field.name))
@@ -68,6 +68,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"uri": "events.edit.html", "filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/events.edit.html", "source_encoding": "ascii", "line_map": {"35": 1, "69": 63, "45": 3, "27": 0, "52": 3, "53": 6, "54": 7, "55": 8, "56": 8, "57": 8, "58": 8, "59": 10, "60": 10, "61": 11, "62": 11, "63": 15}}
+{"uri": "events.edit.html", "source_encoding": "ascii", "filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/events.edit.html", "line_map": {"35": 1, "69": 63, "45": 3, "27": 0, "52": 3, "53": 6, "54": 7, "55": 8, "56": 8, "57": 8, "58": 8, "59": 10, "60": 10, "61": 11, "62": 11, "63": 15}}
 __M_END_METADATA
 """

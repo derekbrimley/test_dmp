@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1423366363.677581
+_modified_time = 1425402770.819019
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/items.edit.html'
 _template_uri = 'items.edit.html'
@@ -49,7 +49,7 @@ def render_content(context,**pageargs):
             return render_content(context)
         form = context.get('form', UNDEFINED)
         __M_writer = context.writer()
-        __M_writer('\r\n\t<form class="form-horizontal" method="POST">\r\n')
+        __M_writer('\r\n\t<h1>Edit Item</h1>\r\n\t<form class="form-horizontal" method="POST">\r\n')
         for field in form:
             __M_writer('\t\t\t<div class="form-group">\r\n\t\t\t\t<label for=')
             __M_writer(str(field.name))
@@ -68,6 +68,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/items.edit.html", "line_map": {"35": 1, "69": 63, "45": 3, "27": 0, "52": 3, "53": 5, "54": 6, "55": 7, "56": 7, "57": 7, "58": 7, "59": 9, "60": 9, "61": 10, "62": 10, "63": 14}, "source_encoding": "ascii", "uri": "items.edit.html"}
+{"source_encoding": "ascii", "line_map": {"35": 1, "69": 63, "45": 3, "27": 0, "52": 3, "53": 6, "54": 7, "55": 8, "56": 8, "57": 8, "58": 8, "59": 10, "60": 10, "61": 11, "62": 11, "63": 15}, "filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/items.edit.html", "uri": "items.edit.html"}
 __M_END_METADATA
 """

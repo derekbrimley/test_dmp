@@ -1,0 +1,56 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+	<h1>Transactions</h1>
+	<table class="table table-striped table-bordered">
+		<tr>
+			<th>ID</th>
+			<th>Date</th>
+			<th>Customer</th>
+			<th>Date Packed</th>
+			<th>Packed By</th>
+			<th>Date Paid</th>
+			<th>Payment Handler</th>
+			<th>Date Shipped</th>
+			<th>Shipped By</th>
+			<th>Tracking Number</th>
+			<th>Ships To</th>
+			<th>Packed By</th>
+			<th>Payment Processed By</th>
+			<th>Shipped By</th>
+			<th>Handled By</th>
+			%if request.user.has_perm('homepage.is_manager'):
+				<th>Actions</th>
+			%endif
+		</tr>
+		%for transaction in transactions:
+			<tr>
+				<td>${transaction.id}</td>
+				<td>${transaction.date}</td>
+				<td>${transaction.customer}</td>
+				<td>${transaction.date_packed}</td>
+				<td>${transaction.packed_by}</td>
+				<td>${transaction.date_paid}</td>
+				<td>${transaction.payment_handler}</td>
+				<td>${transaction.date_shipped}</td>
+				<td>${transaction.shipped_by}</td>
+				<td>${transaction.tracking_number}</td>
+				<td>${transaction.ships_to}</td>
+				<td>${transaction.packed_by}</td>
+				<td>${transaction.payment_processed_by}</td>
+				<td>${transaction.shipped_by}</td>
+				<td>${transaction.handled_by}</td>
+				%if request.user.has_perm('homepage.is_manager'):
+					<td>
+						<a href="/homepage/transactions.edit/${transaction.id}/">Edit </a>
+						| 
+						<a href="/homepage/transactions.delete/${transaction.id}/">Delete</a>
+					</td>
+				%endif
+			</tr>
+		%endfor
+	</table>
+	<div class="text-right">
+		<a class="btn btn-primary" href="/homepage/transactions.create/">Create New Rental</a>
+	</div>
+</%block>

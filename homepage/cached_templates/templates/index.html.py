@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1423369826.117589
+_modified_time = 1425441157.076884
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/index.html'
 _template_uri = 'index.html'
@@ -47,7 +47,7 @@ def render_content(context,**pageargs):
         def content():
             return render_content(context)
         __M_writer = context.writer()
-        __M_writer('\r\n\t\t<h1>Welcome to the CHF website.</h1>\r\n\t\t<h4>Explore the site to find out more.</h4>\t\r\n')
+        __M_writer('\r\n\t<h1>Welcome to the CHF website.</h1>\r\n\t<h4>Explore the site to find out more.</h4>\t\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -55,6 +55,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"uri": "index.html", "filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/index.html", "source_encoding": "ascii", "line_map": {"56": 50, "34": 1, "27": 0, "44": 3, "50": 3}}
+{"uri": "index.html", "source_encoding": "ascii", "filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/index.html", "line_map": {"56": 50, "34": 1, "27": 0, "44": 3, "50": 3}}
 __M_END_METADATA
 """

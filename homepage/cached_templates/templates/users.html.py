@@ -4,9 +4,9 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1423503955.180399
+_modified_time = 1425407412.68719
 _enable_loop = True
-_template_filename = 'C:\\Users\\Derek\\Documents\\GitHub\\CHF\\test_dmp\\homepage\\templates/users.html'
+_template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/users.html'
 _template_uri = 'users.html'
 _source_encoding = 'ascii'
 import os, os.path, re
@@ -51,7 +51,7 @@ def render_content(context,**pageargs):
         request = context.get('request', UNDEFINED)
         users = context.get('users', UNDEFINED)
         __M_writer = context.writer()
-        __M_writer('\r\n\t\t<h1>Users</h1>\r\n\t\t<table class="table table-striped table-bordered">\r\n\t\t<tr>\r\n\t\t\t<th>ID</th>\r\n\t\t\t<th>Username</th>\r\n\t\t\t<th>First Name</th>\r\n\t\t\t<th>Last Name</th>\r\n\t\t\t<th>Email</th>\r\n\t\t\t<th>City</th>\r\n\t\t\t<th>State</th>\r\n\t\t\t<th>Active</th>\r\n')
+        __M_writer('\r\n\t\t<h1>Users</h1>\r\n\t\t<table class="table table-striped table-bordered">\r\n\t\t<tr>\r\n\t\t\t<th>ID</th>\r\n\t\t\t<th>Username</th>\r\n\t\t\t<th>First Name</th>\r\n\t\t\t<th>Last Name</th>\r\n\t\t\t<th>Email</th>\r\n\t\t\t<th>Security Question</th>\r\n\t\t\t<th>Security Answer</th>\r\n\t\t\t<th>Phone</th>\r\n')
         if request.user.has_perm('homepage.is_admin'):
             __M_writer('\t\t\t\t<th>Actions</th>\r\n')
         __M_writer('\t\t<tr>\r\n')
@@ -67,11 +67,11 @@ def render_content(context,**pageargs):
             __M_writer('</td>\r\n\t\t\t\t<td>')
             __M_writer(str(user.email))
             __M_writer('</td>\r\n\t\t\t\t<td>')
-            __M_writer(str(user.city))
+            __M_writer(str(user.security_question))
             __M_writer('</td>\r\n\t\t\t\t<td>')
-            __M_writer(str(user.state))
+            __M_writer(str(user.security_answer))
             __M_writer('</td>\r\n\t\t\t\t<td>')
-            __M_writer(str(user.is_active))
+            __M_writer(str(user.phone))
             __M_writer('</td>\r\n')
             if request.user.has_perm('homepage.is_admin'):
                 __M_writer('\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<a href="/homepage/users.edit/')
@@ -88,6 +88,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"filename": "C:\\Users\\Derek\\Documents\\GitHub\\CHF\\test_dmp\\homepage\\templates/users.html", "line_map": {"64": 23, "65": 23, "66": 24, "67": 24, "68": 25, "69": 25, "70": 26, "71": 26, "72": 27, "73": 27, "74": 28, "75": 28, "76": 29, "77": 30, "78": 31, "79": 31, "80": 33, "81": 33, "82": 36, "83": 38, "89": 83, "27": 0, "36": 1, "46": 3, "54": 3, "55": 15, "56": 16, "57": 18, "58": 19, "59": 20, "60": 21, "61": 21, "62": 22, "63": 22}, "uri": "users.html", "source_encoding": "ascii"}
+{"filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/users.html", "line_map": {"64": 23, "65": 23, "66": 24, "67": 24, "68": 25, "69": 25, "70": 26, "71": 26, "72": 27, "73": 27, "74": 28, "75": 28, "76": 29, "77": 30, "78": 31, "79": 31, "80": 33, "81": 33, "82": 36, "83": 38, "89": 83, "27": 0, "36": 1, "46": 3, "54": 3, "55": 15, "56": 16, "57": 18, "58": 19, "59": 20, "60": 21, "61": 21, "62": 22, "63": 22}, "uri": "users.html", "source_encoding": "ascii"}
 __M_END_METADATA
 """

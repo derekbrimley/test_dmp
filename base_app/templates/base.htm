@@ -1,0 +1,85 @@
+## this is the skeleton of all pages on in this app - it defines the basic html tags
+
+## set up a StaticRenderer object to enable the CSS/JS automatic inclusion magic.
+<%! from django_mako_plus.controller import static_files %>
+<%  static_renderer = static_files.StaticRenderer(self) %>
+
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<head>
+
+	<title>homepage</title>
+
+	## add any site-wide scripts or CSS here; for example, jquery:
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<link rel="icon" type="image/x-icon" href="\static\homepage\media\favicon.ico" />
+	<link href='http://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
+	<script src="${STATIC_URL}base_app/media/jquery.loadmodal.js"></script>
+	<script src="${STATIC_URL}base_app/media/jquery.form.js"></script>
+	## render the css with the same name as this page
+	${ static_renderer.get_template_css(request, context)  }
+
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="header">
+				<%block name="header">
+					The Colonial Heritage Foundation
+					%if request.user.is_authenticated():
+						<span class="welcome">Welcome, ${request.user.first_name}</span>
+					%endif
+				</%block>
+			</div>
+			<div class="container-fluid"
+				<div class="row">
+					<div class="col-md-2 left-menu">
+						<%block name="nav">
+							NAVIGATION BAR
+						</%block>
+					</div>	
+					<div class="col-md-8 content">	
+						<%block name="content">
+						</%block>
+					</div>
+					<div class="col-md-2">
+						<%block name="account">
+							%if request.user.is_authenticated():
+									<button class="btn btn-default" aria-label="Right Align">
+										<span class="glyphicon glyphicon-home" aria-hidden="true"/>
+									</button>
+								<span class="label label-primary"/>Account Home
+								<br/>
+								<br/>
+								<a href="/account/logout/">
+									<button class="btn btn-default" action="/account/logout/" aria-label="Right Align">
+										<span class="glyphicon glyphicon-user" aria-hidden="true"/>
+									</button>
+								</a>
+								<span class="label label-primary"/> Sign Out
+							%else:
+								<button id="show_login_dialog" class="btn btn-default" aria-label="Right Align">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+								</button>
+								<span class="label label-danger">My Account</span>
+							%endif
+								
+						</%block>
+					</div>
+				</div>
+			</div>
+			<nav class="nav-bar navbar-default navbar-fixed-bottom">
+				<div class="container-fluid">
+					<%block name="footer">
+						Site by Derek Brimley
+					</%block>
+				</div>
+			</nav>
+		</div>
+	</body>	
+</html>
+
+## render the JS with the same name as this page
+    ${ static_renderer.get_template_js(request, context)  }

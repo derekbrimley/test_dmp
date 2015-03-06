@@ -5,34 +5,52 @@
 	<table class="table table-striped table-bordered">
 		<tr>
 			<th>ID</th>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Value</th>
-			<th>Rental Price</th>
+			<th>Quantity on Hand</th>
+			<th>Replacement Price</th>
+			<th>Shelf Location</th>
+			<th>Order File</th>
+			<th>Serial Number</th>
+			<th>Date Acquired</th>
+			<th>Status</th>
+			<th>For Sale</th>
 			<th>Rentable</th>
+			<th>Notes</th>
+			<th>Times Rented</th>
+			<th>Price Per Day</th>
+			<th>Replacement Price</th>
 			%if request.user.has_perm('homepage.is_manager'):
 				<th>Actions</th>
 			%endif
-		<tr>
+		</tr>
 		%for item in items:
 			<tr>
 				<td>${item.id}</td>
-				<td>${item.name}</td>
-				<td>${item.description}</td>
-				<td>${item.value}</td>
-				<td>${item.standard_rental_price}</td>
-				<td>${item.rentable}</td>
+				<td>${item.quantity_on_hand}</td>
+				<td>${item.shelf_location}</td>
+				<td>${item.order_file}</td>
+				<td>${item.serial_number}</td>
+				<td>${item.date_acquired}</td>
+				<td>${item.cost}</td>
+				<td>${item.status}</td>
+				<td>${item.for_sale}</td>
+				<td>${item.is_rentable}</td>
+				<td>${item.notes}</td>
+				<td>${item.times_rented}</td>
+				<td>${item.price_per_day}</td>
+				<td>${item.replacement_price}</td>
 				%if request.user.has_perm('homepage.is_manager'):
 					<td>
 						<a href="/homepage/items.edit/${item.id}/">Edit </a>
-						| 
+						|
 						<a href="/homepage/items.delete/${item.id}/">Delete</a>
 					</td>
 				%endif
-			<tr>
+			</tr>
 		%endfor
 	</table>
-	<div class="text-right">
-		<a class="btn btn-primary" href="/homepage/items.create/">Add Item</a>
-	</div>
+	%if request.user.has_perm('homepage.is_manager'):
+		<div class="text-right">
+			<a class="btn btn-primary" href="/homepage/items.create/">Add Product</a>
+		</div>
+	%endif
 </%block>

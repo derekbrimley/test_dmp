@@ -6,7 +6,6 @@ import homepage.models as hmod
 from django_mako_plus.controller.router import get_renderer
 from django import forms
 from django.contrib.auth.decorators import permission_required
-
  
 templater = get_renderer('homepage')
 
@@ -39,11 +38,10 @@ def edit(request):
 		'password': user.password,
 		'email': user.email,
 		'first_name': user.first_name,
-		'last_name': user.last_name,
-		'address': user.address,
-		'city': user.city,
-		'state': user.state,
-		'zip': user.zip,
+		'last_name': user.first_name,
+		'security_question': user.security_question,
+		'security_answer': user.security_answer,
+		'phone': user.phone,
 	})
 	
 	if request.method == 'POST':
@@ -55,10 +53,9 @@ def edit(request):
 			user.email = form.cleaned_data['email']
 			user.first_name = form.cleaned_data['first_name']
 			user.last_name = form.cleaned_data['last_name']
-			user.address = form.cleaned_data['address']
-			user.city = form.cleaned_data['city']
-			user.state = form.cleaned_data['state']
-			user.zip = form.cleaned_data['zip']
+			user.security_question = form.cleaned_data['security_question']
+			user.security_answer = form.cleaned_data['security_answer']
+			user.phone = form.cleaned_data['phone']
 			user.save()
 			return HttpResponseRedirect('/homepage/users/')
 		
@@ -124,51 +121,35 @@ class UserEditForm(forms.Form):
 		),
 		label = 'Password',
 	)
-	address = forms.CharField(
+	phone = forms.CharField(
 		required=True,
-		min_length=1,
-		max_length=100,
-		label = 'Address',
+		label = 'Username',
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Address'
+				'placeholder': 'Phone'
 			}
 		)
 	)
-	city = forms.CharField(
+	security_question = forms.CharField(
 		required=True,
 		min_length=1,
-		max_length=100,
-		label = 'City',
+		max_length=200,
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'City'
+				'placeholder': 'Security Question'
 			}
 		)
 	)
-	state = forms.CharField(
+	security_answer = forms.CharField(
 		required=True,
 		min_length=1,
-		max_length=100,
-		label = 'State',
+		max_length=200,
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'State'
-			}
-		)
-	)
-	zip = forms.CharField(
-		required=True,
-		min_length=1,
-		max_length=100,
-		label = 'Zip Code',
-		widget=forms.TextInput(
-			attrs={
-				'class': 'form-control',
-				'placeholder': 'Zip Code'
+				'placeholder': 'Security Answer'
 			}
 		)
 	)
@@ -193,10 +174,18 @@ def create(request):
 	user.email = ''
 	user.is_staff = ''
 	user.is_active = True
-	user.address = ''
-	user.city = ''
-	user.state = ''
-	user.zip = '00000'
+	organization_name = ''
+	organization_type = ''
+	security_question = ''
+	security_answer = ''
+	phone = ''
+	requires_reset = ''
+	date_appointed_agent = ''
+	bio_sketch = ''
+	relationship = ''
+	emergency_contact = ''
+	emergency_phone = ''
+	emergency_relationship = ''
 	user.save()
 	
 	return HttpResponseRedirect('/homepage/users.edit/{}/'.format(user.id))
@@ -214,8 +203,5 @@ def delete(request):
 	
 	user.delete()
 	return HttpResponseRedirect('/homepage/users/')
-	
-	
-	
 	
 	

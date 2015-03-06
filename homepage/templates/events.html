@@ -6,8 +6,11 @@
 		<tr>
 			<th>ID</th>
 			<th>Name</th>
+			<th>Description</th>
 			<th>Start Date</th>
 			<th>End Date</th>
+			<th>Map File</th>
+			<th>Venue Name</th>
 			%if request.user.has_perm('homepage.is_manager'):
 				<th>Actions</th
 			%endif
@@ -16,8 +19,11 @@
 			<tr>
 				<td>${event.id}</td>
 				<td>${event.name}</td>
+				<td>${event.description}</td>
 				<td>${event.start_date}</td>
 				<td>${event.end_date}</td>
+				<td>${event.map_file}</td>
+				<td>${event.venue_name}</td>
 				%if request.user.has_perm('homepage.is_manager'):
 					<td>
 						<a href="/homepage/events.edit/${event.id}/">Edit </a>
