@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1425625234.372074
+_modified_time = 1425675236.921164
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.search.html'
 _template_uri = 'products.search.html'
@@ -51,7 +51,7 @@ def render_content(context,**pageargs):
         __M_writer = context.writer()
         __M_writer('\r\n\r\n\t<form id="search_form" action="/catalog/products.search/" method="POST">\r\n\t\t')
         __M_writer(str( form ))
-        __M_writer('\r\n\t\t<input value="Search" id="search_btn" type="submit"/>\r\n\t</form>\r\n\t\r\n')
+        __M_writer('\r\n\t\t<input id="search_btn" type="submit"/>\r\n\t</form>\r\n\t\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -59,6 +59,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"uri": "products.search.html", "line_map": {"35": 1, "52": 3, "53": 6, "54": 6, "27": 0, "60": 54, "45": 3}, "filename": "C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.search.html", "source_encoding": "ascii"}
+{"line_map": {"35": 1, "52": 3, "53": 6, "54": 6, "27": 0, "60": 54, "45": 3}, "uri": "products.search.html", "source_encoding": "ascii", "filename": "C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.search.html"}
 __M_END_METADATA
 """

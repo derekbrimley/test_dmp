@@ -22,3 +22,11 @@
 #open_search_dialog{
 	cursor: pointer;
 }
+
+.product_info{
+	padding: 12px;
+}
+
+.product_attribute{
+	font-weight: bold;
+}

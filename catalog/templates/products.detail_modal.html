@@ -1,0 +1,17 @@
+<%inherit file="base_ajax.htm" />
+
+<%block name="content">
+	<div class="product_container">
+		%if product.id == product.product_specification_id:
+			<img src="${ STATIC_URL }catalog/media/${ product.id }.jpg"/>
+			<div class="product_info">
+				<span class="product_attribute">Name: </span>${product_info.name}<br/>
+				<span class="product_attribute">Description: </span>${product_info.description} <br/>
+				<span class="product_attribute">Price: </span>${product_info.price}
+			</div>
+		%endif
+		<div class="text-right">
+			<button id="add_btn" class="btn btn-warning">Add to Cart</button>
+		</div>
+	</div>
+</%block>

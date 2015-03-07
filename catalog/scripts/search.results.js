@@ -25,8 +25,6 @@ $(function(){
 
 		console.log("hey there")
 		
-		console.log($('#search_btn').val());
-		
 		$('#jquery-loadmodal-js-body').html(data);
 
 	});//ajaxForm

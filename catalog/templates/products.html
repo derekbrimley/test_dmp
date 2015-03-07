@@ -2,18 +2,24 @@
 
 <%block name="content">
 
+	Search: 
+	<form id=#"search_box">
+		<input id="search_box"></input><br/>
+	</form>
 	%for product in products:
 		<div class="product_container">
 			%for product_info in products_info:
 				%if product_info.id == product.product_specification_id:
 					<img src="${ STATIC_URL }catalog/media/${ product_info.id }.jpg"/>
-					<div class="product_name">
+					<div data-id="${ product.id}" class="product_name">
 						${product_info.name}
 					</div>
 				%endif
 			%endfor
 			<div class="text-right">
-				<button id="submit_btn" class="btn btn-warning">Add to Cart</button>
+				<a href="/catalog/products.detail/${ product.id }/">
+					<button class="submit_btn btn btn-warning">View Details</button>
+				</a>
 			</div>
 		</div>
 	%endfor

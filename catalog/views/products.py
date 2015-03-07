@@ -62,9 +62,10 @@ def search(request):
 				print("search term: ",search_term," product: ",product.name)
 				if search_term == product.name:
 					print(product)
-					template_vars['products'] = products
+					template_vars['product'] = search_term
+					return templater.render_to_response(request,'products.search.html',template_vars)
 					
-			return templater.render_to_response(request,'search.results.html',template_vars)
+			template_vars['product'] = search_term
 		
 		else:
 			print(">>>>>>>>>>>>>>form not valid")
@@ -73,6 +74,60 @@ def search(request):
 	template_vars['products'] = products
 	return templater.render_to_response(request, 'products.search.html',template_vars)
 
+########################################
+##PRODUCT DETAIL MODAL
+@view_function
+def detail_modal(request):
+	template_vars = {}
+	
+	product = hmod.StockedProduct.objects.get(id=request.urlparams[0])
+	product_info = hmod.ProductSpecification.objects.get(id=request.urlparams[0])
+	
+	template_vars['product'] = product
+	template_vars['product_info'] = product_info
+	
+	return templater.render_to_response(request,'products.detail_modal.html',template_vars)
+	
+	
+########################################
+##PRODUCT DETAIL
+@view_function
+def detail(request):
+	template_vars = {}
+	
+	product = hmod.StockedProduct.objects.get(id=request.urlparams[0])
+	product_info = hmod.ProductSpecification.objects.get(id=request.urlparams[0])
+	
+	template_vars['product'] = product
+	template_vars['product_info'] = product_info
+	
+	return templater.render_to_response(request,'products.detail.html',template_vars)
+	
+	
+########################################
+##PRODUCT DETAIL	
+@view_function
+def shopping_cart(request):
+	template_vars = {}	
+	
+	product = hmod.StockedProduct.objects.get(id=request.urlparams[0])
+	product_info = hmod.ProductSpecification.objects.get(id=request.urlparams[0])
+	
+	print('>>>>>>>>>>>>>',product.id)
+	
+	if 'shopping_cart' not in request.session:
+		request.session['shopping_cart'] = {}
+	print('>>>>>>>>>>>>>',request.session['shopping_cart'])
+	
+	if product.id in request.session['shopping_cart']:
+		print("True")
+		request.session['shopping_cart'][product.id] +=1
+	else:
+		request.session['shopping_cart'][product.id] = 1
+		print('>>>>>>>>>>>>>',request.session['shopping_cart'])
+	
+	return templater.render_to_response(request,'products.shopping_cart.html',template_vars)
+	
 class ProductSearchForm(forms.Form):
 	search_term = forms.CharField(
 		widget=forms.TextInput(
