@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1425528996.507577
+_modified_time = 1425762693.854334
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm'
 _template_uri = '/account/templates/base.htm'
@@ -28,6 +28,8 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
+        request = context.get('request', UNDEFINED)
+        user_id = context.get('user_id', UNDEFINED)
         def nav():
             return render_nav(context._locals(__M_locals))
         __M_writer = context.writer()
@@ -44,10 +46,19 @@ def render_body(context,**pageargs):
 def render_nav(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
+        request = context.get('request', UNDEFINED)
+        user_id = context.get('user_id', UNDEFINED)
         def nav():
             return render_nav(context)
         __M_writer = context.writer()
-        __M_writer('\r\n\t<div class="sidebar-nav">\r\n\t\t<ul class="nav nav-pills nav-stacked">\r\n\t\t\t<li role="presentation" class="active">\r\n\t\t\t<a href="/homepage/">\r\n\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Home\r\n\t\t\t</a>\r\n\t\t\t</li>\r\n\t\t\t<li role="presentation">\r\n\t\t\t\t<a href="/homepage/users.create/">\r\n\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Account\r\n\t\t\t\t</a>\r\n\t\t\t</li>\r\n\t\t\t<li role="presentation">\r\n\t\t\t\t<a href="/homepage/edit_info/">\r\n\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Account\r\n\t\t\t\t</a>\r\n\t\t\t</li>\r\n\t\t\t<li role="presentation">\r\n\t\t\t\t<a href="/homepage/delete_account/">\r\n\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Account\r\n\t\t\t\t</a>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t</div>\r\n')
+        __M_writer('\r\n\t<div class="sidebar-nav">\r\n\t\t<ul class="nav nav-pills nav-stacked">\r\n\t\t\t<li role="presentation" class="active">\r\n\t\t\t<a href="/homepage/">\r\n\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Home\r\n\t\t\t</a>\r\n\t\t\t</li>\r\n\t\t\t<li role="presentation">\r\n\t\t\t\t<a href="/account/users.create/">\r\n\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Account\r\n\t\t\t\t</a>\r\n\t\t\t</li>\r\n')
+        if request.user.is_authenticated():
+            __M_writer('\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a data-id="')
+            __M_writer(str( user_id))
+            __M_writer('" >\r\n\t\t\t\t\t\t<span class="edit_form" id="nav-glyphicon" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Account\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a data-id="')
+            __M_writer(str( user_id))
+            __M_writer('" href="/account/users.delete/">\r\n\t\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Account\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a href="/account/change_password/">\r\n\t\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-edit" aria-hidden="true"></span> Change Password\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n')
+        __M_writer('\t\t</ul>\r\n\t</div>\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -55,6 +66,6 @@ def render_nav(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "filename": "C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm", "line_map": {"56": 50, "34": 1, "27": 0, "44": 3, "50": 3}, "uri": "/account/templates/base.htm"}
+{"filename": "C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm", "line_map": {"27": 0, "36": 1, "46": 3, "67": 61, "54": 3, "55": 16, "56": 17, "57": 18, "58": 18, "59": 23, "60": 23, "61": 33}, "uri": "/account/templates/base.htm", "source_encoding": "ascii"}
 __M_END_METADATA
 """

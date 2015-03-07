@@ -1,0 +1,32 @@
+#product_container{
+	display: inline-block;
+	border: 1px solid;
+	border-radius: 4px;
+	margin: 12px;
+	padding: 4px;
+}
+
+#product_container > img{
+	max-height: 200px;
+}
+
+.product_name{
+	text-align: center;
+	font-weight: bold;
+}
+
+#submit_btn{
+	text-align: right;
+}
+
+#open_search_dialog{
+	cursor: pointer;
+}
+
+.product_info{
+	padding: 12px;
+}
+
+.product_attribute{
+	font-weight: bold;
+}

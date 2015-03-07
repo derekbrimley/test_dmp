@@ -1,7 +1,8 @@
 <%inherit file="base.htm" />
 
 <%block name="content">
-	<h1>Edit User</h1>
+	<h1>Edit Account Details</h1>
+	<span id="id_username_message"></span>
 	<form class="form-horizontal" method="POST">
 		%for field in form:
 			<div class="form-group">
@@ -13,6 +14,6 @@
 			</div>
 		%endfor
 		<br/><button class="btn btn-primary" type="submit">Submit</button>
-		<a class="btn btn-danger" href="/homepage/users/">Cancel</a>
+		<a class="btn btn-danger" href="/account/users/">Cancel</a>
 	</form>
 </%block>

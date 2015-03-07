@@ -1,1 +1,24 @@
 <%inherit file="base_ajax.htm" />
+
+<%block name="content">
+	%for item in items:
+		<div id="product_container">
+			%for info in product_info:
+				%if info.id == item.product_specification_id:
+					<img src="${ STATIC_URL }catalog/media/${ info.id }.jpg"/>
+					<div data-id="${ item.id }" class="product_name">
+						${info.name}
+					</div>
+				%endif
+			%endfor
+			Quantity: ${ shopping_cart[ str(item.id) ]}
+			<span class="text-right">
+				<button class="btn btn-danger">Delete</button>
+			</span>
+		</div>
+	%endfor
+	<span class="text-right">
+		<button class="btn btn-warning">Check Out</button>
+	</span>
+</%block>
+

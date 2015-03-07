@@ -1,14 +1,17 @@
 $(function(){
 	
 	$('#add_btn').on('click', function() {
-		
-		$input = $(this)
-		
+		console.log("clicked")
+		$product_id = $(this).attr('data-id');
+		$quantity = $('#quantity').val();
+
+		console.log($product_id);
 		
 		$.loadmodal({
-			url: '/catalog/products.shopping_cart/'+$input.attr("data-id")+'/',
+			url: '/catalog/products.add_item/'+$product_id+'/'+$quantity+'/',
 			title: 'Shopping Cart',
-			width: '600px',
+			width: '1000px',
+			id: 'product_container',
 		});//modal
 
 	});//click

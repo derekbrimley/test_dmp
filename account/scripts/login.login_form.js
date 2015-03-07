@@ -9,4 +9,10 @@ $(function(){
 
 	});//ajaxForm
 	
+	
+	// $('#change_password').on('click',function(){
+			
+	// });//click
+	
+	
 });//ready

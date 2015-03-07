@@ -4,10 +4,10 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1425755595.560476
+_modified_time = 1425755191.935359
 _enable_loop = True
-_template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\account\\templates/login.login_form.html'
-_template_uri = 'login.login_form.html'
+_template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\account\\templates/change_password.html'
+_template_uri = 'change_password.html'
 _source_encoding = 'ascii'
 import os, os.path, re
 _exports = ['content']
@@ -23,7 +23,7 @@ def _mako_generate_namespaces(context):
     pass
 def _mako_inherit(template, context):
     _mako_generate_namespaces(context)
-    return runtime._inherit_from(context, 'base_ajax.htm', _template_uri)
+    return runtime._inherit_from(context, 'base.htm', _template_uri)
 def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
@@ -37,6 +37,7 @@ def render_body(context,**pageargs):
             context['self'].content(**pageargs)
         
 
+        __M_writer('\r\n\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -49,9 +50,9 @@ def render_content(context,**pageargs):
             return render_content(context)
         form = context.get('form', UNDEFINED)
         __M_writer = context.writer()
-        __M_writer('\r\n\t<span id="id_username_message"></span>\r\n\t<div id="login_form_container">\r\n\t\t<form id="login_form" class="form-inline" action="/account/login.login_form/" method="POST">\r\n\t\t\t<table class="form-group">\r\n\t\t\t\t')
+        __M_writer('\r\n\t<h1>Reset Password</h1>\r\n\t<div id="login_form_container">\r\n\t\t<form class="form-horizontal" method="POST">\r\n\t\t\t')
         __M_writer(str( form ))
-        __M_writer('\r\n\t\t\t</table>\r\n\t\t\t<input type="submit" class="btn btn-default">\r\n\t\t</form>\r\n\t</div>\r\n\t<br/>\r\n\t<br/>\r\n\t<br/>\r\n\t<span id="text">\r\n\t\tDon\'t have an account?\r\n\t\t<!-- Button trigger modal -->\r\n\t\t<a href="/account/users.create/">\r\n\t\t\t<button type="button" class="btn btn-primary" id="create_user_dialog">\r\n\t\t\t  Click Here\r\n\t\t\t</button>\r\n\t\t</a>\r\n\t</span>\r\n')
+        __M_writer('\r\n\t\t<br/><button class="btn btn-primary" type="submit">Submit</button>\r\n\t\t<a class="btn btn-danger" href="/account/">Cancel</a>\r\n\t</form>\r\n\t</div>\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -59,6 +60,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "filename": "C:\\Users\\Derek\\python\\test_dmp\\account\\templates/login.login_form.html", "uri": "login.login_form.html", "line_map": {"35": 1, "52": 3, "53": 8, "54": 8, "27": 0, "60": 54, "45": 3}}
+{"line_map": {"35": 1, "53": 3, "54": 7, "55": 7, "40": 12, "27": 0, "61": 55, "46": 3}, "filename": "C:\\Users\\Derek\\python\\test_dmp\\account\\templates/change_password.html", "source_encoding": "ascii", "uri": "change_password.html"}
 __M_END_METADATA
 """

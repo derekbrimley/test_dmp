@@ -46,6 +46,10 @@ $(function(){
 		
 	});//show
 	
+	// $('#change_password').on('click',function(){
+			// console.log("clicked")
+	// });//click
+	
 });//ready
 
 

@@ -7,12 +7,12 @@ from django_mako_plus.controller.router import get_renderer
 from django import forms
 from django.contrib.auth.decorators import permission_required
  
-templater = get_renderer('homepage')
+templater = get_renderer('account')
 
 ######################################################################
 ### SHOWS THE LIST OF USERS
 @view_function
-@permission_required('homepage.is_manager', login_url='/homepage/login/')
+@permission_required('homepage.is_manager', login_url='/account/login/')
 def process_request(request):
 	params = {}
 	
@@ -24,25 +24,37 @@ def process_request(request):
 ######################################################################
 ###EDITS A SINGLE USER
 @view_function
-@permission_required('homepage.is_admin',login_url='/homepage/login/')
 def edit(request):
 	params = {}
 	
 	try:
 		user = hmod.User.objects.get(id=request.urlparams[0])
 	except hmod.User.DoesNotExist:
-		return HttpResponseRedirect('/homepage/users/')
+		return HttpResponseRedirect('/account/users/')
+		
+	user_id = user.id
+	user_address = user.address.id
+	
+	try:
+		address = hmod.Address.objects.get(id=user_address)
+	except hmod.Address.DoesNotExist:
+		return HttpResponseRedirect('/account/users/')
+		
 		
 	form = UserEditForm(initial={
-		'username': user.username,
-		'password': user.password,
-		'email': user.email,
-		'first_name': user.first_name,
-		'last_name': user.first_name,
+        'username':  user.username,
+        'password':  user.password,
+        'first_name':  user.first_name,
+        'last_name':  user.last_name,
+        'email':  user.email,
 		'security_question': user.security_question,
 		'security_answer': user.security_answer,
 		'phone': user.phone,
-	})
+        'address': address.address1,
+        'city': address.city,
+        'state': address.state,
+        'zip': address.zip
+    })
 	
 	if request.method == 'POST':
 		form = UserEditForm(request.POST)
@@ -50,14 +62,21 @@ def edit(request):
 		if form.is_valid():
 			user.username = form.cleaned_data['username']
 			user.set_password(form.cleaned_data['password'])
-			user.email = form.cleaned_data['email']
 			user.first_name = form.cleaned_data['first_name']
 			user.last_name = form.cleaned_data['last_name']
+			user.email = form.cleaned_data['email']
 			user.security_question = form.cleaned_data['security_question']
 			user.security_answer = form.cleaned_data['security_answer']
 			user.phone = form.cleaned_data['phone']
+			address.address1 = form.cleaned_data['address']
+			address.city = form.cleaned_data['city']
+			address.state = form.cleaned_data['state']
+			address.zip = form.cleaned_data['zip']
 			user.save()
-			return HttpResponseRedirect('/homepage/users/')
+			address.save()
+			
+			current_user = request.user
+			return HttpResponseRedirect('/account/users/')
 		
 	params['form'] = form
 	return templater.render_to_response(request,'users.edit.html',params)
@@ -153,6 +172,10 @@ class UserEditForm(forms.Form):
 			}
 		)
 	)
+	address = forms.CharField(required=True, min_length=1, max_length=100)
+	city = forms.CharField(required=True, min_length=1, max_length=100)
+	state = forms.CharField(required=True, min_length=1, max_length=100)
+	zip = forms.IntegerField()
 
 	# def clean_username(self):
 		# user_count = hmod.User.objects.filter(username=self.cleaned_data['username]).exclude(id=self.userid).count()
@@ -164,44 +187,49 @@ class UserEditForm(forms.Form):
 ######################################################################
 ###CREATES A SINGLE USER
 @view_function
-@permission_required('homepage.is_admin',login_url='/homepage/login/')
 def create(request):
 	user = hmod.User()
-	user.username = ''
+	address = hmod.Address()
+	
+	address.address = ''
+	address.city = ''
+	address.state = ''
+	address.zip = ''
+	address.save()
+
+	address_id = address.id
+
 	user.password = ''
+	user.last_login = '2012-12-12 12:12'
+	user.is_superuser = 'false'
+	user.username = ''
+	user.security_question = ''
+	user.security_answer = ''
 	user.first_name = ''
 	user.last_name = ''
-	user.email = ''
-	user.is_staff = ''
-	user.is_active = True
-	organization_name = ''
-	organization_type = ''
-	security_question = ''
-	security_answer = ''
-	phone = ''
-	requires_reset = ''
-	date_appointed_agent = ''
-	bio_sketch = ''
-	relationship = ''
-	emergency_contact = ''
-	emergency_phone = ''
-	emergency_relationship = ''
+	user.email_name = ''
+	user.phone = ''
+	user.is_staff = 'false'
+	user.is_active = 'false'
+	user.date_joined = '2012-12-12 12:12'
+	user.address_id = address_id
+
 	user.save()
 	
-	return HttpResponseRedirect('/homepage/users.edit/{}/'.format(user.id))
+	return HttpResponseRedirect('/account/users.edit/{}/'.format(user.id))
 	
 	
 ######################################################################
 ###DELETES A USER
 @view_function
-@permission_required('homepage.is_admin',login_url='/homepage/login/')
+@permission_required('homepage.is_admin',login_url='/account/login/')
 def delete(request):
 	try:
 		user = hmod.User.objects.get(id=request.urlparams[0])
 	except hmod.DoesNotExist:
-		return HttpResponseRedirect('/homepage/users/')
+		return HttpResponseRedirect('/account/users/')
 	
 	user.delete()
-	return HttpResponseRedirect('/homepage/users/')
+	return HttpResponseRedirect('/account/users/')
 	
 	
