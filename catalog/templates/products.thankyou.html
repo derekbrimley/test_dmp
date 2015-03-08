@@ -1,0 +1,16 @@
+<%inherit file="base_ajax.htm" />
+
+<%block name="content">
+	<h1>Thank you for your purchase!</h1>
+	<h2>Shipping Address:</h2>
+	<p>Street: ${billing_info[0]}</p>
+	<p>City: ${billing_info[1]}</p>
+	<p>State: ${billing_info[2]}</p>
+	<p>Zip Code: ${billing_info[3]}</p>
+	<h2>Billing Info:</h2>
+	<p>Card Number: ${billing_info[4]}</p>
+	<p>Expiration: ${billing_info[5]}</p>
+	<p>CVC Number: ***</p>
+	
+	<a class="btn btn-success" href="/catalog/products.checkout/">Close</a>
+</%block>

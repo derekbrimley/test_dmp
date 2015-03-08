@@ -1,6 +1,8 @@
-<%inherit file="base_ajax.htm" />
+<%inherit file="base.htm" />
 
 <%block name="content">
+	<h1>Checkout</h1>
+	<h2>Items currently in your cart:</h2><br/>
 	%for item in items:
 		<div id="product_container">
 			%for info in product_info:
@@ -12,14 +14,9 @@
 				%endif
 			%endfor
 			Quantity: ${ shopping_cart[ str(item.id) ]}
-			<span class="btn btn-danger">
-				<p data-id="${ item.id }" class="delete_btn" >Delete</p>
-			</span>
 		</div>
 	%endfor
 	<span class="text-right">
-		<a href="/catalog/products.checkout/">
-			<button id="check_out_btn" class="btn btn-warning">Check Out</button>
-		</a>
+		<button id="check_out_btn" class="btn btn-warning">Complete Purchase</button>
 	</span>
 </%block>

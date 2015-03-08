@@ -172,7 +172,145 @@ def add_item(request):
 	print("Its value(the quantity of the specific item in your cart): " + str(request.session['shopping_cart'][product_id]))
 
 	return HttpResponseRedirect('/catalog/products.shopping_cart/')
+
+########################################
+##DELETE PRODUCT	
+@view_function
+def delete(request):
+	template_vars = {}
 	
+	shopping_cart = request.session.get('shopping_cart',{})
+	product_id = request.urlparams[0]
+	
+	if product_id in shopping_cart:
+		del shopping_cart[product_id]
+		print(">>>>>>>>>>>>deleted")
+		
+	request.session['shopping_cart'] = shopping_cart
+	request.session.modified = True
+	
+	return HttpResponseRedirect('/catalog/products.shopping_cart/')
+
+########################################
+##CHECKOUT
+@view_function
+@login_required(login_url='/account/login/')
+def checkout(request):
+	template_vars = {}
+	
+	product_id = request.urlparams[0]
+	shopping_cart = request.session.get('shopping_cart', {})
+	product_info = hmod.ProductSpecification.objects.all()
+
+	total_price = 0
+	
+	print('>>>>>>>>>>>',shopping_cart)
+	items = []
+	
+	for product_id in shopping_cart:
+		
+		product = hmod.StockedProduct.objects.get(id=product_id)
+		quantity = shopping_cart.get(product_id)
+		# price = int(product.low_price) * int(quantity)
+		# total_price += price
+		items.append(product)
+		print(product.id)
+
+	
+	template_vars['shopping_cart'] = shopping_cart
+	template_vars['items'] = items
+	template_vars['total_price'] = total_price
+	template_vars['product_info'] = product_info
+	
+	return templater.render_to_response(request,'products.checkout.html',template_vars)
+
+########################################
+##THANK YOU
+@view_function
+def thankyou(request):
+	template_vars = {}
+	
+	form = BillingForm()
+	billing_info = []
+	
+	if request.method=="POST":
+		form = BillingForm(request.POST)
+		print("post")
+		if form.is_valid():	
+			address = form.cleaned_data['address']
+			city = form.cleaned_data['city']
+			zip = form.cleaned_data['zip']
+			state = form.cleaned_data['state']
+			card_number = form.cleaned_data['card_number']
+			expiration = form.cleaned_data['expiration']
+			cvc = form.cleaned_data['cvc']
+			
+			billing_info = [address,city,zip,state,card_number,expiration,cvc];
+			template_vars['billing_info'] = billing_info
+			return templater.render_to_response(request,'products.thankyou.html',template_vars)
+	
+	template_vars['form'] = form
+	template_vars['billing_info'] = billing_info
+	
+	return templater.render_to_response(request,'products.billing.html',template_vars)
+	
+class BillingForm(forms.Form):
+	address = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Address'
+			}
+		)
+	)
+	city = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'City'
+			}
+		)
+	)
+	state = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'City'
+			}
+		)
+	)
+	zip = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Zip'
+			}
+		)
+	)
+	card_number = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Card Number'
+			}
+		)
+	)
+	expiration = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Expiration Date'
+			}
+		)
+	)
+	cvc = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'CVC Number'
+			}
+		)
+	)
 
 class ProductSearchForm(forms.Form):
 	search_term = forms.CharField(
