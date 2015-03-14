@@ -47,9 +47,9 @@
 					<div class="col-md-2">
 						<%block name="account">
 							%if request.user.is_authenticated():
-									<button class="btn btn-default" aria-label="Right Align">
+									<a href="/account/" class="btn btn-default" aria-label="Right Align">
 										<span class="glyphicon glyphicon-home" aria-hidden="true"/>
-									</button>
+									</a>
 								<span class="label label-primary"/>Account Home
 								<br/>
 								<br/>

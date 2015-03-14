@@ -1,0 +1,30 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+	<h1>Overdue Rentals</h1><br/>
+	<table class="table table-striped">
+		<tr>
+			<th>Product ID:</th>
+			<th>Product Name:</th>
+			<th>Renter:</th>
+			<th>Due Date:</th>
+		</tr>
+	%for rental_item in rental_items: ##gets all items
+		%for overdue_item in overdue_items: ##gets all overdue items
+		  %if overdue_item == rental_item.id: ##gets all data for items that are overdue
+			%for product_specification in product_specifications:  ##finds the product information in the product_specification table
+				%if product_specification.id == rental_item.rentable_product_id:  ##matches up overdue items to product_specification
+					<tr>
+						<td>${product_specification.id}</td>
+						<td>${product_specification.name}</td>
+						<td>${product_specification.order_form_name}</td>
+						<td>${rental_item.date_due}</td>
+
+					</tr>
+				%endif
+			%endfor
+		  %endif
+		%endfor
+	%endfor
+	</table>
+</%block>

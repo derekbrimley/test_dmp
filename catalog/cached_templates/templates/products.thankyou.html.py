@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1425793171.292849
+_modified_time = 1425794042.565167
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.thankyou.html'
 _template_uri = 'products.thankyou.html'
@@ -61,7 +61,7 @@ def render_content(context,**pageargs):
         __M_writer(str(billing_info[4]))
         __M_writer('</p>\r\n\t<p>Expiration: ')
         __M_writer(str(billing_info[5]))
-        __M_writer('</p>\r\n\t<p>CVC Number: ***</p>\r\n\t\r\n\t<a class="btn btn-success" href="/catalog/products.shopping_cart/">Close</a>\r\n')
+        __M_writer('</p>\r\n\t<p>CVC Number: ***</p>\r\n\t\r\n\t<a class="btn btn-success" href="/catalog/products.checkout/">Close</a>\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -69,6 +69,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "uri": "products.thankyou.html", "filename": "C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.thankyou.html", "line_map": {"64": 12, "35": 1, "70": 64, "45": 3, "27": 0, "52": 3, "53": 6, "54": 6, "55": 7, "56": 7, "57": 8, "58": 8, "59": 9, "60": 9, "61": 11, "62": 11, "63": 12}}
+{"source_encoding": "ascii", "filename": "C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.thankyou.html", "uri": "products.thankyou.html", "line_map": {"64": 12, "35": 1, "70": 64, "45": 3, "27": 0, "52": 3, "53": 6, "54": 6, "55": 7, "56": 7, "57": 8, "58": 8, "59": 9, "60": 9, "61": 11, "62": 11, "63": 12}}
 __M_END_METADATA
 """

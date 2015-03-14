@@ -9,6 +9,23 @@ $(function(){
 			id: 'product_container',
 		});//modal
 				
-	})
+	});//click
+	
+	$('.delete_btn').on('click',function(){
+		
+		var product_id = $(this).attr('data-id');
+		console.log(product_id)
+		$.ajax({
+			
+			url: "/catalog/products.delete/"+product_id+"/",
+			
+			success: function(data){
+
+                    $('.shopping_cart').html(data);
+                },
+			
+		});//ajax
+				
+	});//delete
 	
 });//ready

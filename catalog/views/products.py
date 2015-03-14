@@ -5,6 +5,7 @@ from django_mako_plus.controller.router import get_renderer
 from datetime import datetime
 import homepage.models as hmod
 from django import forms
+from django.contrib.auth.decorators import login_required
 
 
 templater = get_renderer('catalog')
@@ -247,6 +248,20 @@ def thankyou(request):
 			
 			billing_info = [address,city,zip,state,card_number,expiration,cvc];
 			template_vars['billing_info'] = billing_info
+			
+			shopping_cart = 	request.session.get('shopping_cart',{})
+	
+			try:
+				if 'shopping_cart' in request.session:
+					request.session['shopping_cart'] = {}
+					del shopping_cart
+					print(">>>>>>>>>>>CART DELETED")
+					request.session.modified = True
+			
+			except:
+				return HttpResponseRedirect('/account/products')
+				
+			
 			return templater.render_to_response(request,'products.thankyou.html',template_vars)
 	
 	template_vars['form'] = form
