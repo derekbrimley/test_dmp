@@ -13,6 +13,8 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+**/__pycache__
+**/cached_templates
 
 # Windows shortcuts
 *.lnk
