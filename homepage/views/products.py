@@ -43,7 +43,7 @@ def edit(request):
 		'sku': product.sku,
 		'order_form_name': product.order_form_name,
 		'production_time': product.production_time,
-		'vendor': product.vendor,
+		'vendor_id': product.vendor_id,
 		'category': product.category,
 	})
 	
@@ -60,7 +60,7 @@ def edit(request):
 			product.sku = form.cleaned_data['sku']
 			product.order_form_name = form.cleaned_data['order_form_name']
 			product.production_time = form.cleaned_data['production_time']
-			product.vendor = form.cleaned_data['vendor']
+			product.vendor_id = form.cleaned_data['vendor_id']
 			product.category = form.cleaned_data['category']
 			product.save()
 			return HttpResponseRedirect('/homepage/products/')
@@ -149,11 +149,11 @@ class ProductEditForm(forms.Form):
 			}
 		)
 	)
-	vendor = forms.CharField(
+	vendor_id = forms.CharField(
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Vendor'
+				'placeholder': 'Vendor ID'
 			}
 		)
 	)

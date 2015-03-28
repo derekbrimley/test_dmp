@@ -1,16 +1,16 @@
-$(function(){
+// $(function(){
 	
-	$('#close_btn').on('click', function() {
+	// $('#close_btn').on('click', function() {
 
-		console.log("clicked");
+		// console.log("clicked");
 		
-		$.ajax({
+		// $.ajax({
 			
-			url: '/catalog/products.delete/',
+			// url: '/catalog/products.delete/',
 				
-		});//ajax
+		// });//ajax
 		
 		
-	});//click
+	// });//click
 	
-});//ready
+// });//ready

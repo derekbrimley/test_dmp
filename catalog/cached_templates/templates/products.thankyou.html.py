@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427510017.577303
+_modified_time = 1427521471.167695
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.thankyou.html'
 _template_uri = 'products.thankyou.html'
@@ -29,13 +29,13 @@ def render_body(context,**pageargs):
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
         billing_info = context.get('billing_info', UNDEFINED)
-        int = context.get('int', UNDEFINED)
-        items = context.get('items', UNDEFINED)
-        total_price = context.get('total_price', UNDEFINED)
-        shopping_cart = context.get('shopping_cart', UNDEFINED)
-        str = context.get('str', UNDEFINED)
         def content():
             return render_content(context._locals(__M_locals))
+        items = context.get('items', UNDEFINED)
+        shopping_cart = context.get('shopping_cart', UNDEFINED)
+        int = context.get('int', UNDEFINED)
+        total_price = context.get('total_price', UNDEFINED)
+        str = context.get('str', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\r\n\r\n')
         if 'parent' not in context._data or not hasattr(context._data['parent'], 'content'):
@@ -51,13 +51,13 @@ def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         billing_info = context.get('billing_info', UNDEFINED)
-        int = context.get('int', UNDEFINED)
-        items = context.get('items', UNDEFINED)
-        total_price = context.get('total_price', UNDEFINED)
-        shopping_cart = context.get('shopping_cart', UNDEFINED)
-        str = context.get('str', UNDEFINED)
         def content():
             return render_content(context)
+        items = context.get('items', UNDEFINED)
+        shopping_cart = context.get('shopping_cart', UNDEFINED)
+        int = context.get('int', UNDEFINED)
+        total_price = context.get('total_price', UNDEFINED)
+        str = context.get('str', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\r\n\t<h1>Thank you for your purchase!</h1>\r\n\t<h2>Items Purchased:</h2>\r\n')
         for item in items:
@@ -82,7 +82,7 @@ def render_content(context,**pageargs):
         __M_writer(str(billing_info[5]))
         __M_writer('</p>\r\n\t<p>CVC Number: ***</p>\r\n\t<p>Total Cost: $ ')
         __M_writer(str( total_price ))
-        __M_writer('.00</p>\r\n\t\r\n\t<a id="close_btn" class="btn btn-success">Close</a>\r\n')
+        __M_writer('.00</p>\r\n\t\r\n\t<a href="/catalog/products.delete_cart" id="close_btn" class="btn btn-success">Close</a>\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -90,6 +90,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"filename": "C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.thankyou.html", "line_map": {"64": 7, "65": 7, "66": 7, "67": 8, "68": 8, "69": 9, "70": 9, "71": 11, "72": 12, "73": 12, "74": 13, "75": 13, "76": 14, "77": 14, "78": 15, "79": 15, "80": 17, "81": 17, "82": 18, "83": 18, "84": 20, "85": 20, "27": 0, "91": 85, "40": 1, "50": 3, "62": 3, "63": 6}, "source_encoding": "ascii", "uri": "products.thankyou.html"}
+{"line_map": {"64": 7, "65": 7, "66": 7, "67": 8, "68": 8, "69": 9, "70": 9, "71": 11, "72": 12, "73": 12, "74": 13, "75": 13, "76": 14, "77": 14, "78": 15, "79": 15, "80": 17, "81": 17, "82": 18, "83": 18, "84": 20, "85": 20, "27": 0, "91": 85, "40": 1, "50": 3, "62": 3, "63": 6}, "uri": "products.thankyou.html", "filename": "C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.thankyou.html", "source_encoding": "ascii"}
 __M_END_METADATA
 """

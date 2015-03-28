@@ -6,7 +6,7 @@ from datetime import datetime
 import homepage.models as hmod
 from django import forms
 from django.contrib.auth.decorators import login_required
-
+from django.core.mail import send_mail
 
 templater = get_renderer('catalog')
 
@@ -176,12 +176,32 @@ def delete(request):
 	if product_id in shopping_cart:
 		del shopping_cart[product_id]
 		print(">>>>>>>>>>>>deleted")
+					
+
 		
 	request.session['shopping_cart'] = shopping_cart
 	request.session.modified = True
 	
 	return HttpResponseRedirect('/catalog/products.shopping_cart/')
 
+########################################
+##DELETE SHOPPING CART	
+@view_function
+def delete_cart(request):
+	template_vars = {}
+	
+	try:
+		if 'shopping_cart' in request.session:
+			request.session['shopping_cart'] = {}
+			del shopping_cart
+			print(">>>>>>>>>>>CART DELETED")
+			request.session.modified = True
+
+	except:
+		return HttpResponseRedirect('/catalog/products')
+	
+	
+	
 ########################################
 ##CHECKOUT
 @view_function
@@ -225,6 +245,10 @@ def thankyou(request):
 	shopping_cart = request.session.get('shopping_cart', {})
 	items = []
 	
+	user = hmod.User.objects.get(username=request.user.username)
+	email = user.email
+	
+	
 	for product_id in shopping_cart:
 		product = hmod.StockedProduct.objects.get(id=product_id)
 		quantity = shopping_cart.get(product_id)
@@ -248,16 +272,8 @@ def thankyou(request):
 			
 			template_vars['billing_info'] = billing_info
 			
+			send_mail('Purchase Confirmation', 'You have purchased something! Congratulations.', 'derekbrimley@gmail.com',[email], fail_silently=False)
 			shopping_cart = 	request.session.get('shopping_cart',{})
-			# try:
-				# if 'shopping_cart' in request.session:
-					# request.session['shopping_cart'] = {}
-					# del shopping_cart
-					# print(">>>>>>>>>>>CART DELETED")
-					# request.session.modified = True
-			
-			# except:
-				# return HttpResponseRedirect('/account/products')
 			
 			template_vars['shopping_cart'] = shopping_cart
 			template_vars['items'] = items

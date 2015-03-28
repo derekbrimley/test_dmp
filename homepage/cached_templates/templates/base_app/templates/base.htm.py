@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427508223.663072
+_modified_time = 1427522027.912939
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm'
 _template_uri = '/base_app/templates/base.htm'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['nav', 'content', 'header', 'account']
+_exports = ['content', 'nav', 'account', 'header']
 
 
 from django_mako_plus.controller import static_files 
@@ -19,17 +19,17 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        def account():
-            return render_account(context._locals(__M_locals))
-        def header():
-            return render_header(context._locals(__M_locals))
+        self = context.get('self', UNDEFINED)
         STATIC_URL = context.get('STATIC_URL', UNDEFINED)
         def content():
             return render_content(context._locals(__M_locals))
-        self = context.get('self', UNDEFINED)
-        request = context.get('request', UNDEFINED)
+        def account():
+            return render_account(context._locals(__M_locals))
         def nav():
             return render_nav(context._locals(__M_locals))
+        request = context.get('request', UNDEFINED)
+        def header():
+            return render_header(context._locals(__M_locals))
         __M_writer = context.writer()
         __M_writer('\r\n')
         __M_writer('\r\n')
@@ -73,6 +73,18 @@ def render_body(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_content(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def content():
+            return render_content(context)
+        __M_writer = context.writer()
+        __M_writer('\r\n\t\t\t\t\t\t')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 def render_nav(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
@@ -85,13 +97,19 @@ def render_nav(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_content(context,**pageargs):
+def render_account(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def content():
-            return render_content(context)
+        request = context.get('request', UNDEFINED)
+        def account():
+            return render_account(context)
         __M_writer = context.writer()
-        __M_writer('\r\n\t\t\t\t\t\t')
+        __M_writer('\r\n')
+        if request.user.is_authenticated():
+            __M_writer('\t\t\t\t\t\t\t\t<a href="/account/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-home" aria-hidden="true"/>\r\n\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Account Home</span>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<a href="/account/logout/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</a><br>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Sign Out</span>\r\n')
+        else:
+            __M_writer('\t\t\t\t\t\t\t\t<button id="show_login_dialog" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<span class="label label-danger">My Account</span>\r\n')
+        __M_writer('\t\t\t\t\t\t')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -115,26 +133,8 @@ def render_header(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_account(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        request = context.get('request', UNDEFINED)
-        def account():
-            return render_account(context)
-        __M_writer = context.writer()
-        __M_writer('\r\n')
-        if request.user.is_authenticated():
-            __M_writer('\t\t\t\t\t\t\t\t<a href="/account/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-home" aria-hidden="true"/>\r\n\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Account Home</span>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<a href="/account/logout/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Sign Out</span>\r\n')
-        else:
-            __M_writer('\t\t\t\t\t\t\t\t<button id="show_login_dialog" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<span class="label label-danger">My Account</span>\r\n')
-        __M_writer('\t\t\t\t\t\t')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "line_map": {"128": 60, "129": 61, "130": 66, "107": 29, "68": 66, "69": 75, "70": 75, "136": 130, "108": 31, "82": 39, "76": 39, "109": 32, "16": 4, "18": 0, "110": 32, "88": 44, "100": 29, "111": 32, "94": 44, "112": 34, "34": 2, "35": 4, "36": 5, "40": 5, "41": 15, "42": 20, "43": 20, "44": 21, "45": 21, "46": 23, "47": 23, "48": 23, "53": 34, "118": 48, "58": 41, "127": 50, "125": 48, "126": 49, "63": 45}, "filename": "C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm", "uri": "/base_app/templates/base.htm"}
+{"filename": "C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm", "line_map": {"128": 32, "129": 32, "130": 34, "107": 48, "68": 66, "69": 75, "70": 75, "136": 130, "108": 49, "82": 44, "76": 44, "109": 50, "16": 4, "18": 0, "110": 60, "88": 39, "100": 48, "111": 61, "94": 39, "112": 66, "34": 2, "35": 4, "36": 5, "40": 5, "41": 15, "42": 20, "43": 20, "44": 21, "45": 21, "46": 23, "47": 23, "48": 23, "53": 34, "118": 29, "58": 41, "127": 32, "125": 29, "126": 31, "63": 45}, "uri": "/base_app/templates/base.htm", "source_encoding": "ascii"}
 __M_END_METADATA
 """

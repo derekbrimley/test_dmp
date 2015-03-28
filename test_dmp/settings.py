@@ -44,6 +44,12 @@ INSTALLED_APPS = (
 	'catalog',
 )
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'group13chf@gmail.com'
+EMAIL_HOST_PASSWORD = 'bestfriends4ever'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
