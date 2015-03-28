@@ -1,0 +1,10 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+	<h1>Event Info</h1>
+
+	%for event in events:
+		<h3>${event.name}</h3>
+		<p>Click <a href="/info.event_info/${event.id}/">here</a> for more info</p>
+	%endfor
+</%block>

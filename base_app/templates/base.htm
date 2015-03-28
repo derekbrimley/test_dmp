@@ -40,43 +40,33 @@
 							NAVIGATION BAR
 						</%block>
 					</div>	
-					<div class="col-md-8 content">	
+					<div class="col-md-9 content">	
 						<%block name="content">
 						</%block>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<%block name="account">
 							%if request.user.is_authenticated():
-									<a href="/account/" class="btn btn-default" aria-label="Right Align">
-										<span class="glyphicon glyphicon-home" aria-hidden="true"/>
-									</a>
-								<span class="label label-primary"/>Account Home
-								<br/>
-								<br/>
-								<a href="/account/logout/">
-									<button class="btn btn-default" action="/account/logout/" aria-label="Right Align">
-										<span class="glyphicon glyphicon-user" aria-hidden="true"/>
-									</button>
+								<a href="/account/" class="btn btn-default" aria-label="Right Align">
+									<span class="glyphicon glyphicon-home" aria-hidden="true"/>
 								</a>
-								<span class="label label-primary"/> Sign Out
+								<span class="label label-primary">Account Home</span>
+								<br/>
+								<br/>
+								<a href="/account/logout/" class="btn btn-default" aria-label="Right Align">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+								</a><br>
+								<span class="label label-primary">Sign Out</span>
 							%else:
 								<button id="show_login_dialog" class="btn btn-default" aria-label="Right Align">
 									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 								</button>
 								<span class="label label-danger">My Account</span>
 							%endif
-								
 						</%block>
 					</div>
 				</div>
 			</div>
-			<nav class="nav-bar navbar-default navbar-fixed-bottom">
-				<div class="container-fluid">
-					<%block name="footer">
-						Site by Derek Brimley
-					</%block>
-				</div>
-			</nav>
 		</div>
 	</body>	
 </html>

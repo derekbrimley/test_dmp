@@ -9,22 +9,17 @@
 			<th>Renter:</th>
 			<th>Due Date:</th>
 		</tr>
-	%for rental_item in rental_items: ##gets all items
-		%for overdue_item in overdue_items: ##gets all overdue items
-		  %if overdue_item == rental_item.id: ##gets all data for items that are overdue
-			%for product_specification in product_specifications:  ##finds the product information in the product_specification table
-				%if product_specification.id == rental_item.rentable_product_id:  ##matches up overdue items to product_specification
-					<tr>
-						<td>${product_specification.id}</td>
-						<td>${product_specification.name}</td>
-						<td>${product_specification.order_form_name}</td>
-						<td>${rental_item.date_due}</td>
-
-					</tr>
-				%endif
+			%for overdue_item in overdue_items: ##gets all overdue items
+				%for overdue_item_info in overdue_items_info:
+					%if overdue_item.rentable_product_id == overdue_item_info.id:
+						<tr>
+							<td>${overdue_item_info.id}</td>
+							<td>${overdue_item_info.name}</td>
+							<td>${overdue_item_info.order_form_name}</td>
+							<td>${overdue_item.date_due}</td>
+						</tr>
+					%endif
+				%endfor
 			%endfor
-		  %endif
-		%endfor
-	%endfor
 	</table>
 </%block>

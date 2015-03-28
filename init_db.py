@@ -43,7 +43,7 @@ for data in [
 	a = hmod.Address()
 	a.address1 = data[0]
 	a.city = data[1]
-	a.state =[2]
+	a.state =data[2]
 	a.zip = data[3]
 	a.save()	
 
@@ -59,7 +59,7 @@ for data in [
     [ "Customer2First", "Customer2Last", "customerP", "customer2", False, 1, "default@chf.com", '801-423-1428', "What is your quest? [to seek the holy grail]", "to seek the holy grail"],
 	[ "Dustin", "Belliston", "dustinP", "dustin1", False, 2, "default@chf.com", '801-423-1428', "What is your quest? [to seek the holy grail]", "to seek the holy grail"],
 	[ "Izzy", "Beh", "izzyP", "izzy1", False, 2, "default@chf.com", '801-423-1428', "What is your quest? [to seek the holy grail]", "to seek the holy grail"],
-	[ "Derek", "Brimley", "derekP", "derek1", False, 3, "default@chf.com", '801-423-1428', "What is your quest? [to seek the holy grail]", "to seek the holy grail"],
+	[ "Derek", "Brimley", "password", "drizzle", True, 3, "derekbrimley@gmail.com", '801-423-1428', "What is your quest? [to seek the holy grail]", "to seek the holy grail"],
 	[ "John", "Blackburn", "johnP", "john1", False, 4, "default@chf.com", '801-423-1428', "What is your quest? [to seek the holy grail]", "to seek the holy grail"],
 	[ "Kelly", "Blackburn", "kellyP", "kelly1", False, 5, "default@chf.com", '801-423-1428', "What is your quest? [to seek the holy grail]", "to seek the holy grail"],
 	[ "Kalli", "Belliston", "kalliP", "kalli1", False, 6, "default@chf.com", '801-423-1428', "What is your quest? [to seek the holy grail]", "to seek the holy grail"],
@@ -122,9 +122,9 @@ try:
     cur.execute("INSERT INTO auth_group_permissions VALUES(6, 3, 3)")
 
     #Update the permissions that where generated
-    cur.execute("UPDATE auth_permission SET name='admin level', codename='admin' WHERE id='1'")
-    cur.execute("UPDATE auth_permission SET name='manager level', codename='manager' WHERE id='2'")
-    cur.execute("UPDATE auth_permission SET name='agent level', codename='agent' WHERE id='3'")
+    cur.execute("UPDATE auth_permission SET name='admin level', codename='is_admin' WHERE id='1'")
+    cur.execute("UPDATE auth_permission SET name='manager level', codename='is_manager' WHERE id='2'")
+    cur.execute("UPDATE auth_permission SET name='agent level', codename='is_agent' WHERE id='3'")
     
     #Update the first content type to be [homepage.%]
     cur.execute("UPDATE django_content_type SET name='derek_db', app_label='homepage', model='test_dmp' WHERE id='1'")
@@ -144,53 +144,6 @@ finally:
     if con:
         con.close()
 #^^^^^Permissions^^^^^#
-
-
-
-
-################################Start Inserting an image
-# def readImage():
-
-#     try:
-# 	    fin = open("shop-placeholder.png","rb")
-# 	    img = fin.read()
-# 	    return img
-        
-#     except:
-
-        
-#         sys.exit(1)
-
-#     finally:
-        
-#         if fin:
-#             fin.close()
-
-
-# try:
-#     con = psycopg2.connect(database="colonial", user="postgres", password="kevntseeg") 
-    
-#     cur = con.cursor()
-#     data = readImage()
-#     binary = psycopg2.Binary(data)
-#     cur.execute("INSERT INTO PHOTOGRAPH VALUES (01/01/2015, Colonial Heritage Event, '1', %s)", (binary,) )
-
-#     con.commit()    
-    
-# except:
-
-#     if con:
-#         con.rollback()
-
-#     print   
-#     sys.exit(1)
-    
-# finally:
-    
-#     if con:
-#         con.close() 
-###################################End Inserting an image
-
 
 #Photograph
 for data in [
@@ -237,8 +190,9 @@ for data in [
 
 #Event
 for data in [
-    [ "Colonial Heritage July 4", "Annual Celebration on July 4th. Celebrate our Indepedence!", '2015-07-04', '2015-07-04', "file", "Scera Outdoor Ampitheater", 1 ],
-    [ "Heritage Expo", "Come see the many wonders of the Colonial time period", '2015-10-10', '2015-10-10', "file1", "UVU Center", 1 ],
+	[ "Colonial Heritage July 4", "Annual Celebration on July 4th. Celebrate our Indepedence!", '2015-07-04', '2015-07-04', "file", "Scera Outdoor Ampitheater", 1 ],
+	[ "Heritage Expo", "Come see the many wonders of the Colonial time period", '2015-10-10', '2015-10-10', "file2", "UVU Center", 2 ],
+	[ "Battle of Bunker Hill Reenactment", "A realistic and historically accurate reenactment of one of the most famous battles of the Revolution", '2015-08-16', '2015-08-18', "file3", "Kiwanis Park", 3 ],
 ]:
     u = hmod.Event()
     u.name = data[0]
@@ -280,23 +234,26 @@ for data in [
     u.participant_id = data[1]
     u.name = data[2]
     u.type = data[3]
-    #if data[4] != None:
     u.historical_figure_id = data[4]
     u.save()
 
 
 #ExpectedSaleItem
 for data in [
-    [ "Bread Pin", "A baker's rolling pin. An essential in the colonial kitchen!.", 10.00, 20.00, None ],
-    [ "Coopers Brush", "Used to give a nice stain to the new barrel.", 5.00, 20.00, None ],
+    [ "Bread Pin", "A baker's rolling pin. An essential in the colonial kitchen!.", 10.00, 20.00, None,1 ],
+    [ "Coopers Brush", "Used to give a nice stain to the new barrel.", 5.00, 20.00, None,5 ],
+	[ "Butter Maker", "Used to make some butter.", 20.00, 80.00, None,1 ],
+	[ "Horseshoe", "Souvenir horseshoe that patrons make themselves.", 5.00, 10.00, None,2 ],
+	[ "Bonnet", "Old fashioned bonnet. For the ladies.", 10.00, 30.00, None,3 ],
 ]:
-    u = hmod.ExpectedSaleItem()
-    u.name = data[0] 
-    u.description = data[1] 
-    u.low_price =  data[2] 
-    u.high_price = data[3] 
-    u.photo = data[4] 
-    u.save()
+	u = hmod.ExpectedSaleItem()
+	u.name = data[0] 
+	u.description = data[1] 
+	u.low_price =  data[2] 
+	u.high_price = data[3] 
+	u.photo = data[4] 
+	u.area_id = data[5]
+	u.save()
 
 
 #Transaction
@@ -329,175 +286,189 @@ for data in [
     u.customer_id = data[13]
     u.save()
 
-
-
-
-#Category
+# StockedProduct
 for data in [
-    ["Clothing"],
-    ["Military"],
-    ["Appliance"],
+    [ '50', "Top", "Order_File1", "Liberty Bell", 5.00, "A small replica of the liberty bell. A hot seller!", "Colonial Foundation", 5.00, "ABCDEF01", "Order for [Name Here]", "2014-06-06",1,"Collectible"],
+    [ '50', "Bottom", "Order_File2", "Handkerchief", 3.00, "An old handkerchief. A hot seller!", "Colonial Heritage Foundation", 5.00, "ABCDEF02", "Order for [Name Here]", "2014-06-06",2,"Collectible"],
+    [ '50', "Middle", "Order_File3", "Liberty Pen", 5.00, "A replica of an old pen. A hot seller!", "Colonial Heritage Foundation", 5.00, "ABCDEF03", "Order for [Name Here]", "2014-06-06",3,"Collectible"],
+	
 ]:
-    u = hmod.Category()
-    u.description = data[0]
-    u.save()
-
-
-#ProductSpecification
-for data in [
-    [ "Liberty Bell", 5.00, "A small replica of the liberty bell. A hot seller!", "Colonial Heritage Foundation", 5.00, "ABCDEF01", "Order for [Name Here]", "2014-06-06"],
-    [ "Handkerchief", 3.00, "An old handkerchief. A hot seller!", "Colonial Heritage Foundation", 5.00, "ABCDEF02", "Order for [Name Here]", "2014-06-06"],
-    [ "Liberty Pen", 5.00, "A replica of an old pen. A hot seller!", "Colonial Heritage Foundation", 5.00, "ABCDEF03", "Order for [Name Here]", "2014-06-06"],
-    [ "Necklace", 15.00, "A necklace with an American flag pendant.", "Colonial Heritage Foundation", 15.00, "ABCDEF04", "Order for [Name Here]", "2014-06-06"],
-    [ "Bracelet", 15.00, "A Bracelet with an American flag pendant.", "Colonial Heritage Foundation", 15.00, "ABCDEF05", "Order for [Name Here]", "2014-06-06"],
-    [ "Watch", 15.00, "A watch with an American flag pendant.", "Colonial Heritage Foundation", 15.00, "ABCDEF06", "Order for [Name Here]", "2014-06-06"],
-    #Wardrobe 
-    [ "Hat", 22.00, "A hat from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF07", "Order for [Name Here]", "2014-06-06"],
-    [ "Shirt", 22.00, "A shirt from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF08", "Order for [Name Here]", "2014-06-06"],
-    [ "Belt", 22.00, "A belt from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF09", "Order for [Name Here]", "2014-06-06"],
-    [ "Pants", 22.00, "A pants from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF10", "Order for [Name Here]", "2014-06-06"],
-    [ "Boots", 22.00, "A boot from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF11", "Order for [Name Here]", "2014-06-06"],
-    [ "Gloves", 22.00, "A glove from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF12", "Order for [Name Here]", "2014-06-06"],
-    #Rentable
-    [ "Cannon", 122.00, "A cannon from the colonial time.", "Colonial Heritage Foundation", 30.00, "ABCDEF13", "Order for [Name Here]", "2014-06-06"],
-    [ "Gun", 122.00, "A gun from the colonial time.", "Colonial Heritage Foundation", 30.00, "ABCDEF14", "Order for [Name Here]", "2014-06-06"],
-    [ "Sword", 122.00, "A sword from the colonial time.", "Colonial Heritage Foundation", 30.00, "ABCDEF15", "Order for [Name Here]", "2014-06-06"],
-]:
-    u = hmod.ProductSpecification()
-    u.name = data[0]
-    u.price = data[1]
-    u.description = data[2]
-    u.manufacturer = data[3]
-    u.average_cost  = data[4]
-    u.sku = data[5]
-    u.order_form_name = data[6]
-    u.production_time = data[7]
-    u.save()
-
-
-#StockedProduct
-for data in [
-    [ '50', "Top", "Order_File1", 1],
-    [ '50', "Bottom", "Order_File2", 2],
-    [ '50', "Middle", "Order_File3", 3],
-]:
-    u = hmod.StockedProduct()
-    u.quantity_on_hand = data[0]
-    u.shelf_location = data[1]
-    u.order_file = data[2]
-    u.product_specification_id = data[3]
-    u.save()
-
+	u = hmod.StockedProduct()
+	u.quantity_on_hand = data[0]
+	u.shelf_location = data[1]
+	u.order_file = data[2]
+	u.name = data[3]
+	u.price = data[4]
+	u.description = data[5]
+	u.manufacturer = data[6]
+	u.average_cost  = data[7]
+	u.sku = data[8]
+	u.order_form_name = data[9]
+	u.production_time = data[10]
+	u.vendor_id = data[11]
+	u.category = data[12]
+	u.save()
 
 #SerializedProduct
 for data in [
-    [ '10', "Top", "Order_File01", 4, "00001", '2014-01-01', 5.00, "Status", True, True, True, "Serialized Product 1: Necklace"],
-    [ '10', "Bottom", "Order_File02", 5, "00002", '2014-01-01', 5.00, "Status", True, True, True, "Serialized Product 2: Bracelet"],
-    [ '10', "Middle", "Order_File03", 6, "00003", '2014-01-01', 5.00, "Status", True, True, True, "Serialized Product 3: Watch"],
+    [ '50', "Middle", "Order_File4", "Necklace", 15.00, "A necklace with an American flag pendant.", "Colonial Heritage Foundation", 15.00, "ABCDEF04", "Order form [Name Here]", "2014-06-06",4,"Clothing", "00001", '2014-01-01', 5.00, "Status", True, True, True, "Serialized Product 1: Necklace"],
+    [ '50', "Middle", "Order_File5", "Liberty Bracelet", 15.00, "A Bracelet with an American flag pendant.", "Colonial Heritage Foundation", 15.00, "ABCDEF05", "Order form [Name Here]", "2014-06-06",5,"Clothing", "00002", '2014-01-01', 5.00, "Status", True, True, True, "Serialized Product 2: Bracelet"],
+    [  '50', "Middle", "Order_File6", "Liberty Watch", 15.00, "A watch with an American flag pendant.", "Colonial Heritage Foundation", 15.00, "ABCDEF06", "Order form [Name Here]", "2014-06-06",6,"Clothing", "00003", '2014-01-01', 5.00, "Status", True, True, True, "Serialized Product 3: Watch"],
+	
 ]:
-    u = hmod.SerializedProduct()
-    u.quantity_on_hand = data[0]
-    u.shelf_location = data[1]
-    u.order_file = data[2]
-    u.product_specification_id = data[3]
-    u.serial_number = [4]
-    u.date_acquired = [5]
-    u.cost = data[6]
-    u.status = data[7]
-    u.for_sale = data[8]
-    u.condition_new = data[9]
-    u.is_rentable = data[10]
-    u.notes = data[11]
-    u.save()
+	u = hmod.SerializedProduct()
+	u.quantity_on_hand = data[0]
+	u.shelf_location = data[1]
+	u.order_file = data[2]
 
+	u.name = data[3]
+	u.price = data[4]
+	u.description = data[5]
+	u.manufacturer = data[6]
+	u.average_cost  = data[7]
+	u.sku = data[8]
+	u.order_form_name = data[9]
+	u.production_time = data[10]
+	u.vendor_id = data[11]
+	u.category = data[12]
+
+	u.serial_number = [13]
+	u.date_acquired = [14]
+	u.cost = data[15]
+	u.status = data[16]
+	u.for_sale = data[17]
+	u.condition_new = data[18]
+	u.is_rentable = data[19]
+	u.notes = data[20]
+	u.save()
 
 #WardrobeItem
 for data in [
-    [ '3', "Bottom", "Order_File10", 7, "00007", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 1: Hat", None, None, "Male", "Blue", None, 1770, 1870, "This is a hat"],
-    [ '3', "Bottom", "Order_File20", 8, "00008", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 2: Shirt", 'M', None, "Male", "Blue", None, 1770, 1870, "This is a shirt"],
-    [ '3', "Bottom", "Order_File30", 9, "00009", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 3: Belt", '30', None, "Male", "Blue", None, 1770, 1870, "This is a belt"],
-    [ '3', "Bottom", "Order_File40", 10, "000010", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 4: Pants", '30', None, "Male", "Blue", None, 1770, 1870, "This is pants"],
-    [ '3', "Bottom", "Order_File50", 11, "000011", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 5: Boots", '10', None, "Male", "Blue", None, 1770, 1870, "This is a boot"],
-    [ '3', "Bottom", "Order_File60", 12, "000012", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 6: Sword", 'M', None, "Male", "Black", None, 1770, 1870, "This is a glove"],
+    [ '50', "Middle", "Order_File7", "Liberty Hat", 22.00, "A hat from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF07", "Order for [Name Here]", "2014-06-06",7,"Clothing", "00007", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 1: Hat", None, None, "Male", "Blue", None, 1770, 1870, "This is a hat"],
+    [ '50', "Middle", "Order_File8", "Liberty Shirt", 22.00, "A shirt from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF08", "Order for [Name Here]", "2014-06-06",8,"Clothing", "00008", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 2: Shirt", 'M', None, "Male", "Blue", None, 1770, 1870, "This is a shirt"],
+    [ '50', "Middle", "Order_File9", "Liberty Belt", 22.00, "A belt from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF09", "Order for [Name Here]", "2014-06-06",9,"Clothing", "00009", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 3: Belt", '30', None, "Male", "Blue", None, 1770, 1870, "This is a belt"],
+    [ '50', "Middle", "Order_File10", "Liberty Pants", 22.00, "A pants from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF10", "Order for [Name Here]", "2014-06-06",10,"Clothing", "000010", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 4: Pants", '30', None, "Male", "Blue", None, 1770, 1870, "This is pants"],
+    [ '50', "Middle", "Order_File11", "Liberty Boots", 22.00, "A boot from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF11", "Order for [Name Here]", "2014-06-06",11,"Clothing", "000011", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 5: Boots", '10', None, "Male", "Blue", None, 1770, 1870, "This is a boot"],
+    [ '50', "Middle", "Order_File12", "Liberty Gloves", 22.00, "A glove from the colonial time.", "Colonial Heritage Foundation", 15.00, "ABCDEF12", "Order for [Name Here]", "2014-06-06",12,"Clothing", "000012", '2014-01-01', 5.00, "Status", True, True, True, "Wardrobe Item 6: Sword", 'M', None, "Male", "Black", None, 1770, 1870, "This is a glove"],
 ]:
-    u = hmod.WardrobeItem()
-    u.quantity_on_hand = data[0]
-    u.shelf_location = data[1]
-    u.order_file = data[2]
-    u.product_specification_id = data[3]
-    u.serial_number = [4]
-    u.date_acquired = [5]
-    u.cost = data[6]
-    u.status = data[7]
-    u.for_sale = data[8]
-    u.condition_new = data[9]
-    u.is_rentable = data[10]
-    u.notes = data[11]
-    u.size =data[12]
-    u.size_modifier = data[13]
-    u.gender = data[14]
-    u.color =data[15]
-    u.pattern =data[16]
-    u.start_year = data[17]
-    u.end_year =data[18]
-    u.note = data[19]
-    u.save()
+	u = hmod.WardrobeItem()
+	u.quantity_on_hand = data[0]
+	u.shelf_location = data[1]
+	u.order_file = data[2]
 
+	u.name = data[3]
+	u.price = data[4]
+	u.description = data[5]
+	u.manufacturer = data[6]
+	u.average_cost  = data[7]
+	u.sku = data[8]
+	u.order_form_name = data[9]
+	u.production_time = data[10]
+	u.vendor_id = data[11]
+	u.category = data[12]
+
+	u.serial_number = [13]
+	u.date_acquired = [14]
+	u.cost = data[15]
+	u.status = data[16]
+	u.for_sale = data[17]
+	u.condition_new = data[18]
+	u.is_rentable = data[19]
+	u.notes = data[20]
+
+	u.size =data[21]
+	u.size_modifier = data[22]
+	u.gender = data[23]
+	u.color =data[24]
+	u.pattern =data[25]
+	u.start_year = data[26]
+	u.end_year =data[27]
+	u.note = data[28]
+	u.save()
 
 #RentableProduct
 for data in [
-    [ '5', "Bottom", "Order_File001", 13, "00007", '2014-01-01', 5.00, "Status", True, True, True, "Rentable Item 1: Cannon", 5, 25.00, 100.00],
-    [ '5', "Bottom", "Order_File002", 14, "00008", '2014-01-01', 5.00, "Status", True, True, True, "Rentable Item 2: Gun",5, 25.00, 100.00],
-    [ '5', "Bottom", "Order_File003", 15, "00009", '2014-01-01', 5.00, "Status", True, True, True, "Rentable Item 3: Sword", 5, 25.00, 100.00],
+    [ '50', "Middle", "Order_File13", "Liberty Cannon", 122.00, "A cannon from the colonial time.", "Colonial Heritage Foundation", 30.00, "ABCDEF13", "Order for [Name Here]", "2014-06-06",13,"Weaponry", "00007", '2014-01-01', 5.00, "Status", True, True, True, "Rentable Item 1: Cannon", 5, 25.00, 100.00],
+    [ '50', "Middle", "Order_File14", "Liberty Gun", 122.00, "A gun from the colonial time.", "Colonial Heritage Foundation", 30.00, "ABCDEF14", "Order for [Name Here]", "2014-06-06",14,"Weaponry", "00008", '2014-01-01', 5.00, "Status", True, True, True, "Rentable Item 2: Gun",5, 25.00, 100.00],
+    [ '50', "Middle", "Order_File15", "Liberty Sword", 122.00, "A sword from the colonial time.", "Colonial Heritage Foundation", 30.00, "ABCDEF15", "Order for [Name Here]", "2014-06-06",15,"Weaponry", "00009", '2014-01-01', 5.00, "Status", True, True, True, "Rentable Item 3: Sword", 5, 25.00, 100.00],
 ]:
-    u = hmod.RentableProduct()
-    u.quantity_on_hand = data[0]
-    u.shelf_location = data[1]
-    u.order_file = data[2]
-    u.product_specification_id = data[3]
-    u.serial_number = [4]
-    u.date_acquired = [5]
-    u.cost = data[6]
-    u.status = data[7]
-    u.for_sale = data[8]
-    u.condition_new = data[9]
-    u.is_rentable = data[10]
-    u.notes = data[11]
-    u.times_rented = data[12]
-    u.price_per_day = data[13]
-    u.replacement_price = data[14]
-    u.save()
+	u = hmod.RentableProduct()
+	u.quantity_on_hand = data[0]
+	u.shelf_location = data[1]
+	u.order_file = data[2]
 
-# #LineItem
-# for data in [
-# ]:
-#     u = hmod.LineItem()
-#     u.save()
+	u.name = data[3]
+	u.price = data[4]
+	u.description = data[5]
+	u.manufacturer = data[6]
+	u.average_cost  = data[7]
+	u.sku = data[8]
+	u.order_form_name = data[9]
+	u.production_time = data[10]
+	u.vendor_id = data[11]
+	u.category = data[12]
+	
+	u.serial_number = [13]
+	u.date_acquired = [14]
+	u.cost = data[15]
+	u.status = data[16]
+	u.for_sale = data[17]
+	u.condition_new = data[18]
+	u.is_rentable = data[19]
+	u.notes = data[20]
 
+	u.times_rented = data[21]
+	u.price_per_day = data[22]
+	u.replacement_price = data[23]
+	u.save()
+
+#LineItem
+for data in [
+	['5',1],
+	['8',1],
+	['5',2],
+	['10',2],
+	['15',2],
+	['6',3],
+	['3',4],
+	['9',5],
+	['6',5],
+	['12',6],
+	['5',7],
+]:
+	u = hmod.LineItem()
+	u.price = data[0]
+	u.transaction_id = data[1]
+	u.save()
 
 #SaleItem
 for data in [
-    [ 11.00, 1, 1, 1],
-    [ 12.00, 2, 1, 2],
-    [ 13.00, 3, 1, 3],
+    [ 3, 1],
+    [ 2, 2],
+    [ 4, 3],
+	[ 6, 4],
+	[ 1, 5],
+	[ 2, 6],
+	[ 2, 7],
+	[ 1, 8],
 ]:
     u = hmod.SaleItem()
-    u.price = data[0]
-    u.transaction_id = data[1]
-    u.quantity = data[2]
-    u.item_id = data[3]
+    u.quantity = data[0]
+    u.item_id = data[1]
     u.save()
-
 
 #Rental Item
 for data in [
-    [ 21.00, 1, '2015-01-30', '2015-02-01', '2015-02-28', None, 1],
-    [ 22.00, 2, '2015-01-30', '2015-02-01', '2015-02-28', None, 7],
-    [ 23.00, 3, '2015-01-30', '2015-02-10', '2015-02-28', None, 13],
+    [ 21.00, 1, '2015-01-30', '2015-02-01', '2015-02-28', None, 13],
+    [ 22.00, 2, '2015-12-14', None, '2015-02-24', None, 14],
+    [ 23.00, 3, '2015-01-14', '2015-02-10', '2015-02-14', None, 15],
+	[ 23.00, 3, '2015-01-18', None, '2015-02-18', None, 13],
+	[ 23.00, 3, '2015-01-24', '2015-02-10', '2015-02-24', None, 14],
+	[ 23.00, 3, '2015-02-04', None, '2015-03-04', None, 15],
+	[ 23.00, 3, '2015-02-11', None, '2015-03-11', None, 13],
+	[ 23.00, 3, '2015-02-15', None, '2015-03-15', None, 14],
 ]:
     u = hmod.RentalItem()
-    u.price = data[0]
-    u.transaction_id = data[1]
     u.date_out = data[2]
     u.date_in = data[3]
     u.date_due = data[4]
@@ -505,33 +476,18 @@ for data in [
     u.rentable_product_id = data[6]
     u.save()
 
-
-# #Fee
-# for data in [
-#     [ True, 1, 0, "Returned on time."],
-#     [ True, 2, 0, "Returned on time."],
-#     [ True, 3, 0, "Returned on time."],
-#     [ False, 4, 3, "Overdue!"],
-#     [ False, 5, 3, "Overdue!"],
-# ]:
-#     u = hmod.Fee()
-#     u.price = data[0]
-#     u.transaction_id = data[1]
-#     u.waived = data[2]
-#     u.rental_item_id = data[3]
-#     u.save()
-
-
-#LateFee
+# Fee
 for data in [
-    [ 1.00, 1, True, 1, 1, "Returned on time."],
+    [ 1.00, False, "Late", 1],
+	[ 5.00, False, "Very Late", 7],
+	[ 10.00, False, "Damage", 7],
+	[ 8.00, False, "Late and damaged", 13],
 ]:
-    u = hmod.DamageFee()
-    u.price = data[0]
-    u.transaction_id = data[1]
-    u.waived = data[2]
-    u.rental_item_id = data[3]
-    u.description = data[4]
+    u = hmod.Fee()
+    u.amount = data[0]
+    u.waived = data[1]
+    u.description = data[2]
+    u.rental_product_id = data[3]
     u.save()
 
 #select * from homepage_transaction join homepage_rentalitem  on homepage_transaction.id=homepage_rentalitem.transaction_id 

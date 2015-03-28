@@ -8,14 +8,10 @@
 	</form>
 	%for product in products:
 		<div class="product_container">
-			%for product_info in products_info:
-				%if product_info.id == product.product_specification_id:
-					<img src="${ STATIC_URL }catalog/media/${ product_info.id }.jpg"/>
-					<div data-id="${ product.id }" class="product_name">
-						${product_info.name}
-					</div>
-				%endif
-			%endfor
+			<img src="${ STATIC_URL }catalog/media/${ product.id }.jpg"/>
+			<div data-id="${ product.id }" class="product_name">
+				${product.name}
+			</div>
 			<div class="text-right">
 				<a href="/catalog/products.detail/${ product.id }/">
 					<button class="submit_btn btn btn-warning">View Details</button>

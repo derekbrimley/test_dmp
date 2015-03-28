@@ -17,7 +17,6 @@ def process_request(request):
 	template_vars = {}
 	
 	products = hmod.StockedProduct.objects.all()
-	products_info = hmod.ProductSpecification.objects.all()
 	#print(items)
 	
 	# for product in products:
@@ -27,7 +26,6 @@ def process_request(request):
 				# print('Product Info ID: ',product_info.id)
 	
 	template_vars['products'] = products
-	template_vars['products_info'] = products_info
 
 	# if 'shopping_cart' not in request.session:
 		# request.session['shopping_cart'] = {}
@@ -48,7 +46,7 @@ def search(request):
 	
 	form = ProductSearchForm()
 	
-	products = hmod.ProductSpecification.objects.all()
+	products = hmod.StockedProduct.objects.all()
 
 	if request.method=="POST":
 		form = ProductSearchForm(request.POST)
@@ -82,10 +80,8 @@ def detail_modal(request):
 	template_vars = {}
 	
 	product = hmod.StockedProduct.objects.get(id=request.urlparams[0])
-	product_info = hmod.ProductSpecification.objects.get(id=request.urlparams[0])
 	
 	template_vars['product'] = product
-	template_vars['product_info'] = product_info
 	
 	return templater.render_to_response(request,'products.detail_modal.html',template_vars)
 	
@@ -97,11 +93,9 @@ def detail(request):
 	template_vars = {}
 	
 	product = hmod.StockedProduct.objects.get(id=request.urlparams[0])
-	print('>>>>>>>>>>>>>>>>',product.product_specification.id)
-	product_info = hmod.ProductSpecification.objects.get(id=product.product_specification.id)
+	# print('>>>>>>>>>>>>>>>>',product.product_specification.id)
 	
 	template_vars['product'] = product
-	template_vars['product_info'] = product_info
 	
 	return templater.render_to_response(request,'products.detail.html',template_vars)
 	
@@ -114,7 +108,6 @@ def shopping_cart(request):
 	
 	product_id = request.urlparams[0]
 	shopping_cart = request.session.get('shopping_cart', {})
-	product_info = hmod.ProductSpecification.objects.all()
 
 	total_price = 0
 	
@@ -125,8 +118,8 @@ def shopping_cart(request):
 		
 		product = hmod.StockedProduct.objects.get(id=product_id)
 		quantity = shopping_cart.get(product_id)
-		# price = int(product.low_price) * int(quantity)
-		# total_price += price
+		price = int(product.price) * int(quantity)
+		total_price += price
 		items.append(product)
 		print(product.id)
 
@@ -134,7 +127,6 @@ def shopping_cart(request):
 	template_vars['shopping_cart'] = shopping_cart
 	template_vars['items'] = items
 	template_vars['total_price'] = total_price
-	template_vars['product_info'] = product_info
 	
 	return templater.render_to_response(request,'products.shopping_cart.html',template_vars)
 	
@@ -149,8 +141,6 @@ def add_item(request):
 	quantity = request.urlparams[1]
 	
 	product = hmod.StockedProduct.objects.get(id=product_id)
-	product_info = hmod.ProductSpecification.objects.get(id=product_id)
-	
 	
 	shopping_cart = 	request.session.get('shopping_cart',{})
 	
@@ -201,7 +191,6 @@ def checkout(request):
 	
 	product_id = request.urlparams[0]
 	shopping_cart = request.session.get('shopping_cart', {})
-	product_info = hmod.ProductSpecification.objects.all()
 
 	total_price = 0
 	
@@ -212,8 +201,8 @@ def checkout(request):
 		
 		product = hmod.StockedProduct.objects.get(id=product_id)
 		quantity = shopping_cart.get(product_id)
-		# price = int(product.low_price) * int(quantity)
-		# total_price += price
+		price = int(product.price) * int(quantity)
+		total_price += price
 		items.append(product)
 		print(product.id)
 
@@ -221,7 +210,6 @@ def checkout(request):
 	template_vars['shopping_cart'] = shopping_cart
 	template_vars['items'] = items
 	template_vars['total_price'] = total_price
-	template_vars['product_info'] = product_info
 	
 	return templater.render_to_response(request,'products.checkout.html',template_vars)
 
@@ -233,7 +221,15 @@ def thankyou(request):
 	
 	form = BillingForm()
 	billing_info = []
+	total_cost = 0
 	
+	for product_id in shopping_cart:
+		product = hmod.StockedProduct.objects.get(id=product_id)
+		quantity = shopping_cart.get(product_id)
+		price = int(product.price) * int(quantity)
+		total_price += price
+		items.append(product)
+		
 	if request.method=="POST":
 		form = BillingForm(request.POST)
 		print("post")
@@ -247,23 +243,32 @@ def thankyou(request):
 			cvc = form.cleaned_data['cvc']
 			
 			billing_info = [address,city,zip,state,card_number,expiration,cvc];
+			
 			template_vars['billing_info'] = billing_info
 			
 			shopping_cart = 	request.session.get('shopping_cart',{})
 	
-			try:
-				if 'shopping_cart' in request.session:
-					request.session['shopping_cart'] = {}
-					del shopping_cart
-					print(">>>>>>>>>>>CART DELETED")
-					request.session.modified = True
+			# try:
+				# if 'shopping_cart' in request.session:
+					# request.session['shopping_cart'] = {}
+					# del shopping_cart
+					# print(">>>>>>>>>>>CART DELETED")
+					# request.session.modified = True
 			
-			except:
-				return HttpResponseRedirect('/account/products')
+			# except:
+				# return HttpResponseRedirect('/account/products')
 				
+			template_vars['shopping_cart'] = shopping_cart
+			template_vars['items'] = items
+			template_vars['total_price'] = total_price
+			template_vars['form'] = form
+			template_vars['billing_info'] = billing_info	
 			
 			return templater.render_to_response(request,'products.thankyou.html',template_vars)
 	
+	template_vars['shopping_cart'] = shopping_cart
+	template_vars['items'] = items
+	template_vars['total_price'] = total_price
 	template_vars['form'] = form
 	template_vars['billing_info'] = billing_info
 	

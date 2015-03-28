@@ -14,14 +14,15 @@
 								<span id="nav-glyphicon" class="glyphicon glyphicon-home" aria-hidden="true"></span> Home
 							</a>
 							</li>
-							<li role="presentation">
-								<a href="/homepage/products/">
-									<span id="nav-glyphicon" class="glyphicon glyphicon-gift" aria-hidden="true"></span> Products
-								</a>
-							</li>
+							
 							<li role="presentation">
 								<a href="/catalog/products/">
 									<span id="nav-glyphicon" class="glyphicon glyphicon-tag" aria-hidden="true"></span> Store
+								</a>
+							</li>
+							<li role="presentation">
+								<a href="/homepage/info/">
+									<span id="nav-glyphicon" class="glyphicon glyphicon-globe" aria-hidden="true"></span> Event Info
 								</a>
 							</li>
 							%if request.user.has_perm('homepage.is_manager'):
@@ -31,7 +32,12 @@
 									</a>
 								</li>
 								<li role="presentation">
-									<a href="/account/users/">
+								<a href="/homepage/products/">
+									<span id="nav-glyphicon" class="glyphicon glyphicon-gift" aria-hidden="true"></span> Products
+								</a>
+								</li>
+								<li role="presentation">
+									<a href="/homepage/users/">
 										<span id="nav-glyphicon" class="glyphicon glyphicon-user" aria-hidden="true"></span> Users
 									</a>
 								</li>
@@ -40,17 +46,23 @@
 										<span id="nav-glyphicon" class="glyphicon glyphicon-time" aria-hidden="true"></span> Transactions
 									</a>
 								</li>
-								<!-- <li role="presentation">
-								<a href="/homepage/orders/">
-									<span id="nav-glyphicon" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Orders
-								</a>
-								</li> -->
+								<li role="presentation">
+									<a href="/homepage/orders/">
+										<span id="nav-glyphicon" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Orders
+									</a>
+								</li>
+								<li role="presentation">
+									<a href="/homepage/events/">
+										<span id="nav-glyphicon" class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Events
+									</a>
+								</li>
+								<li role="presentation">
+									<a href="/homepage/batch_processes/">
+										<span id="nav-glyphicon" class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Reports
+									</a>
+								</li>
 							%endif
-							<li role="presentation">
-								<a href="/homepage/events/">
-									<span id="nav-glyphicon" class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Events
-								</a>
-							</li>
+							
 							<li role="presentation">
 								<a href="/homepage/about/">
 									<span id="nav-glyphicon" class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> About Us	
@@ -64,11 +76,6 @@
 							<li role="presentation">
 								<a href="/homepage/Terms/">
 									<span id="nav-glyphicon" class="glyphicon glyphicon-th" aria-hidden="true"></span> Terms
-								</a>
-							</li>
-							<li role="presentation">
-								<a href="/homepage/batch_processes/">
-									<span id="nav-glyphicon" class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Reports
 								</a>
 							</li>
 						  </ul>

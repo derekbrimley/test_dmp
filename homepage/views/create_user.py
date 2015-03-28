@@ -7,7 +7,7 @@ from django_mako_plus.controller.router import get_renderer
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 
-templater = get_renderer('account')
+templater = get_renderer('homepage')
 
 ######################################################################
 ####CREATE USER
@@ -57,7 +57,7 @@ def process_request(request):
             address.save()
 	params['form'] = form
 	
-	return templater.render_to_response(request,'login.html',params)
+	return templater.render_to_response(request,'/account/login.html',params)
 	
 class UserEditForm(forms.Form):
 	username = forms.CharField(label="Username", required=True, max_length=30)

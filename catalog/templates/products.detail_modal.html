@@ -2,16 +2,22 @@
 
 <%block name="content">
 	<div class="product_container">
-		%if product.id == product.product_specification_id:
-			<img src="${ STATIC_URL }catalog/media/${ product.id }.jpg"/>
-			<div class="product_info">
-				<span class="product_attribute">Name: </span>${product_info.name}<br/>
-				<span class="product_attribute">Description: </span>${product_info.description} <br/>
-				<span class="product_attribute">Price: </span>${product_info.price}
-			</div>
-		%endif
+		<img src="${ STATIC_URL }catalog/media/${ product.id }.jpg"/>
+		<div class="product_info">
+			<span class="product_attribute">Name: </span>${product.name}<br/>
+			<span class="product_attribute">Description: </span>${product.description} <br/>
+			<span class="product_attribute">Price: </span>${product.price}
+		</div>
 		<div class="text-right">
-			<button id="add_btn" class="btn btn-warning">Add to Cart</button>
+			Quantity: 
+			<select id="quantity">
+			  <option value="1">1</option>
+			  <option value="2">2</option>
+			  <option value="3">3</option>
+			  <option value="4">4</option>
+			  <option value="5">5</option>
+			</select>
+			<button id="add_btn" class="btn btn-warning" data-id="${product.id}">Add to Cart</button>
 		</div>
 	</div>
 </%block>

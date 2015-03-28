@@ -1,0 +1,6 @@
+templater = get_renderer('homepage')
+
+######################################################################
+### SHOWS THE LIST OF USERS
+@view_function
+def process_request(request):

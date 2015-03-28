@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1425796432.289322
+_modified_time = 1427503744.957633
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm'
 _template_uri = '/account/templates/base.htm'
@@ -49,9 +49,9 @@ def render_nav(context,**pageargs):
             return render_nav(context)
         request = context.get('request', UNDEFINED)
         __M_writer = context.writer()
-        __M_writer('\r\n\t<div class="sidebar-nav">\r\n\t\t<ul class="nav nav-pills nav-stacked">\r\n\t\t\t<li role="presentation" class="active">\r\n\t\t\t<a href="/homepage/">\r\n\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Home\r\n\t\t\t</a>\r\n\t\t\t</li>\r\n\t\t\t<li role="presentation">\r\n\t\t\t\t<a href="/account/users.create/">\r\n\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Account\r\n\t\t\t\t</a>\r\n\t\t\t</li>\r\n')
+        __M_writer('\r\n\t<div class="sidebar-nav">\r\n\t\t<ul class="nav nav-pills nav-stacked">\r\n\t\t\t<li role="presentation" class="active">\r\n\t\t\t<a href="/homepage/">\r\n\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Home\r\n\t\t\t</a>\r\n\t\t\t</li>\r\n\t\t\t<li role="presentation">\r\n\t\t\t\t<a href="/homepage/users.create/">\r\n\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Account\r\n\t\t\t\t</a>\r\n\t\t\t</li>\r\n')
         if request.user.is_authenticated():
-            __M_writer('\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a href="/account/users.edit/">\r\n\t\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Account\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a  href="/account/users.delete/">\r\n\t\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Account\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a href="/account/change_password/">\r\n\t\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-edit" aria-hidden="true"></span> Change Password\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n')
+            __M_writer('\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a href="/catalog/products/">\r\n\t\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-search" aria-hidden="true"></span> Store\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a  href="/catalog/products.shopping_cart/">\r\n\t\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Shopping Cart\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li role="presentation">\r\n\t\t\t\t\t<a href="/account/change_password/">\r\n\t\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-edit" aria-hidden="true"></span> Change Password\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</li>\r\n')
         __M_writer('\t\t</ul>\r\n\t</div>\r\n')
         return ''
     finally:
@@ -60,6 +60,6 @@ def render_nav(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "line_map": {"35": 1, "52": 3, "53": 16, "54": 17, "55": 33, "27": 0, "45": 3, "61": 55}, "uri": "/account/templates/base.htm", "filename": "C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm"}
+{"source_encoding": "ascii", "line_map": {"35": 1, "52": 3, "53": 16, "54": 17, "55": 33, "27": 0, "45": 3, "61": 55}, "filename": "C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm", "uri": "/account/templates/base.htm"}
 __M_END_METADATA
 """

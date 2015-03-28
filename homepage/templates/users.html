@@ -28,15 +28,15 @@
 				<td>${user.phone}</td>
 				%if request.user.has_perm('homepage.is_admin'):
 					<td>
-						<a href="/account/users.edit/${ user.id }/">Edit</a>
+						<a href="/homepage/users.edit/${ user.id }/">Edit</a>
 						| 
-						<a href="/account/users.delete/${ user.id }/">Delete</a>
+						<a href="/homepage/users.delete/${ user.id }/">Delete</a>
 					</td>
 				%endif
 			<tr>
 		%endfor
 	</table>	
 	<div class="text-right">
-		<a class="btn btn-primary" href="/account/users.create/">Create New User</a>
+		<a class="btn btn-primary" href="/homepage/users.create/">Create New User</a>
 	</div>
 </%block>

@@ -6,23 +6,28 @@
 	<div class="shopping_cart">
 		%for item in items:
 			<div id="product_container">
-				%for info in product_info:
-					%if info.id == item.product_specification_id:
-						<img src="${ STATIC_URL }catalog/media/${ info.id }.jpg"/>
-						<div data-id="${ item.id }" class="product_name">
-							${info.name}
-						</div>
-					%endif
-				%endfor
-				Quantity: ${ shopping_cart[ str(item.id) ]}
+				<img src="${ STATIC_URL }catalog/media/${ item.id }.jpg"/>
+				<div data-id="${ item.id }" class="product_name">
+					${item.name}
+				</div>
+				Quantity: ${ shopping_cart[ str(item.id) ]}<br>
+				Price: ${item.price}
+				Total: ${int(item.price) * shopping_cart[ str(item.id) ]}
 				<span class="btn btn-danger">
 					<p data-id="${ item.id }" class="delete_btn" >Delete</p>
 				</span>
 			</div>
 		%endfor
 	</div>
+	<div class="shopping_cart_info">
+		Total Cost: ${ total_price }
+	</div>
 	<span class="text-right">
 		<button id="check_out_btn" class="btn btn-warning">Complete Purchase</button>
 	</span>
-	
+	<span class="text-right">
+		<a href="/catalog/products/">
+			<button id="check_out_btn" class="btn btn-success">Keep Shopping</button>
+		</a>
+	</span>
 </%block>

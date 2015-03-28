@@ -10,43 +10,58 @@ from django.contrib.auth.decorators import permission_required
 templater = get_renderer('homepage')
 
 ######################################################################
-####SHOWS LIST OF PRODUCTS
+#SHOWS LIST OF PRODUCTS
 @view_function
 def process_request(request):
 	params = {}
 	
-	products = hmod.Item.objects.all()
-	specs = hmod.ProductSpecification.objects.all()
+	products = hmod.StockedProduct.objects.all()
 	
 	params['products'] = products
-	#params['specs'] = specs
 	return templater.render_to_response(request,'products.html',params)
 	
 ######################################################################
-####EDITS SINGLE PRODUCT
+#EDITS SINGLE PRODUCT
 @view_function
 @permission_required('homepage.is_manager',login_url='/homepage/login/')
 def edit(request):
 	params = {}
 	
 	try:
-		product = hmod.RentalProduct.objects.get(id=request.urlparams[0])
-	except hmod.RentalProduct.DoesNotExist:
+		product = hmod.StockedProduct.objects.get(id=request.urlparams[0])
+	except hmod.StockedProduct.DoesNotExist:
 		return HttpResponseRedirect('/homepage/products/')
 
 	form = ProductEditForm(initial={
-		'times_rented': product.quantity_on_hand,
-		'price_per_day': product.shelf_location,
-		'replacement_price': product.order_file,
+		'name': product.name,
+		'quantity_on_hand': product.quantity_on_hand,
+		'shelf_location': product.shelf_location,
+		'order_file': product.order_file,
+		'description': product.description,
+		'manufacturer': product.manufacturer,
+		'price': product.price,
+		'sku': product.sku,
+		'order_form_name': product.order_form_name,
+		'production_time': product.production_time,
+		'vendor': product.vendor,
+		'category': product.category,
 	})
 	
 	if request.method == 'POST':
 		form = ProductEditForm(request.POST)
 		if form.is_valid():
 			product.name = form.cleaned_data['name']
+			product.quantity_on_hand = form.cleaned_data['quantity_on_hand']
+			product.shelf_location = form.cleaned_data['shelf_location']
+			product.order_file = form.cleaned_data['order_file']
 			product.description = form.cleaned_data['description']
+			product.manufacturer = form.cleaned_data['manufacturer']
+			product.price = form.cleaned_data['price']
+			product.sku = form.cleaned_data['sku']
+			product.order_form_name = form.cleaned_data['order_form_name']
+			product.production_time = form.cleaned_data['production_time']
+			product.vendor = form.cleaned_data['vendor']
 			product.category = form.cleaned_data['category']
-			product.current_price = form.cleaned_data['current_price']
 			product.save()
 			return HttpResponseRedirect('/homepage/products/')
 			
@@ -54,27 +69,99 @@ def edit(request):
 	return templater.render_to_response(request,'products.edit.html',params)
 	
 class ProductEditForm(forms.Form):
-	times_rented = forms.CharField(
+	name = forms.CharField(
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Times Rented'
+				'placeholder': 'Name'
 			}
 		)
 	)
-	price_per_day = forms.CharField(
-		widget=forms.Textarea(
-			attrs={
-				'class': 'form-control',
-				'placeholder': 'Price Per Day'
-			}
-		)
-	)
-	replacement_price = forms.CharField(
+	quantity_on_hand = forms.CharField(
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Replacement Price'
+				'placeholder': 'Quantity on Hand'
+			}
+		)
+	)
+	shelf_location = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Shelf Location'
+			}
+		)
+	)
+	order_file = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Order File'
+			}
+		)
+	)
+	description = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Description'
+			}
+		)
+	)
+	manufacturer = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Manufacturer'
+			}
+		)
+	)
+	price = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Price'
+			}
+		)
+	)
+	sku = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'SKU'
+			}
+		)
+	)
+	order_form_name = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Order Form Name'
+			}
+		)
+	)
+	production_time = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Production Time'
+			}
+		)
+	)
+	vendor = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Vendor'
+			}
+		)
+	)
+	category = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Category'
 			}
 		)
 	)

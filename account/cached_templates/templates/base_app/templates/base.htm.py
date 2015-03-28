@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1425796082.637113
+_modified_time = 1427385264.262528
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm'
 _template_uri = '/base_app/templates/base.htm'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['nav', 'account', 'content', 'header', 'footer']
+_exports = ['content', 'account', 'nav', 'header']
 
 
 from django_mako_plus.controller import static_files 
@@ -19,19 +19,17 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
-        def footer():
-            return render_footer(context._locals(__M_locals))
         def header():
             return render_header(context._locals(__M_locals))
-        self = context.get('self', UNDEFINED)
-        def nav():
-            return render_nav(context._locals(__M_locals))
-        request = context.get('request', UNDEFINED)
         def account():
             return render_account(context._locals(__M_locals))
+        self = context.get('self', UNDEFINED)
         def content():
             return render_content(context._locals(__M_locals))
+        def nav():
+            return render_nav(context._locals(__M_locals))
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        request = context.get('request', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\r\n')
         __M_writer('\r\n')
@@ -57,22 +55,17 @@ def render_body(context,**pageargs):
             context['self'].nav(**pageargs)
         
 
-        __M_writer('\r\n\t\t\t\t\t</div>\t\r\n\t\t\t\t\t<div class="col-md-8 content">\t\r\n\t\t\t\t\t\t')
+        __M_writer('\r\n\t\t\t\t\t</div>\t\r\n\t\t\t\t\t<div class="col-md-9 content">\t\r\n\t\t\t\t\t\t')
         if 'parent' not in context._data or not hasattr(context._data['parent'], 'content'):
             context['self'].content(**pageargs)
         
 
-        __M_writer('\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class="col-md-2">\r\n\t\t\t\t\t\t')
+        __M_writer('\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class="col-md-1">\r\n\t\t\t\t\t\t')
         if 'parent' not in context._data or not hasattr(context._data['parent'], 'account'):
             context['self'].account(**pageargs)
         
 
-        __M_writer('\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t\t<nav class="nav-bar navbar-default navbar-fixed-bottom">\r\n\t\t\t\t<div class="container-fluid">\r\n\t\t\t\t\t')
-        if 'parent' not in context._data or not hasattr(context._data['parent'], 'footer'):
-            context['self'].footer(**pageargs)
-        
-
-        __M_writer('\r\n\t\t\t\t</div>\r\n\t\t\t</nav>\r\n\t\t</div>\r\n\t</body>\t\r\n</html>\r\n\r\n')
+        __M_writer('\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</body>\t\r\n</html>\r\n\r\n')
         __M_writer('    ')
         __M_writer(str( static_renderer.get_template_js(request, context)  ))
         return ''
@@ -80,13 +73,13 @@ def render_body(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_nav(context,**pageargs):
+def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def nav():
-            return render_nav(context)
+        def content():
+            return render_content(context)
         __M_writer = context.writer()
-        __M_writer('\r\n\t\t\t\t\t\t\tNAVIGATION BAR\r\n\t\t\t\t\t\t')
+        __M_writer('\r\n\t\t\t\t\t\t')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -101,22 +94,22 @@ def render_account(context,**pageargs):
         __M_writer = context.writer()
         __M_writer('\r\n')
         if request.user.is_authenticated():
-            __M_writer('\t\t\t\t\t\t\t\t\t<a href="/account/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-home" aria-hidden="true"/>\r\n\t\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary"/>Account Home\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<a href="/account/logout/">\r\n\t\t\t\t\t\t\t\t\t<button class="btn btn-default" action="/account/logout/" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"/>\r\n\t\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary"/> Sign Out\r\n')
+            __M_writer('\t\t\t\t\t\t\t\t<a href="/account/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-home" aria-hidden="true"/>\r\n\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Account Home</span>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<a href="/account/logout/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</a><br>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Sign Out</span>\r\n')
         else:
             __M_writer('\t\t\t\t\t\t\t\t<button id="show_login_dialog" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<span class="label label-danger">My Account</span>\r\n')
-        __M_writer('\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t')
+        __M_writer('\t\t\t\t\t\t')
         return ''
     finally:
         context.caller_stack._pop_frame()
 
 
-def render_content(context,**pageargs):
+def render_nav(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def content():
-            return render_content(context)
+        def nav():
+            return render_nav(context)
         __M_writer = context.writer()
-        __M_writer('\r\n\t\t\t\t\t\t')
+        __M_writer('\r\n\t\t\t\t\t\t\tNAVIGATION BAR\r\n\t\t\t\t\t\t')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -140,20 +133,8 @@ def render_header(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_footer(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def footer():
-            return render_footer(context)
-        __M_writer = context.writer()
-        __M_writer('\r\n\t\t\t\t\t\tSite by Derek Brimley\r\n\t\t\t\t\t')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "line_map": {"65": 45, "107": 68, "132": 29, "133": 31, "70": 69, "113": 44, "136": 32, "137": 34, "75": 77, "76": 85, "77": 85, "143": 75, "16": 4, "18": 0, "83": 39, "149": 75, "89": 39, "155": 149, "135": 32, "125": 29, "95": 48, "36": 2, "37": 4, "38": 5, "103": 49, "104": 50, "105": 62, "42": 5, "43": 15, "44": 20, "45": 20, "46": 21, "47": 21, "48": 23, "49": 23, "50": 23, "106": 63, "55": 34, "119": 44, "60": 41, "102": 48, "134": 32}, "uri": "/base_app/templates/base.htm", "filename": "C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm"}
+{"uri": "/base_app/templates/base.htm", "filename": "C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm", "line_map": {"128": 32, "129": 32, "130": 34, "68": 66, "69": 75, "70": 75, "136": 130, "82": 44, "76": 44, "98": 60, "112": 39, "16": 4, "18": 0, "99": 61, "88": 48, "100": 66, "125": 29, "95": 48, "96": 49, "97": 50, "34": 2, "35": 4, "36": 5, "40": 5, "41": 15, "42": 20, "43": 20, "44": 21, "45": 21, "46": 23, "47": 23, "48": 23, "53": 34, "118": 29, "58": 41, "127": 32, "106": 39, "126": 31, "63": 45}, "source_encoding": "ascii"}
 __M_END_METADATA
 """

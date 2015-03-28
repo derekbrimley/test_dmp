@@ -2,6 +2,12 @@
 
 <%block name="content">
 	<h1>Thank you for your purchase!</h1>
+	<h2>Items Purchased:</h2>
+	%for item in items:
+		<p>Item: ${item.name}</p>
+		<p>Quantity: ${ shopping_cart[ str(item.id) ]}</p>
+		<p>Price: ${item.price * shopping_cart[ str(item.id) ]}</p>
+	%endfor
 	<h2>Shipping Address:</h2>
 	<p>Street: ${billing_info[0]}</p>
 	<p>City: ${billing_info[1]}</p>
@@ -11,6 +17,7 @@
 	<p>Card Number: ${billing_info[4]}</p>
 	<p>Expiration: ${billing_info[5]}</p>
 	<p>CVC Number: ***</p>
+	<p>Total Cost: $ ${ total_price }.00</p>
 	
 	<a class="btn btn-success" href="/catalog/products.checkout/">Close</a>
 </%block>

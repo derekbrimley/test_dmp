@@ -1,7 +1,7 @@
 ##
 ## Name: 			Derek Brimley
 ## Author: 			Group 1-13
-## Last Modified:	3/4/2015
+## Last Modified:	3/26/2015
 ##
 ## Description:		Models file for the CHF Case
 ##
@@ -13,23 +13,21 @@ from polymorphic import PolymorphicModel
 from django.contrib.auth.models import AbstractUser
 
 class Address(models.Model):
-	##MAILING ADDRESS
 	address1 = models.TextField(max_length=200)
 	address2 = models.TextField(max_length=200, null=True, blank=True)
 	city = models.TextField(max_length=100)
 	state = models.TextField(max_length=20)
 	zip = models.TextField(max_length=20)
 	
-	# class Meta:
-	# 	ordering = ['state', 'city', 'zip', 'address1', 'address2']
-	# 	verbose_name_plural = 'addresses'
+	class Meta:
+		ordering = ['state', 'city', 'zip', 'address1', 'address2']
+		verbose_name_plural = 'addresses'
 		
-	# def __str__(self):
-	# 	return '{} {} {}, {} {}'.format(self.street1, self.street2, self.city, self.state, self.zip_code)
+	def __str__(self):
+		return '{}, {}, {} {}'.format(self.address1, self.city, self.state, self.zip)
 
 	
 class User(AbstractUser):
-    ## ATTRIBUTES INHERITED FROM ABSTRACT USERS
     ## password
     ## last_login
     ## username
@@ -58,14 +56,12 @@ class User(AbstractUser):
 	# 	return self.user.username
 
 class Photograph(models.Model):
-	##PHOTOGRAPH OF ITEMS OR PEOPLE
     date_taken = models.DateField(max_length=200, null=True, blank=True)
     place_taken = models.TextField(max_length=1000, null=True, blank=True)
-    user = models.ForeignKey(User, related_name='+',null=True) #Change username to user
-    image = models.TextField(null=True, blank=True) #Change from Binaryfield to texF
+    user = models.ForeignKey(User, related_name='+',null=True)
+    image = models.TextField(null=True, blank=True)
 
 class HistoricalFigure(models.Model):
-	##HISTORICAL FIGURE THAT WILL BE PORTRAYED AT EVENT
 	name = models.TextField(max_length=200)
 	birth_date = models.DateField(null=True)
 	birth_place = models.TextField(max_length=200, null=True, blank=True)
@@ -75,17 +71,15 @@ class HistoricalFigure(models.Model):
 	is_fictional = models.BooleanField(default=False)
 
 class Event(models.Model):
-	##INSTANCE OF EVENT
 	name = models.TextField(max_length=200)
 	description = models.TextField(max_length=1000)
 	start_date = models.DateField()
 	end_date = models.DateField()
-	map_file = models.TextField(max_length=200) # changed from filefield to textfield
+	map_file = models.TextField(max_length=200)
 	venue_name = models.TextField(max_length=200)
-	address = models.ForeignKey(Address, related_name='+') # changed from address
+	address = models.ForeignKey(Address, related_name='+') 
 	
 class Area(models.Model):
-	##LOCATION WITHIN EVENT
 	area_name = models.TextField(max_length=200)
 	description = models.TextField(max_length=1000)
 	place_number = models.PositiveIntegerField()
@@ -95,8 +89,6 @@ class Area(models.Model):
 	participants = models.ManyToManyField('User')
 	
 class UserRole(models.Model):
-	##ASSOCIATION CLASS BETWEEN USER AND AREA. REPRESENTS A USER THAT IS ASSIGNED
-	##TO PLAY A HISTORICAL ROLE AT A SPECIFIC AREA
 	area = models.ForeignKey(Area)
 	participant = models.ForeignKey(User)
 	name = models.TextField(max_length=200)
@@ -104,15 +96,14 @@ class UserRole(models.Model):
 	historical_figure = models.ForeignKey(HistoricalFigure, related_name='+', null=True )
 	
 class ExpectedSaleItem(models.Model):
-	##ITEM THAT WILL BE SOLD AT A SPECIFIC AREA AT EVENT
 	name = models.TextField(max_length=200)
 	description = models.TextField(max_length=1000)
 	low_price = models.DecimalField(max_digits=10, decimal_places=2)
 	high_price = models.DecimalField(max_digits=10, decimal_places=2)
 	photo = models.ForeignKey(Photograph, related_name='+', null=True)
-
+	area = models.ForeignKey(Area,null=True)
+	
 class Transaction(models.Model):
-	##SINGLE TRANSACTION: ORDER, RENTAL, RETURN, FEE
 	date = models.DateField()
 	date_packed = models.DateField()
 	packed_by = models.ForeignKey(User)
@@ -127,47 +118,26 @@ class Transaction(models.Model):
 	shipped_by = models.ForeignKey('User', related_name='shippedby_set')
 	handled_by = models.ForeignKey('User', related_name='handledby_set')
 	customer = models.ForeignKey('User', related_name='orders')
-	
 
-
-
-class Category(models.Model):
-	##CLASS TO CATEGORIZE PRODUCTS
-	description = models.TextField(max_length=200)
-	
-	class Meta:
-		verbose_name_plural = 'categories'
-	
-	def __str__(self):
-		return self.description
-	
-class ProductSpecification(models.Model):
-	##DETAILS ABOUT A PRODUCT
-	name = models.TextField()
-	price = models.DecimalField(max_digits=10, decimal_places=2)
-	description = models.TextField()
-	manufacturer = models.TextField()
-	average_cost = models.DecimalField(max_digits=10, decimal_places=2)
-	sku = models.TextField()
-	order_form_name = models.TextField()
-	production_time = models.DateField()
-	
-	# def __str__(self):
-		# return '{} {}'.format(self.name, self.price)
-
-################################################################################ HOW?
-class StockedProduct(PolymorphicModel): #changed to polymorphic model
-	##PRODUCTS THAT ORGANIZATION IS CURRENTLY TRACKING
+class StockedProduct(PolymorphicModel):
 	quantity_on_hand = models.IntegerField(null=True)
 	shelf_location = models.TextField(null=True)
 	order_file = models.TextField(null=True)
-	product_specification = models.ForeignKey('ProductSpecification')
-
-	# def __str__(self):
-		# return '{}'.format(self.quantity_on_hand)
+	name = models.TextField()
+	price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+	description = models.TextField()
+	manufacturer = models.TextField()
+	average_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+	sku = models.TextField()
+	order_form_name = models.TextField()
+	production_time = models.DateField(null=True)
+	vendor = models.ForeignKey(User, null=True)
+	category = models.TextField(max_length=200)
+	
+	def __str__(self):
+		return '{} {} {}'.format(self.name, self.price, self.description)
 
 class SerializedProduct(StockedProduct):
-	#Serialized Product
 	serial_number = models.TextField(null=False)
 	date_acquired = models.TextField(null=True)
 	cost = models.DecimalField(max_digits=10, decimal_places=2,null=True)
@@ -177,11 +147,10 @@ class SerializedProduct(StockedProduct):
 	is_rentable = models.BooleanField(default=False)
 	notes = models.TextField(null=True)
 	
-	# def __str__(self):
-		# return '{} {}'.format(self.serial_number, self.status)
+	def __str__(self):
+		return '{} {}'.format(self.serial_number, self.status)
 	
 class WardrobeItem(SerializedProduct):
-	##WARDROBE ITEM IN INVENTORY
 	size = models.TextField(null=True)
 	size_modifier = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 	gender = models.TextField(max_length=40, null=True)
@@ -192,24 +161,21 @@ class WardrobeItem(SerializedProduct):
 	note = models.TextField(null=True)
 	
 class RentableProduct(SerializedProduct):
-	##ITEM IN INVENTORY THAT CAN BE RENTED
 	times_rented = models.IntegerField()
 	price_per_day = models.DecimalField(max_digits=10, decimal_places=2)
 	replacement_price = models.DecimalField(max_digits=10, decimal_places=2)
 	
-	# def __str__(self):
-		# return '{} {} {}'.format(self.times_rented, self.price_per_day, self.replacement_price)
+	def __str__(self):
+		return '{} {} {} {}'.format(self.times_rented, self.price_per_day, self.replacement_price, self.StockedProduct)
 
 class LineItem(PolymorphicModel):
-	##LINE ITEM IN A TRANSACTION
-	price = models.DecimalField(max_digits=10, decimal_places=2)
-	transaction = models.ForeignKey(Transaction)
+	price = models.DecimalField(max_digits=10, decimal_places=2,null=True)
+	transaction = models.ForeignKey(Transaction, null=True)
 	
-	class Meta:
-		abstract = True
+	# class Meta:
+		# abstract = True
 		
 class SaleItem(LineItem):
-	##TYPE OF TRANSACTION FOR SALES
 	quantity = models.IntegerField()
 	item = models.ForeignKey(StockedProduct, related_name='+')
 
@@ -217,35 +183,20 @@ class SaleItem(LineItem):
 		return '{} {}'.format(self.amount, self.quantity)
 
 class RentalItem(LineItem):
-	##TYPE OF TRANSACTION LINE ITEM
 	date_out = models.DateField(null=False)
 	date_in = models.DateField(null=True)
 	date_due = models.DateField(null=True)
 	discount_percent = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-	rentable_product = models.ForeignKey(StockedProduct, null=True)
+	rentable_product = models.ForeignKey(RentableProduct, null=True)
 	
+	# def __str__(self):
+		# return '{} {} {} {}'.format(self.transaction, self.rentable_product, self.date_due, self.date_due)
 	
-	def __str__(self):
-		return '{} {} {}'.format(self.date_out, self.date_due, self.date_in)
-	
-class Fee(LineItem):
-	##TYPE OF TRANSACTION WHEN FEES ASSIGNED--ABSTRACT
+class Fee(models.Model):
+	amount = models.DecimalField(max_digits=10, decimal_places=2)
 	waived = models.BooleanField(default=True)
-	rental_item = models.ForeignKey(RentalItem, related_name='+')
-	
-	class Meta:
-		abstract = True
-
-class LateFee(Fee):
-	##CONCRETE SUBCLASS OF FEE FOR LATE RETURNS
-	days_late = models.IntegerField()
-	
-	def __str__(self):
-		return '{} {} {}'.format(self.amount, self.days_late, self.waived)
-
-class DamageFee(Fee):	
-	##CONCRETE SUBCLASS OF FEE FOR DAMAGED RETURNS
 	description = models.TextField()
+	rental_item = models.ForeignKey(RentalItem, related_name='+',null=True)
 	
-	def __str__(self):
-		return '{} {} {}'.format(self.amount, self.description, self.waived)
+	# class Meta:
+		# abstract = True
