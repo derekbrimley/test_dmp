@@ -221,7 +221,9 @@ def thankyou(request):
 	
 	form = BillingForm()
 	billing_info = []
-	total_cost = 0
+	total_price = 0
+	shopping_cart = request.session.get('shopping_cart', {})
+	items = []
 	
 	for product_id in shopping_cart:
 		product = hmod.StockedProduct.objects.get(id=product_id)
@@ -247,7 +249,6 @@ def thankyou(request):
 			template_vars['billing_info'] = billing_info
 			
 			shopping_cart = 	request.session.get('shopping_cart',{})
-	
 			# try:
 				# if 'shopping_cart' in request.session:
 					# request.session['shopping_cart'] = {}
@@ -257,7 +258,7 @@ def thankyou(request):
 			
 			# except:
 				# return HttpResponseRedirect('/account/products')
-				
+			
 			template_vars['shopping_cart'] = shopping_cart
 			template_vars['items'] = items
 			template_vars['total_price'] = total_price

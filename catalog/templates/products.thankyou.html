@@ -6,7 +6,7 @@
 	%for item in items:
 		<p>Item: ${item.name}</p>
 		<p>Quantity: ${ shopping_cart[ str(item.id) ]}</p>
-		<p>Price: ${item.price * shopping_cart[ str(item.id) ]}</p>
+		<p>Price: ${int(item.price) * int(shopping_cart[ str(item.id) ])}</p>
 	%endfor
 	<h2>Shipping Address:</h2>
 	<p>Street: ${billing_info[0]}</p>
@@ -19,5 +19,5 @@
 	<p>CVC Number: ***</p>
 	<p>Total Cost: $ ${ total_price }.00</p>
 	
-	<a class="btn btn-success" href="/catalog/products.checkout/">Close</a>
+	<a id="close_btn" class="btn btn-success">Close</a>
 </%block>

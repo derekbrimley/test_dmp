@@ -12,7 +12,7 @@ $(function(){
 	});//click
 	
 	$('.delete_btn').on('click',function(){
-		
+		console.log("clicked");
 		var product_id = $(this).attr('data-id');
 		console.log(product_id)
 		$.ajax({
@@ -21,8 +21,8 @@ $(function(){
 			
 			success: function(data){
 
-                    $('.shopping_cart').html(data);
-                },
+				$('.shopping_cart').html(data);
+            },
 			
 		});//ajax
 				

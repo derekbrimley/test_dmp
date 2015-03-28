@@ -2,10 +2,7 @@
 
 <%block name="content">
 
-	Search: 
-	<form id=#"search_box">
-		<input id="search_box"></input><br/>
-	</form>
+	
 	%for product in products:
 		<div class="product_container">
 			<img src="${ STATIC_URL }catalog/media/${ product.id }.jpg"/>

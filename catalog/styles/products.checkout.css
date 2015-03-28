@@ -5,34 +5,58 @@
 	margin: 12px;
 	padding: 4px;
 }
-
-#product_container > img{
-	max-height: 200px;
+img{
+	max-height: 50px;
 }
-
 .product_name{
-	text-align: center;
+	text-align: left;
 	font-weight: bold;
 }
-
 #submit_btn{
 	text-align: right;
 }
-
 #open_search_dialog{
 	cursor: pointer;
 }
-
 .product_info{
 	padding: 12px;
 }
-
 .product_attribute{
 	font-weight: bold;
 }
-
 p{
 	font-weight:bold;
-	color: white;
+	color: black;
 	margin: 0px;
+}
+.shopping_cart_info{
+	float: right;
+	padding:10px
+}
+.btn-danger{
+	float: right;
+}
+.name{
+	width: 40%;
+}
+.quantity{
+	width: 20%;
+	text-align: center;
+	font-weight: bold;
+}
+.total_price{
+	width: 15%;
+	text-align:right;
+	padding:10px;
+	font-weight: bold;
+}
+.check_out{
+	float:right;
+	padding-right:20px;
+}
+.table_header{
+	text-align:center;
+}
+.delete{
+	width:10%;
 }
