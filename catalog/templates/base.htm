@@ -35,6 +35,13 @@
 										<span id="nav-glyphicon" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Shopping Cart
 									</a>
 								</li>
+								%if request.user.is_staff:
+									<li role="presentation">
+										<a href="/catalog/products.rental_checkout/">
+											<span id="nav-glyphicon" class="glyphicon glyphicon-transfer" aria-hidden="true"></span> Rental Cart
+										</a>
+									</li>
+								%endif
 						  </ul>
 						</div>
 					</%block>

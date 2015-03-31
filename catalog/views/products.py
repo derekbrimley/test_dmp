@@ -261,21 +261,35 @@ def delete(request):
 	template_vars = {}
 	
 	shopping_cart = request.session.get('shopping_cart',{})
-	rental_cart = request.session.get('rental_cart',{})
 	product_id = request.urlparams[0]
 	
 	if product_id in shopping_cart:
 		del shopping_cart[product_id]
 		print(">>>>>>>>>>>>deleted")
-	elif product_id in rental_cart:
-		del rental_cart[product_id]
-		return HttpResponseRedirect('/catalog/products.rental_cart/')
 
 	request.session['shopping_cart'] = shopping_cart
 	request.session.modified = True
 	
 	return HttpResponseRedirect('/catalog/products.shopping_cart/')
 
+########################################
+##DELETE RENTAL PRODUCT	
+@view_function
+def delete_rental(request):
+	template_vars = {}
+	
+	rental_cart = request.session.get('rental_cart',{})
+	product_id = request.urlparams[0]
+	
+	if product_id in rental_cart:
+		del rental_cart[product_id]
+		print(">>>>>>>>>>>>deleted")
+	
+	request.session['rental_cart'] = rental_cart
+	request.session.modified = True
+	
+	return HttpResponseRedirect('/catalog/products.rental_cart/')
+	
 ########################################
 ##DELETE SHOPPING CART	
 @view_function
@@ -287,6 +301,10 @@ def delete_cart(request):
 			request.session['shopping_cart'] = {}
 			del shopping_cart
 			print(">>>>>>>>>>>CART DELETED")
+			request.session.modified = True
+		elif 'rental_cart' in request.session:
+			request.session['rental_cart'] = {}
+			del rental_cart
 			request.session.modified = True
 
 	except:
@@ -325,8 +343,8 @@ def checkout(request):
 ########################################
 ##CHECKOUT RENTAL
 @view_function
-def checkout_rental(request):
-	params = {}
+def rental_checkout(request):
+	template_vars = {}
 	
 	product_id = request.urlparams[0]
 	rental_cart = request.session.get('rental_cart', {})
@@ -349,7 +367,7 @@ def checkout_rental(request):
 	template_vars['items'] = items
 	template_vars['total_price'] = total_price
 	
-	return templater.render_to_response(request,'products.checkout.html',template_vars)
+	return templater.render_to_response(request,'products.rental_checkout.html',template_vars)
 	
 ########################################
 ##THANK YOU
@@ -422,6 +440,32 @@ def thankyou(request):
 				
 				send_mail('Purchase Confirmation {}'.format(charge_id), 'Your card has been successfully charged ${} for your purchases. Thank you! If you have any questions about your purchase, please call 801-422-8080'.format(total_price), 'derekbrimley@gmail.com',[email], fail_silently=False)
 				shopping_cart = 	request.session.get('shopping_cart',{})
+				
+				transaction = hmod.Transaction()
+				transaction.date = datetime.now()
+				transaction.date_packed = datetime.now()
+				transaction.date_paid = datetime.now()
+				transaction.payment_handler_id = 10
+				transaction.date_shipped = datetime.now()
+				transaction.tracking_number = 12345
+				transaction.shipped_by_id = 10
+				transaction.ships_to = user.address
+				transaction.packed_by_id = 10
+				transaction.payment_processed_by_id = 10
+				transaction.shipped_by_id = 10
+				transaction.handled_by_id = 10
+				transaction.customer_id = user.id
+				
+				for product_id in shopping_cart:
+					sale_item = hmod.SaleItem()
+					sale_item.quantity = shopping_cart.get(product_id)
+					sale_item.item_id = product_id
+					sale_item.price = product.price
+					sale_item.transaction_id = transaction.id
+					
+					sale_item.save()
+				
+				transaction.save()
 				
 				template_vars['shopping_cart'] = shopping_cart
 				template_vars['items'] = items

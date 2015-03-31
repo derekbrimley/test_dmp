@@ -422,59 +422,46 @@ for data in [
 	u.replacement_price = data[23]
 	u.save()
 
-#LineItem
-for data in [
-	['5',1],
-	['8',1],
-	['5',2],
-	['10',2],
-	['15',2],
-	['6',3],
-	['3',4],
-	['9',5],
-	['6',5],
-	['12',6],
-	['5',7],
-]:
-	u = hmod.LineItem()
-	u.price = data[0]
-	u.transaction_id = data[1]
-	u.save()
-
 #SaleItem
 for data in [
-    [ 3, 1],
-    [ 2, 2],
-    [ 4, 3],
-	[ 6, 4],
-	[ 1, 5],
-	[ 2, 6],
-	[ 2, 7],
-	[ 1, 8],
+   #Bulk buy of Liberty Bell by Customer1
+   [ 500.00, 2, 100, 1],
+   #Bulk buy of Liberty Pen by Customer2
+   [ 300.00, 3, 100, 3]
 ]:
-    u = hmod.SaleItem()
-    u.quantity = data[0]
-    u.item_id = data[1]
-    u.save()
+   u = hmod.SaleItem()
+   u.price = data[0]
+   u.transaction_id = data[1]
+   u.quantity = data[0]
+   u.item_id = data[1]
+   u.save()
+
 
 #Rental Item
 for data in [
-    [ 21.00, 1, '2015-01-30', '2015-02-01', '2015-02-28', None, 13],
-    [ 22.00, 2, '2015-12-14', None, '2015-02-24', None, 14],
-    [ 23.00, 3, '2015-01-14', '2015-02-10', '2015-02-14', None, 15],
-	[ 23.00, 3, '2015-01-18', None, '2015-02-18', None, 13],
-	[ 23.00, 3, '2015-01-24', '2015-02-10', '2015-02-24', None, 14],
-	[ 23.00, 3, '2015-02-04', None, '2015-03-04', None, 15],
-	[ 23.00, 3, '2015-02-11', None, '2015-03-11', None, 13],
-	[ 23.00, 3, '2015-02-15', None, '2015-03-15', None, 14],
+   #Three Guns are checked out by Patton
+   [10.00, 4, '2015-01-30', '2015-02-01', '2015-02-20', None, 14],
+   [10.00, 4, '2015-01-30', '2015-02-01', '2015-02-20', None, 14],
+   [10.00, 4, '2015-01-30', '2015-02-01', '2015-02-20', None, 14],
+   #Six Swords are checked out Washington
+   [12.00, 5, '2015-01-30', '2015-02-01', '2015-02-20', None, 15],
+   [12.00, 5, '2015-01-30', '2015-02-01', '2015-02-20', None, 15],
+   [12.00, 5, '2015-01-30', '2015-02-01', '2015-02-20', None, 15],
+   [12.00, 5, '2015-01-30', '2015-02-01', '2015-02-20', None, 15],
+   [12.00, 5, '2015-01-30', '2015-02-01', '2015-02-20', None, 15],
+   [12.00, 5, '2015-01-30', '2015-02-01', '2015-02-20', None, 15],
+
 ]:
-    u = hmod.RentalItem()
-    u.date_out = data[2]
-    u.date_in = data[3]
-    u.date_due = data[4]
-    u.discount_percent = data[5]
-    u.rentable_product_id = data[6]
-    u.save()
+   u = hmod.RentalItem()
+   u.price = data[0]
+   u.transaction_id = data[1]
+   u.date_out = data[2]
+   u.date_in = data[3]
+   u.date_due = data[4]
+   u.discount_percent = data[5]
+   u.rentable_product_id = data[6]
+   u.save()
+
 
 # Fee
 for data in [

@@ -1,7 +1,7 @@
 $(function(){
 	
 	// LoadModal
-	$('#shopping_cart').ajaxForm(function(data) {
+	$('#rental_cart').ajaxForm(function(data) {
 
 		console.log("hey there")
 		
@@ -17,7 +17,7 @@ $(function(){
 		console.log(product_id)
 		$.ajax({
 			
-			url: "/catalog/products.delete/"+product_id+"/",
+			url: "/catalog/products.delete_rental/"+product_id+"/",
 			
 			success: function(data){
 

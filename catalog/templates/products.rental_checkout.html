@@ -1,0 +1,50 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+	<h1>Rental Checkout</h1>
+	<h2>Items currently in your cart:</h2><br/>
+	<div class="rental_cart">
+		<table class="table table-striped table-bordered">
+			<tr>
+				<th class="table_header"></th>
+				<th class="table_header">Product</th>
+				<th class="table_header">Quantity</th>
+				<th class="table_header">Customer</th>
+				<th></th>
+			</tr>
+			%for item in items:
+				<tr>
+					<td class="picture">
+						<img src="${ STATIC_URL }catalog/media/${ item.id }.jpg"/>
+					</td>
+					<td class="name">
+						<div data-id="${ item.id }" class="product_name">
+							${item.name}
+						</div>
+					</td>
+					<td class="quantity">${ rental_cart[ str(item.id) ]}<br></td>
+					<td class="total_price">$${int(item.price) * int(rental_cart[ str(item.id) ])}</td>
+					<td class="delete">
+						<span class="btn btn-primary">
+							<a href="/catalog/products.detail/${item.id}/" class="text-right" ><p>Info</p></a>
+						</span>
+						<button id="delete_btn" class="btn btn-danger">
+							<p data-id="${ item.id }" class="delete_btn">Delete</p>
+						</button>
+					</td>
+				</tr>
+			%endfor
+		</table><br>
+		<div class="check_out">
+			<button id="check_out_btn" class="btn btn-warning">Checkout</button>
+		</div>
+		<div class="shopping_cart_info">
+			<p>Total Cost: $${ total_price }</p>
+		</div>
+		<div class="back_shopping">
+			<a href="/catalog/products/">
+				<button id="check_out_btn" class="btn btn-success">Keep Shopping</button>
+			</a><br><br>
+		</div>
+	</div>
+</%block>

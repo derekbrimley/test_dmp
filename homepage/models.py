@@ -105,18 +105,18 @@ class ExpectedSaleItem(models.Model):
 	
 class Transaction(models.Model):
 	date = models.DateField()
-	date_packed = models.DateField()
-	packed_by = models.ForeignKey(User)
+	date_packed = models.DateField(null=True)
+	packed_by = models.ForeignKey(User,null=True)
 	date_paid = models.DateField(null=True)
-	payment_handler = models.ForeignKey(User)
+	payment_handler = models.ForeignKey(User,null=True)
 	date_shipped = models.DateField(null=True)
-	shipped_by = models.ForeignKey(User)
+	shipped_by = models.ForeignKey(User,null=True)
 	tracking_number = models.TextField(null=True)
 	ships_to = models.ForeignKey('Address', related_name='+')
-	packed_by = models.ForeignKey('User', related_name='packedby_set')
-	payment_processed_by = models.ForeignKey('User', related_name='paymentprocessedby_set')
-	shipped_by = models.ForeignKey('User', related_name='shippedby_set')
-	handled_by = models.ForeignKey('User', related_name='handledby_set')
+	packed_by = models.ForeignKey('User', related_name='packedby_set',null=True)
+	payment_processed_by = models.ForeignKey('User', related_name='paymentprocessedby_set',null=True)
+	shipped_by = models.ForeignKey('User', related_name='shippedby_set',null=True)
+	handled_by = models.ForeignKey('User', related_name='handledby_set',null=True)
 	customer = models.ForeignKey('User', related_name='orders')
 
 class StockedProduct(PolymorphicModel):
@@ -172,8 +172,8 @@ class LineItem(PolymorphicModel):
 	price = models.DecimalField(max_digits=10, decimal_places=2,null=True)
 	transaction = models.ForeignKey(Transaction, null=True)
 	
-	# class Meta:
-		# abstract = True
+	class Meta:
+		abstract = True
 		
 class SaleItem(LineItem):
 	quantity = models.IntegerField()
