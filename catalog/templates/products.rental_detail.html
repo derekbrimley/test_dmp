@@ -1,0 +1,23 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+	<div class="product_container">
+		<img src="${ STATIC_URL }catalog/media/${ rentable_product.id }.jpg"/>
+		<div class="product_info">
+			<span class="product_attribute">Name: </span>${rentable_product.name}<br/>
+			<span class="product_attribute">Description: </span>${rentable_product.description} <br/>
+			<span class="product_attribute">Price: </span>$${rentable_product.price}
+		</div>
+		<div class="text-right">
+			Quantity: 
+			<select id="quantity">
+			  <option value="1">1</option>
+			  <option value="2">2</option>
+			  <option value="3">3</option>
+			  <option value="4">4</option>
+			  <option value="5">5</option>
+			</select>
+			<button data-id="${rentable_product.id}" id="add_btn" class="btn btn-warning">Rent Product</button>
+		</div>
+	</div>
+</%block>

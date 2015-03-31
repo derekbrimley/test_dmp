@@ -2,7 +2,15 @@
 
 <%block name="content">
 
-	
+	Search: 
+	<form id="search_box">
+		<input id="search_box"></input>
+	</form>
+	<span class="nav_btn">
+		<a href="/catalog/products.rentals/">
+			<button class="submit_btn btn btn-success">Rentals</button>
+		</a>
+	</span><br>
 	%for product in products:
 		<div class="product_container">
 			<img src="${ STATIC_URL }catalog/media/${ product.id }.jpg"/>

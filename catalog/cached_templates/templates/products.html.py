@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427508405.232978
+_modified_time = 1427581717.26854
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.html'
 _template_uri = 'products.html'
@@ -51,7 +51,7 @@ def render_content(context,**pageargs):
             return render_content(context)
         products = context.get('products', UNDEFINED)
         __M_writer = context.writer()
-        __M_writer('\r\n\r\n\t\r\n')
+        __M_writer('\r\n\r\n\tSearch: \r\n\t<form id="search_box">\r\n\t\t<input id="search_box"></input>\r\n\t</form>\r\n\t<span class="nav_btn">\r\n\t\t<a href="/catalog/products.rentals/">\r\n\t\t\t<button class="submit_btn btn btn-success">Rentals</button>\r\n\t\t</a>\r\n\t</span><br>\r\n')
         for product in products:
             __M_writer('\t\t<div class="product_container">\r\n\t\t\t<img src="')
             __M_writer(str( STATIC_URL ))
@@ -71,6 +71,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "line_map": {"64": 10, "65": 13, "66": 13, "27": 0, "36": 1, "72": 66, "46": 3, "54": 3, "55": 6, "56": 7, "57": 8, "58": 8, "59": 8, "60": 8, "61": 9, "62": 9, "63": 10}, "filename": "C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.html", "uri": "products.html"}
+{"line_map": {"64": 18, "65": 21, "66": 21, "27": 0, "36": 1, "72": 66, "46": 3, "54": 3, "55": 14, "56": 15, "57": 16, "58": 16, "59": 16, "60": 16, "61": 17, "62": 17, "63": 18}, "filename": "C:\\Users\\Derek\\python\\test_dmp\\catalog\\templates/products.html", "source_encoding": "ascii", "uri": "products.html"}
 __M_END_METADATA
 """

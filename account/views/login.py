@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 
 templater = get_renderer('account')
 
-######################################################################
+#######################################################
 ####LOGIN PAGE
 @view_function
 def process_request(request):

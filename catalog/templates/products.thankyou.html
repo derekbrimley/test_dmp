@@ -4,9 +4,9 @@
 	<h1>Thank you for your purchase!</h1>
 	<h2>Items Purchased:</h2>
 	%for item in items:
-		<p>Item: ${item.name}</p>
+		<h4>Item: ${item.name}</h4>
 		<p>Quantity: ${ shopping_cart[ str(item.id) ]}</p>
-		<p>Price: ${int(item.price) * int(shopping_cart[ str(item.id) ])}</p>
+		<p>Price: ${int(item.price) * int(shopping_cart[ str(item.id) ])}</p><br>
 	%endfor
 	<h2>Shipping Address:</h2>
 	<p>Street: ${billing_info[0]}</p>

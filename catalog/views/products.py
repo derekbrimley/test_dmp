@@ -7,6 +7,7 @@ import homepage.models as hmod
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+import requests
 
 templater = get_renderer('catalog')
 
@@ -37,6 +38,19 @@ def process_request(request):
 	# print('>>>>>>>>>>>>>',request.session['hey'])
 	
 	return templater.render_to_response(request, 'products.html',template_vars)
+	
+######################################################################
+#SHOWS LIST OF RENTABLEPRODUCTS
+@view_function
+def rentals(request):
+	params = {}
+	
+	rentable_products = hmod.RentableProduct.objects.all()
+	
+	params['rentable_products'] = rentable_products
+	
+	return templater.render_to_response(request,'products.rentals.html',params)
+		
 	
 ########################################
 ##PRODUCT SEARCH
@@ -98,10 +112,22 @@ def detail(request):
 	template_vars['product'] = product
 	
 	return templater.render_to_response(request,'products.detail.html',template_vars)
+
+########################################
+##RENTAL DETAIL
+@view_function
+def rental_detail(request):
+	template_vars = {}
 	
+	rentable_product = hmod.RentableProduct.objects.get(id=request.urlparams[0])
+	# print('>>>>>>>>>>>>>>>>',product.product_specification.id)
+	
+	template_vars['rentable_product'] = rentable_product
+	
+	return templater.render_to_response(request,'products.rental_detail.html',template_vars)
 	
 ########################################
-##PRODUCT DETAIL	
+##SHOPPING CART	
 @view_function
 def shopping_cart(request):
 	template_vars = {}	
@@ -132,7 +158,38 @@ def shopping_cart(request):
 	
 	
 ########################################
-##PRODUCT DETAIL	
+##RENTAL CART	
+@view_function
+def rental_cart(request):
+	template_vars = {}	
+	
+	product_id = request.urlparams[0]
+	rental_cart = request.session.get('rental_cart', {})
+
+	total_price = 0
+	
+	print('>>>>>>>>>>>',rental_cart)
+	items = []
+	
+	for product_id in rental_cart:
+		
+		product = hmod.StockedProduct.objects.get(id=product_id)
+		quantity = rental_cart.get(product_id)
+		price = int(product.price) * int(quantity)
+		total_price += price
+		items.append(product)
+		print(product.id)
+
+	
+	template_vars['rental_cart'] = rental_cart
+	template_vars['items'] = items
+	template_vars['total_price'] = total_price
+	
+	return templater.render_to_response(request,'products.rental_cart.html',template_vars)
+
+	
+########################################
+##ADD PRODUCT TO SHOPPING CART	
 @view_function
 def add_item(request):
 	template_vars = {}	
@@ -165,20 +222,55 @@ def add_item(request):
 	return HttpResponseRedirect('/catalog/products.shopping_cart/')
 
 ########################################
+##ADD PRODUCT TO RENTAL CART	
+@view_function
+def add_rental_item(request):
+	template_vars = {}	
+	
+	product_id = request.urlparams[0]
+	quantity = request.urlparams[1]
+	
+	product = hmod.RentableProduct.objects.get(id=product_id)
+	
+	rental_cart = 	request.session.get('rental_cart',{})
+	
+	print('>>>>>>>>>>>>>',product.id)
+	try:
+		if 'rental_cart' not in request.session:
+			request.session['rental_cart'] = {}
+	except:
+		return HttpResponseRedirect('/account/products')
+		
+	if product_id in request.session['rental_cart']:
+		current_quantity = request.session['rental_cart'][product_id]
+		new_quantity = int(current_quantity) + int(quantity)
+		request.session['rental_cart'][product_id] = new_quantity
+	else:
+		request.session['rental_cart'][product_id] = quantity
+	request.session.modified = True
+		
+	print("Your item id(which is the 'key' or 'position' in your dictionary): " + str(product_id))
+	print("Its value(the quantity of the specific item in your cart): " + str(request.session['rental_cart'][product_id]))
+
+	return HttpResponseRedirect('/catalog/products.rental_cart/')
+
+########################################
 ##DELETE PRODUCT	
 @view_function
 def delete(request):
 	template_vars = {}
 	
 	shopping_cart = request.session.get('shopping_cart',{})
+	rental_cart = request.session.get('rental_cart',{})
 	product_id = request.urlparams[0]
 	
 	if product_id in shopping_cart:
 		del shopping_cart[product_id]
 		print(">>>>>>>>>>>>deleted")
-					
+	elif product_id in rental_cart:
+		del rental_cart[product_id]
+		return HttpResponseRedirect('/catalog/products.rental_cart/')
 
-		
 	request.session['shopping_cart'] = shopping_cart
 	request.session.modified = True
 	
@@ -199,8 +291,6 @@ def delete_cart(request):
 
 	except:
 		return HttpResponseRedirect('/catalog/products')
-	
-	
 	
 ########################################
 ##CHECKOUT
@@ -225,7 +315,6 @@ def checkout(request):
 		total_price += price
 		items.append(product)
 		print(product.id)
-
 	
 	template_vars['shopping_cart'] = shopping_cart
 	template_vars['items'] = items
@@ -234,10 +323,42 @@ def checkout(request):
 	return templater.render_to_response(request,'products.checkout.html',template_vars)
 
 ########################################
+##CHECKOUT RENTAL
+@view_function
+def checkout_rental(request):
+	params = {}
+	
+	product_id = request.urlparams[0]
+	rental_cart = request.session.get('rental_cart', {})
+
+	total_price = 0
+	
+	print('>>>>>>>>>>>',rental_cart)
+	items = []
+	
+	for product_id in rental_cart:
+		
+		product = hmod.RentableProduct.objects.get(id=product_id)
+		quantity = rental_cart.get(product_id)
+		price = int(product.price) * int(quantity)
+		total_price += price
+		items.append(product)
+		print(product.id)
+	
+	template_vars['rental_cart'] = rental_cart
+	template_vars['items'] = items
+	template_vars['total_price'] = total_price
+	
+	return templater.render_to_response(request,'products.checkout.html',template_vars)
+	
+########################################
 ##THANK YOU
 @view_function
 def thankyou(request):
 	template_vars = {}
+	
+	API_KEY = '122ecd484ee55a9588c4fcbf343e8d5a'
+	API_URL = 'http://dithers.cs.byu.edu/iscore/api/v1/charges'	
 	
 	form = BillingForm()
 	billing_info = []
@@ -259,29 +380,56 @@ def thankyou(request):
 	if request.method=="POST":
 		form = BillingForm(request.POST)
 		print("post")
-		if form.is_valid():	
+		if form.is_valid():
+			card_name = form.cleaned_data['card_name']
 			address = form.cleaned_data['address']
 			city = form.cleaned_data['city']
 			zip = form.cleaned_data['zip']
 			state = form.cleaned_data['state']
+			card_type = form.cleaned_data['card_type']
 			card_number = form.cleaned_data['card_number']
-			expiration = form.cleaned_data['expiration']
+			expiration_month = form.cleaned_data['expiration_month']
+			expiration_year = form.cleaned_data['expiration_year']
 			cvc = form.cleaned_data['cvc']
 			
-			billing_info = [address,city,zip,state,card_number,expiration,cvc];
+			r = requests.post(API_URL, data={
+				'apiKey': API_KEY,
+				'currency': 'usd',
+				'amount': total_price,
+				'type': card_type,
+				'number': card_number,
+				'exp_month': expiration_month,
+				'exp_year': expiration_year,
+				'cvc': cvc,
+				'name': card_name,
+				'description': "Charge for {} {}".format(user.first_name,user.last_name),
+			})
 			
-			template_vars['billing_info'] = billing_info
+			# print(r.text)
 			
-			send_mail('Purchase Confirmation', 'You have purchased something! Congratulations.', 'derekbrimley@gmail.com',[email], fail_silently=False)
-			shopping_cart = 	request.session.get('shopping_cart',{})
-			
-			template_vars['shopping_cart'] = shopping_cart
-			template_vars['items'] = items
-			template_vars['total_price'] = total_price
-			template_vars['form'] = form
-			template_vars['billing_info'] = billing_info	
-			
-			return templater.render_to_response(request,'products.thankyou.html',template_vars)
+			resp = r.json()
+			if 'error' in resp:
+				print("ERROR: ", resp['error'])
+			else:
+				print(resp.keys())
+				print(resp['ID'])
+				
+				charge_id = resp['ID']
+				
+				billing_info = [address,city,zip,state,card_type,card_number,expiration_month,expiration_year,cvc];
+				
+				template_vars['billing_info'] = billing_info
+				
+				send_mail('Purchase Confirmation {}'.format(charge_id), 'Your card has been successfully charged ${} for your purchases. Thank you! If you have any questions about your purchase, please call 801-422-8080'.format(total_price), 'derekbrimley@gmail.com',[email], fail_silently=False)
+				shopping_cart = 	request.session.get('shopping_cart',{})
+				
+				template_vars['shopping_cart'] = shopping_cart
+				template_vars['items'] = items
+				template_vars['total_price'] = total_price
+				template_vars['form'] = form
+				template_vars['billing_info'] = billing_info	
+				
+				return templater.render_to_response(request,'products.thankyou.html',template_vars)
 	
 	template_vars['shopping_cart'] = shopping_cart
 	template_vars['items'] = items
@@ -292,6 +440,14 @@ def thankyou(request):
 	return templater.render_to_response(request,'products.billing.html',template_vars)
 	
 class BillingForm(forms.Form):
+	card_name = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Name on card'
+			}
+		)
+	)
 	address = forms.CharField(
 		widget=forms.TextInput(
 			attrs={
@@ -324,6 +480,14 @@ class BillingForm(forms.Form):
 			}
 		)
 	)
+	card_type = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Card Type'
+			}
+		)
+	)
 	card_number = forms.CharField(
 		widget=forms.TextInput(
 			attrs={
@@ -332,11 +496,19 @@ class BillingForm(forms.Form):
 			}
 		)
 	)
-	expiration = forms.CharField(
+	expiration_month = forms.CharField(
 		widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
-				'placeholder': 'Expiration Date'
+				'placeholder': 'Expiration Month'
+			}
+		)
+	)
+	expiration_year = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder': 'Expiration Year'
 			}
 		)
 	)

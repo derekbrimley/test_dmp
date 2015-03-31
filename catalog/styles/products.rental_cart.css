@@ -1,20 +1,18 @@
-.product_container{
+#product_container{
 	display: inline-block;
 	border: 1px solid;
 	border-radius: 4px;
 	margin: 12px;
-	padding: 3px;
-	width:300px;
+	padding: 4px;
 }
 
-.product_container > img{
-	max-height: 180px;
+#product_container > img{
+	max-height: 200px;
 }
 
 .product_name{
 	text-align: center;
 	font-weight: bold;
-	font-size:1.3em
 }
 
 #submit_btn{
@@ -32,9 +30,9 @@
 .product_attribute{
 	font-weight: bold;
 }
-#search_box{
-	display:inline;
-}
-.nav_btn{
-	float:right;
+
+p{
+	font-weight:bold;
+	color: white;
+	margin: 0px;
 }
