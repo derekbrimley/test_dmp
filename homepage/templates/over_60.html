@@ -1,0 +1,52 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+	<h1>60 Days Overdue</h1><br/>
+	<a href="/homepage/batch_processes.overdue_rentals/">
+		<button class="btn btn-primary">
+			All Overdue Rentals
+		</button>
+	</a>
+	<a href="/homepage/batch_processes.over_30/">
+		<button class="btn btn-primary">
+			30 Days Overdue
+		</button>
+	</a>
+	<a href="/homepage/batch_processes.over_60/">
+		<button class="btn btn-primary">
+			60 Days Overdue
+		</button>
+	</a>
+	<a href="/homepage/batch_processes.over_90/">
+		<button class="btn btn-primary">
+			90 Days Overdue
+		</button>
+	</a>
+	<a href="/homepage/batch_processes.email_users/">
+		<button class="btn btn-success">
+			Send Email Reminder
+		</button>
+	</a><br><br>
+	<table class="table table-striped">
+		<tr>
+			<th>Product ID:</th>
+			<th>Product Name:</th>
+			<th>Price Per Day:</th>
+			<th>Date Rented:</th>
+			<th>Due Date:</th>
+		</tr>
+		%for overdue_rental in overdue_rentals:
+			%for rentable_product in rentable_products:
+				%if rentable_product.id == overdue_rental.rentable_product_id:
+					<tr>
+						<td>${rentable_product.id}</td>
+						<td>${rentable_product.name}</td>
+						<td>$${rentable_product.price_per_day}</td>
+						<td>${overdue_rental.date_out}</td>
+						<td>${overdue_rental.date_due}</td>
+					</tr>
+				%endif
+			%endfor
+		%endfor
+	</table>
+</%block>

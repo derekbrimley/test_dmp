@@ -1,16 +1,22 @@
 <%inherit file="base.htm" />
 
 <%block name="content">
-
-	Search: 
-	<form id="search_box">
-		<input id="search_box"></input>
-	</form>
-	<span class="nav_btn">
-		<a href="/catalog/products/">
-			<button class="submit_btn btn btn-success">All Products</button>
-		</a>
-	</span><br>
+	<div>
+		Search: 
+		<form id="search_box">
+			<input id="search_box"></input>
+		</form>
+		<span class="nav_btn">
+			<a href="/catalog/products.returns/">
+				<button class="submit_btn btn btn-success">Rental Returns</button>
+			</a>
+		</span>
+		<span class="nav_btn">
+			<a href="/catalog/products/">
+				<button class="submit_btn btn btn-success">All Products</button>
+			</a>
+		</span>
+	</div><br>
 	%for rentable_product in rentable_products:
 		<div class="product_container">
 			<img src="${ STATIC_URL }catalog/media/${ rentable_product.id }.jpg"/>

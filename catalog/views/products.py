@@ -39,8 +39,8 @@ def process_request(request):
 	
 	return templater.render_to_response(request, 'products.html',template_vars)
 	
-######################################################################
-#SHOWS LIST OF RENTABLEPRODUCTS
+##########################################
+##SHOWS LIST OF RENTABLEPRODUCTS
 @view_function
 def rentals(request):
 	params = {}
@@ -51,7 +51,137 @@ def rentals(request):
 	
 	return templater.render_to_response(request,'products.rentals.html',params)
 		
+##########################################
+##RENTAL RETURNS
+@view_function
+def returns(request):
+	params = {}
 	
+	form = UsernameForm()
+	
+	if request.method == "POST":
+		form = UsernameForm(request.POST)
+		if form.is_valid():
+			username = form.cleaned_data['username']
+			
+			user = hmod.User.objects.get(username=username)
+			transactions = hmod.Transaction.objects.filter(customer_id=user.id)
+			rental_items = []
+			
+			for transaction in transactions:
+				print("TRANSACTION>>>>>>>>>>>",transaction.id)
+				try:
+					rental_item = hmod.RentalItem.objects.get(transaction_id = transaction.id)
+					print(">>>>>>>>>>>>>",rental_item.date_in)
+					if str(rental_item.date_in) == "2015-12-31":
+						rental_items.append(rental_item)
+				except hmod.RentalItem.DoesNotExist:
+					pass
+			
+			rentable_products = hmod.RentableProduct.objects.all()
+			
+			params['rentable_products'] = rentable_products
+			params['rental_items'] = rental_items
+			params['user'] = user
+			
+			return templater.render_to_response(request,'products.user_rentals.html',params)
+	
+	params['form'] = form
+	
+	return templater.render_to_response(request,'products.returns.html',params)
+
+##########################################
+##RETURN A SPECIFIC ITEM
+@view_function
+def item_return(request):
+	params = {}
+	
+	rental_item_id = request.urlparams[0]
+	user_id = request.urlparams[1]
+	form = FeeForm()
+	
+	user = hmod.User.objects.get(id=user_id)
+	transactions = hmod.Transaction.objects.filter(customer_id=user.id)
+	rental_items = []
+	
+	for transaction in transactions:
+		print("TRANSACTION>>>>>>>>>>>",transaction.id)
+		try:
+			rental_item = hmod.RentalItem.objects.get(transaction_id = transaction.id)
+			print(">>>>>>>>>>>>>",rental_item.date_in)
+			if str(rental_item.date_in) == "2015-12-31":
+				rental_items.append(rental_item)
+		except hmod.RentalItem.DoesNotExist:
+			pass
+	
+	if request.method=="POST":
+		form = FeeForm(request.POST)
+		if form.is_valid():
+			description = form.cleaned_data['description']
+			amount = form.cleaned_data['amount']
+			waived = form.cleaned_data['waived']
+			
+			fee = hmod.Fee()
+			fee.amount = amount
+			fee.waived = waived
+			fee.description = description
+			fee.rental_item_id = rental_item_id
+			fee.save()
+			
+			rental_item = hmod.RentalItem.objects.get(id=rental_item_id)
+			rental_item.date_in = datetime.now()
+			rental_item.save()
+			
+			rentable_products = hmod.RentableProduct.objects.all()
+			
+			params['rentable_products'] = rentable_products
+			params['rental_items'] = rental_items
+			params['user'] = user
+			
+			return templater.render_to_response(request,'products.user_rentals.html',params)
+	
+	params['user'] = user
+	params['form'] = form
+	return templater.render_to_response(request,'products.item_return.html',params)
+
+class FeeForm(forms.Form):
+	description = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder':'Description'
+			}
+		)
+	)
+	amount = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder':'Fee Amount'
+				
+			}
+		)
+	)
+	waived = forms.BooleanField	(
+		required=False,
+		widget=forms.CheckboxInput(
+			attrs={
+			}
+		)
+	)
+	
+	
+class UsernameForm(forms.Form):
+	username = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'class': 'form-control',
+				'placeholder':'username'
+			}
+		)
+	)
+
+
 ########################################
 ##PRODUCT SEARCH
 @view_function
@@ -98,7 +228,6 @@ def detail_modal(request):
 	template_vars['product'] = product
 	
 	return templater.render_to_response(request,'products.detail_modal.html',template_vars)
-	
 	
 ########################################
 ##PRODUCT DETAIL
@@ -156,7 +285,6 @@ def shopping_cart(request):
 	
 	return templater.render_to_response(request,'products.shopping_cart.html',template_vars)
 	
-	
 ########################################
 ##RENTAL CART	
 @view_function
@@ -164,8 +292,11 @@ def rental_cart(request):
 	template_vars = {}	
 	
 	product_id = request.urlparams[0]
+	customer_id = request.urlparams[1]
+	due_date = request.urlparams[2]
 	rental_cart = request.session.get('rental_cart', {})
-
+	
+	customer = hmod.User.objects.get(id=customer_id)
 	total_price = 0
 	
 	print('>>>>>>>>>>>',rental_cart)
@@ -180,14 +311,14 @@ def rental_cart(request):
 		items.append(product)
 		print(product.id)
 
-	
+	template_vars['due_date'] = due_date
+	template_vars['customer'] = customer
 	template_vars['rental_cart'] = rental_cart
 	template_vars['items'] = items
 	template_vars['total_price'] = total_price
 	
 	return templater.render_to_response(request,'products.rental_cart.html',template_vars)
 
-	
 ########################################
 ##ADD PRODUCT TO SHOPPING CART	
 @view_function
@@ -229,12 +360,15 @@ def add_rental_item(request):
 	
 	product_id = request.urlparams[0]
 	quantity = request.urlparams[1]
+	username = request.urlparams[2]
+	due_date = request.urlparams[3]
 	
+	customer = hmod.User.objects.get(username=username)
 	product = hmod.RentableProduct.objects.get(id=product_id)
 	
 	rental_cart = 	request.session.get('rental_cart',{})
 	
-	print('>>>>>>>>>>>>>',product.id)
+	# print('>>>>>>>>>>>>>',product.id)
 	try:
 		if 'rental_cart' not in request.session:
 			request.session['rental_cart'] = {}
@@ -247,12 +381,13 @@ def add_rental_item(request):
 		request.session['rental_cart'][product_id] = new_quantity
 	else:
 		request.session['rental_cart'][product_id] = quantity
+	
 	request.session.modified = True
 		
-	print("Your item id(which is the 'key' or 'position' in your dictionary): " + str(product_id))
-	print("Its value(the quantity of the specific item in your cart): " + str(request.session['rental_cart'][product_id]))
+	# print("Your item id(which is the 'key' or 'position' in your dictionary): " + str(product_id))
+	# print("Its value(the quantity of the specific item in your cart): " + str(request.session['rental_cart'][product_id]))
 
-	return HttpResponseRedirect('/catalog/products.rental_cart/')
+	return HttpResponseRedirect('/catalog/products.rental_cart/%s/%s/%s/' % (product_id,customer.id,due_date))
 
 ########################################
 ##DELETE PRODUCT	
@@ -346,9 +481,13 @@ def checkout(request):
 def rental_checkout(request):
 	template_vars = {}
 	
-	product_id = request.urlparams[0]
+	customer_id = request.urlparams[0]
+	due_date = request.urlparams[1]
+	
 	rental_cart = request.session.get('rental_cart', {})
 
+	customer = hmod.User.objects.get(id=customer_id)
+	
 	total_price = 0
 	
 	print('>>>>>>>>>>>',rental_cart)
@@ -357,12 +496,11 @@ def rental_checkout(request):
 	for product_id in rental_cart:
 		
 		product = hmod.RentableProduct.objects.get(id=product_id)
-		quantity = rental_cart.get(product_id)
-		price = int(product.price) * int(quantity)
-		total_price += price
 		items.append(product)
 		print(product.id)
 	
+	template_vars['due_date'] = due_date
+	template_vars['customer'] = customer	
 	template_vars['rental_cart'] = rental_cart
 	template_vars['items'] = items
 	template_vars['total_price'] = total_price
@@ -483,6 +621,64 @@ def thankyou(request):
 	
 	return templater.render_to_response(request,'products.billing.html',template_vars)
 	
+########################################
+##RENTAL CONFIRMATION
+@view_function
+def rental_confirmation(request):	
+	template_vars = {}
+	
+	due_date = request.urlparams[0]
+	customer_id = request.urlparams[1]
+	print(due_date)
+	
+	customer = hmod.User.objects.get(id=customer_id)
+	
+	rental_cart = request.session.get('rental_cart',{})
+	
+	send_mail('Rental Confirmation', 'You recently rented an item from the Colonial Heritage Foundation. The item is due on {}. Thank you! If you have any questions about your rental, please call 801-422-8080'.format(due_date), 'group13chf@gmail.com',[customer.email], fail_silently=False)
+	
+	transaction = hmod.Transaction()
+	transaction.date = datetime.now()
+	transaction.date_packed = datetime.now()
+	transaction.date_paid = datetime.now()
+	transaction.payment_handler_id = 10
+	transaction.date_shipped = datetime.now()
+	transaction.tracking_number = 12345
+	transaction.shipped_by_id = 10
+	transaction.ships_to = customer.address
+	transaction.packed_by_id = 10
+	transaction.payment_processed_by_id = 10
+	transaction.shipped_by_id = 10
+	transaction.handled_by_id = 10
+	transaction.customer_id = customer_id
+	
+	transaction.save()
+	
+	for product_id in rental_cart:
+		product = hmod.RentableProduct.objects.get(id=product_id)
+		rental_item = hmod.RentalItem()
+		rental_item.price = product.replacement_price
+		rental_item.quantity = '1'
+		rental_item.date_out = datetime.now()
+		rental_item.date_in = '2015-12-31'
+		rental_item.date_due = due_date
+		rental_item.discount_percent = '100'
+		rental_item.rentable_product_id = product_id
+		rental_item.transaction_id = transaction.id
+		rental_item.save()
+	
+	items = []
+	
+	for product_id in rental_cart:
+		product = hmod.RentableProduct.objects.get(id=product_id)
+		items.append(product)
+	
+	template_vars['rental_cart'] = rental_cart
+	template_vars['customer'] = customer
+	template_vars['due_date'] = due_date
+	template_vars['items'] = items
+	return templater.render_to_response(request,'products.rental_confirmation.html',template_vars)
+	
 class BillingForm(forms.Form):
 	card_name = forms.CharField(
 		widget=forms.TextInput(
@@ -572,3 +768,12 @@ class ProductSearchForm(forms.Form):
 			}
 		)
 	)
+	
+	
+	
+	
+	
+	
+	
+	
+	

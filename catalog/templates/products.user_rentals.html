@@ -1,0 +1,25 @@
+<%inherit file="base.htm" />
+
+<%block name="content">
+	<h1>${user.first_name}'s Rentals</h1>
+	%for rental_item in rental_items:
+		<div>
+			%for rentable_product in rentable_products:
+				%if rental_item.rentable_product_id == rentable_product.id:
+					<div class="product_container">
+						<img src="${ STATIC_URL }catalog/media/${ rentable_product.id }.jpg"/>
+						<div data-id="${ rentable_product.id }" class="product_name">
+							${rentable_product.name}
+						</div>
+						<a href="/catalog/products.item_return/${ rental_item.id }/${user.id}/">
+							<button class="submit_btn btn btn-warning">Return</button>
+						</a>
+					</div>
+				%endif
+			%endfor
+			<div class="text-right">
+			</div>
+		</div>
+	%endfor
+	
+</%block>

@@ -1,6 +1,7 @@
 <%inherit file="base_ajax.htm" />
 
 <%block name="content">
+	Checking out for: ${customer.first_name}<br>
 	%for item in items:
 		<div id="product_container">
 			<img src="${ STATIC_URL }catalog/media/${ item.id }.jpg"/>
@@ -8,22 +9,19 @@
 				${item.name}
 			</div>
 			Quantity: ${ rental_cart[ str(item.id) ]}<br>
-			Price: $${ item.price }
+			Due Date: ${ due_date }
 			<span class="btn btn-danger">
 				<p data-id="${ item.id }" class="delete_btn" >Delete</p>
 			</span>
 		</div>
 	%endfor
-	<div class="shopping_cart_info">
-		Total Cost: $${ total_price }
-	</div>
 	<span class="text-right">
-		<a href="/catalog/products.rental_checkout/">
+		<a href="/catalog/products.rental_checkout/${customer.id}/${due_date}">
 			<button id="check_out_btn" class="btn btn-warning">Check Out</button>
 		</a>
 	</span>
 	<span class="text-right">
-		<a href="/catalog/products/">
+		<a href="/catalog/products.rentals/">
 			<button id="check_out_btn" class="btn btn-success">Keep Shopping</button>
 		</a>
 	</span>

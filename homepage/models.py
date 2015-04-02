@@ -165,8 +165,8 @@ class RentableProduct(SerializedProduct):
 	price_per_day = models.DecimalField(max_digits=10, decimal_places=2)
 	replacement_price = models.DecimalField(max_digits=10, decimal_places=2)
 	
-	def __str__(self):
-		return '{} {} {} {}'.format(self.times_rented, self.price_per_day, self.replacement_price, self.StockedProduct)
+	# def __str__(self):
+		# return '{} {} {} {}'.format(self.times_rented, self.price_per_day, self.replacement_price, self.StockedProduct)
 
 class LineItem(PolymorphicModel):
 	price = models.DecimalField(max_digits=10, decimal_places=2,null=True)

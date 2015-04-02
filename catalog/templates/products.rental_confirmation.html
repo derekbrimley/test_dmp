@@ -1,0 +1,13 @@
+<%inherit file="base_ajax.htm" />
+
+<%block name="content">
+	<h1>Rental has been added.</h1>
+	<h2>Items Rented:</h2>
+	%for item in items:
+		<h4>Item: ${item.name}</h4>
+		<p>Due Date: ${ due_date}</p>
+		<p>Customer: ${customer.first_name} ${customer.last_name} (${customer.username})</p><br>
+		<p>Email confirmation sent to: ${customer.email}</p>
+	%endfor	
+	<a href="/catalog/products.delete_cart" id="close_btn" class="btn btn-success">Close</a>
+</%block>

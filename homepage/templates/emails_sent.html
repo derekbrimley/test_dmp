@@ -2,7 +2,6 @@
 
 <%block name="content">
 	<h1>Batch Processes</h1><br/>
-	
 	<a href="/homepage/batch_processes.overdue_rentals/">
 		<button class="btn btn-primary">
 			All Overdue Rentals
@@ -25,7 +24,13 @@
 	</a>
 	<a href="/homepage/batch_processes.email_users/">
 		<button class="btn btn-success">
-			90 Days Overdue
+			Send Email Reminder
 		</button>
-	</a>
+	</a><br><br>
+	<h3>Emails sent to:</h3>
+	<ul>
+		%for email in emails:
+			<li>${ email }</li>
+		%endfor
+	</ul>
 </%block>

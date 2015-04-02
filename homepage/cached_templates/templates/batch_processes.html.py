@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427313768.549975
+_modified_time = 1427947204.580946
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/batch_processes.html'
 _template_uri = 'batch_processes.html'
@@ -28,10 +28,8 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        overdue_items_info = context.get('overdue_items_info', UNDEFINED)
         def content():
             return render_content(context._locals(__M_locals))
-        overdue_items = context.get('overdue_items', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\r\n\r\n')
         if 'parent' not in context._data or not hasattr(context._data['parent'], 'content'):
@@ -46,25 +44,10 @@ def render_body(context,**pageargs):
 def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        overdue_items_info = context.get('overdue_items_info', UNDEFINED)
         def content():
             return render_content(context)
-        overdue_items = context.get('overdue_items', UNDEFINED)
         __M_writer = context.writer()
-        __M_writer('\r\n\t<h1>Overdue Rentals</h1><br/>\r\n\t<table class="table table-striped">\r\n\t\t<tr>\r\n\t\t\t<th>Product ID:</th>\r\n\t\t\t<th>Product Name:</th>\r\n\t\t\t<th>Renter:</th>\r\n\t\t\t<th>Due Date:</th>\r\n\t\t</tr>\r\n')
-        for overdue_item in overdue_items: ##gets all overdue items
-            for overdue_item_info in overdue_items_info:
-                if overdue_item.rentable_product_id == overdue_item_info.id:
-                    __M_writer('\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t<td>')
-                    __M_writer(str(overdue_item_info.id))
-                    __M_writer('</td>\r\n\t\t\t\t\t\t\t<td>')
-                    __M_writer(str(overdue_item_info.name))
-                    __M_writer('</td>\r\n\t\t\t\t\t\t\t<td>')
-                    __M_writer(str(overdue_item_info.order_form_name))
-                    __M_writer('</td>\r\n\t\t\t\t\t\t\t<td>')
-                    __M_writer(str(overdue_item.date_due))
-                    __M_writer('</td>\r\n\t\t\t\t\t\t</tr>\r\n')
-        __M_writer('\t</table>\r\n')
+        __M_writer('\r\n\t<h1>Batch Processes</h1><br/>\r\n\t\r\n\t<a href="/homepage/batch_processes.overdue_rentals/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\tAll Overdue Rentals\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_30/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t30 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_60/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t60 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_90/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t90 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -72,6 +55,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/batch_processes.html", "source_encoding": "ascii", "line_map": {"64": 18, "65": 19, "66": 19, "27": 0, "36": 1, "73": 67, "46": 3, "67": 24, "54": 3, "55": 12, "56": 13, "57": 14, "58": 15, "59": 16, "60": 16, "61": 17, "62": 17, "63": 18}, "uri": "batch_processes.html"}
+{"source_encoding": "ascii", "filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/batch_processes.html", "line_map": {"56": 50, "34": 1, "27": 0, "44": 3, "50": 3}, "uri": "batch_processes.html"}
 __M_END_METADATA
 """

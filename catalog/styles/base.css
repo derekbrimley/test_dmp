@@ -35,6 +35,9 @@
 #search_box{
 	display:inline;
 }
+#username{
+	display:inline;
+}
 .nav_btn{
 	float:right;
 }

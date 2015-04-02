@@ -2,9 +2,13 @@ $(function(){
 
 	$('#check_out_btn').on('click',function(){
 		console.log("checkout")
+		
+		due_date = $(".due_date").attr('data-id');
+		customer_id = $(".customer").attr('data-customer-id');
+		
 		$.loadmodal({
-			url: '/catalog/products.thankyou/',
-			title: 'Billing Information',
+			url: '/catalog/products.rental_confirmation/'+due_date+'/'+customer_id+'/',
+			title: 'Rental Confirmation',
 			width: '600px',
 			id: 'product_container',
 		});//modal
