@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427947204.580946
+_modified_time = 1427992461.461277
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/batch_processes.html'
 _template_uri = 'batch_processes.html'
@@ -47,7 +47,7 @@ def render_content(context,**pageargs):
         def content():
             return render_content(context)
         __M_writer = context.writer()
-        __M_writer('\r\n\t<h1>Batch Processes</h1><br/>\r\n\t\r\n\t<a href="/homepage/batch_processes.overdue_rentals/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\tAll Overdue Rentals\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_30/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t30 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_60/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t60 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_90/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t90 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n')
+        __M_writer('\r\n\t<h1>Batch Processes</h1><br/>\r\n\t\r\n\t<a href="/homepage/batch_processes.overdue_rentals/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\tAll Overdue Rentals\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_30/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t30 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_60/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t60 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.over_90/">\r\n\t\t<button class="btn btn-primary">\r\n\t\t\t90 Days Overdue\r\n\t\t</button>\r\n\t</a>\r\n\t<a href="/homepage/batch_processes.email_users/">\r\n\t\t<button class="btn btn-success">\r\n\t\t\tSend Email Reminder\r\n\t\t</button>\r\n\t</a>\r\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -55,6 +55,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/batch_processes.html", "line_map": {"56": 50, "34": 1, "27": 0, "44": 3, "50": 3}, "uri": "batch_processes.html"}
+{"filename": "C:\\Users\\Derek\\python\\test_dmp\\homepage\\templates/batch_processes.html", "source_encoding": "ascii", "uri": "batch_processes.html", "line_map": {"56": 50, "34": 1, "27": 0, "44": 3, "50": 3}}
 __M_END_METADATA
 """

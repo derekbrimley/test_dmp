@@ -6,7 +6,7 @@ from datetime import datetime, date, timedelta
 import homepage.models as hmod
 from django import forms
 from django.contrib.auth.decorators import login_required
-
+from django.core.mail import send_mail
 
 templater = get_renderer('homepage')
 
@@ -138,7 +138,7 @@ def over_90(request):
 ########################################
 ##EMAIL USERS
 @view_function
-def email_users(request):	
+def email_users(request):
 	template_vars = {}
 	
 	users = []
@@ -153,7 +153,7 @@ def email_users(request):
 	
 	for rental_item in rental_items:
 		item_due_date = rental_item.date_due
-		if today_date - timedelta(days=90) >= item_due_date:
+		if today_date > item_due_date:
 			overdue_rental = hmod.RentalItem.objects.get(id=rental_item.id)
 			overdue_rentals.append(overdue_rental)
 	
@@ -162,14 +162,13 @@ def email_users(request):
 		transaction = hmod.Transaction.objects.get(id=transaction_id)
 		user_id = transaction.customer_id
 		user = hmod.User.objects.get(id=user_id)
+		overdue_product = hmod.RentableProduct.objects.get(id=overdue_rental.rentable_product_id)
 		email = user.email
-		if email not in emails:
-			emails.append(email)
-			
-	for email in emails:
+		print('EMAIL>>>>>>>>>>>>',email)
+		emails.append(email)
+		send_mail('Rental Reminder', 'Your rented item {} is overdue. It was due on {}. Please return it as soon as possible. Thank you! If you have any questions, please call 801-422-8080'.format(overdue_product.name,overdue_rental.date_due), 'group13chf@gmail.com',[email], fail_silently=False)
 		
-		
-	print('EMAILS: ',emails)
+	print('OVERDUE RENTALS: ',overdue_rentals)
 	template_vars['emails'] = emails
 	return templater.render_to_response(request, 'emails_sent.html',template_vars)
 
