@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427573802.227166
+_modified_time = 1428088624.441862
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm'
 _template_uri = '/base_app/templates/base.htm'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['nav', 'content', 'account', 'header']
+_exports = ['account', 'title', 'header', 'content', 'nav']
 
 
 from django_mako_plus.controller import static_files 
@@ -20,16 +20,18 @@ def render_body(context,**pageargs):
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
         STATIC_URL = context.get('STATIC_URL', UNDEFINED)
-        def nav():
-            return render_nav(context._locals(__M_locals))
-        def content():
-            return render_content(context._locals(__M_locals))
         def header():
             return render_header(context._locals(__M_locals))
+        def nav():
+            return render_nav(context._locals(__M_locals))
+        def title():
+            return render_title(context._locals(__M_locals))
         self = context.get('self', UNDEFINED)
-        request = context.get('request', UNDEFINED)
         def account():
             return render_account(context._locals(__M_locals))
+        def content():
+            return render_content(context._locals(__M_locals))
+        request = context.get('request', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\r\n')
         __M_writer('\r\n')
@@ -37,7 +39,12 @@ def render_body(context,**pageargs):
         
         __M_locals_builtin_stored = __M_locals_builtin()
         __M_locals.update(__M_dict_builtin([(__M_key, __M_locals_builtin_stored[__M_key]) for __M_key in ['static_renderer'] if __M_key in __M_locals_builtin_stored]))
-        __M_writer('\r\n\r\n<!DOCTYPE html>\r\n<html>\r\n\t<meta charset="UTF-8">\r\n\t<head>\r\n\r\n\t<title>homepage</title>\r\n\r\n')
+        __M_writer('\r\n\r\n<!DOCTYPE html>\r\n<html>\r\n\t<meta charset="UTF-8">\r\n\t<head>\r\n\t')
+        if 'parent' not in context._data or not hasattr(context._data['parent'], 'title'):
+            context['self'].title(**pageargs)
+        
+
+        __M_writer('\r\n\t<meta name="description" content="The Colonial Heritage Foundation organizes events happening in Utah that celebrate the Revolutionary time period, and offers period products for purchase or rental.">\r\n')
         __M_writer('\t<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>\r\n\t<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">\r\n\t<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>\r\n\t<link rel="icon" type="image/x-icon" href="\\static\\homepage\\media\\favicon.ico" />\r\n\t<link href=\'http://fonts.googleapis.com/css?family=Roboto:100\' rel=\'stylesheet\' type=\'text/css\'>\r\n\t<script src="')
         __M_writer(str(STATIC_URL))
         __M_writer('base_app/media/jquery.loadmodal.js"></script>\r\n\t<script src="')
@@ -73,13 +80,49 @@ def render_body(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_nav(context,**pageargs):
+def render_account(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def nav():
-            return render_nav(context)
+        def account():
+            return render_account(context)
+        request = context.get('request', UNDEFINED)
         __M_writer = context.writer()
-        __M_writer('\r\n\t\t\t\t\t\t\tNAVIGATION BAR\r\n\t\t\t\t\t\t')
+        __M_writer('\r\n')
+        if request.user.is_authenticated():
+            __M_writer('\t\t\t\t\t\t\t\t<a href="/account/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-home" aria-hidden="true"/>\r\n\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Account Home</span>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<a href="/account/logout/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</a><br>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Sign Out</span>\r\n')
+        else:
+            __M_writer('\t\t\t\t\t\t\t\t<button id="show_login_dialog" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<span class="label label-danger">My Account</span>\r\n')
+        __M_writer('\t\t\t\t\t\t')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def title():
+            return render_title(context)
+        __M_writer = context.writer()
+        __M_writer('\r\n\t\t<title>Colonial Heritage Foundation</title>\r\n\t')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_header(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def header():
+            return render_header(context)
+        request = context.get('request', UNDEFINED)
+        __M_writer = context.writer()
+        __M_writer('\r\n\t\t\t\t\tThe Colonial Heritage Foundation\r\n')
+        if request.user.is_authenticated():
+            __M_writer('\t\t\t\t\t\t<span class="welcome">Welcome, ')
+            __M_writer(str(request.user.first_name))
+            __M_writer('</span>\r\n')
+        __M_writer('\t\t\t\t')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -97,37 +140,13 @@ def render_content(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_account(context,**pageargs):
+def render_nav(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        request = context.get('request', UNDEFINED)
-        def account():
-            return render_account(context)
+        def nav():
+            return render_nav(context)
         __M_writer = context.writer()
-        __M_writer('\r\n')
-        if request.user.is_authenticated():
-            __M_writer('\t\t\t\t\t\t\t\t<a href="/account/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-home" aria-hidden="true"/>\r\n\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Account Home</span>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<br/>\r\n\t\t\t\t\t\t\t\t<a href="/account/logout/" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</a><br>\r\n\t\t\t\t\t\t\t\t<span class="label label-primary">Sign Out</span>\r\n')
-        else:
-            __M_writer('\t\t\t\t\t\t\t\t<button id="show_login_dialog" class="btn btn-default" aria-label="Right Align">\r\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-user" aria-hidden="true"></span>\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<span class="label label-danger">My Account</span>\r\n')
-        __M_writer('\t\t\t\t\t\t')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
-def render_header(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        request = context.get('request', UNDEFINED)
-        def header():
-            return render_header(context)
-        __M_writer = context.writer()
-        __M_writer('\r\n\t\t\t\t\tThe Colonial Heritage Foundation\r\n')
-        if request.user.is_authenticated():
-            __M_writer('\t\t\t\t\t\t<span class="welcome">Welcome, ')
-            __M_writer(str(request.user.first_name))
-            __M_writer('</span>\r\n')
-        __M_writer('\t\t\t\t')
+        __M_writer('\r\n\t\t\t\t\t\t\tNAVIGATION BAR\r\n\t\t\t\t\t\t')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -135,6 +154,6 @@ def render_header(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"filename": "C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm", "line_map": {"128": 32, "129": 32, "130": 34, "107": 48, "68": 66, "69": 75, "70": 75, "136": 130, "108": 49, "82": 39, "76": 39, "109": 50, "16": 4, "18": 0, "110": 60, "88": 44, "100": 48, "111": 61, "94": 44, "112": 66, "34": 2, "35": 4, "36": 5, "40": 5, "41": 15, "42": 20, "43": 20, "44": 21, "45": 21, "46": 23, "47": 23, "48": 23, "53": 34, "118": 29, "58": 41, "127": 32, "125": 29, "126": 31, "63": 45}, "source_encoding": "ascii", "uri": "/base_app/templates/base.htm"}
+{"line_map": {"65": 42, "101": 11, "131": 45, "70": 46, "137": 45, "75": 67, "76": 76, "77": 76, "143": 40, "16": 4, "18": 0, "83": 49, "149": 40, "90": 49, "91": 50, "92": 51, "93": 61, "94": 62, "95": 67, "155": 149, "36": 2, "37": 4, "38": 5, "113": 30, "124": 33, "42": 5, "107": 11, "47": 13, "48": 16, "49": 21, "50": 21, "51": 22, "52": 22, "53": 24, "54": 24, "55": 24, "120": 30, "121": 32, "122": 33, "123": 33, "60": 35, "125": 35}, "filename": "C:\\Users\\Derek\\python\\test_dmp/base_app/templates/base.htm", "source_encoding": "ascii", "uri": "/base_app/templates/base.htm"}
 __M_END_METADATA
 """

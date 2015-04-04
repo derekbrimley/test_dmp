@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427503744.957633
+_modified_time = 1428090019.271348
 _enable_loop = True
 _template_filename = 'C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm'
 _template_uri = '/account/templates/base.htm'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['nav']
+_exports = ['nav', 'title']
 
 
 def _mako_get_namespace(context, name):
@@ -28,11 +28,18 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
+        request = context.get('request', UNDEFINED)
         def nav():
             return render_nav(context._locals(__M_locals))
-        request = context.get('request', UNDEFINED)
+        def title():
+            return render_title(context._locals(__M_locals))
         __M_writer = context.writer()
-        __M_writer('\r\n\r\n')
+        __M_writer('\r\n')
+        if 'parent' not in context._data or not hasattr(context._data['parent'], 'title'):
+            context['self'].title(**pageargs)
+        
+
+        __M_writer('\r\n')
         if 'parent' not in context._data or not hasattr(context._data['parent'], 'nav'):
             context['self'].nav(**pageargs)
         
@@ -45,9 +52,9 @@ def render_body(context,**pageargs):
 def render_nav(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
+        request = context.get('request', UNDEFINED)
         def nav():
             return render_nav(context)
-        request = context.get('request', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\r\n\t<div class="sidebar-nav">\r\n\t\t<ul class="nav nav-pills nav-stacked">\r\n\t\t\t<li role="presentation" class="active">\r\n\t\t\t<a href="/homepage/">\r\n\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Home\r\n\t\t\t</a>\r\n\t\t\t</li>\r\n\t\t\t<li role="presentation">\r\n\t\t\t\t<a href="/homepage/users.create/">\r\n\t\t\t\t\t<span id="nav-glyphicon" class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Account\r\n\t\t\t\t</a>\r\n\t\t\t</li>\r\n')
         if request.user.is_authenticated():
@@ -58,8 +65,20 @@ def render_nav(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def title():
+            return render_title(context)
+        __M_writer = context.writer()
+        __M_writer('\r\n\t<title>Account</title>\r\n')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "line_map": {"35": 1, "52": 3, "53": 16, "54": 17, "55": 33, "27": 0, "45": 3, "61": 55}, "filename": "C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm", "uri": "/account/templates/base.htm"}
+{"filename": "C:\\Users\\Derek\\python\\test_dmp/account/templates/base.htm", "line_map": {"74": 2, "80": 74, "27": 0, "52": 5, "37": 1, "68": 2, "42": 4, "59": 5, "60": 18, "61": 19, "62": 35}, "uri": "/account/templates/base.htm", "source_encoding": "ascii"}
 __M_END_METADATA
 """

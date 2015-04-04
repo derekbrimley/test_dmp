@@ -92,68 +92,61 @@ def login_form(request):
 		
 		form = UserLoginForm(request.POST)
 		
-		username=request.POST['username']
-		password=request.POST['password']
 		
 		if form.is_valid():
-			# netid = username
-			# pw = password
-			# s = Server('byuldap.byu.edu',port=8889,get_info=GET_ALL_INFO)
-			# c = Connection(s, auto_bind = True,client_strategy = STRATEGY_SYNC,
-									# user = 'cn=%s,ou=people,o=ces' %netid,password=pw,
-									# authentication=AUTH_SIMPLE)
-			
-			# u2 = authenticate(netid,pw)
-			# login(request, u2)
+			username=form.cleaned_data['username']
+			password=form.cleaned_data['password']
+			s = Server('www.colonialheritage.space',port=8889,get_info=GET_ALL_INFO)
+			c = Connection(s, auto_bind = True,client_strategy = STRATEGY_SYNC,
+									user = username,password=password,
+									authentication = AUTH_SIMPLE)
+			print("Connection>>>>>>>>>>>>>",c)
 			
 			# return HttpResponse('''
 						# <script>
 							# window.location.href = "/account/";
 						# </script>
 					# ''')
-			# if c != None:
-				# u = hmod.User.objects.get_or_create(username=netid)
-								
-				# address = hmod.Address()
-			
-				# address.address = ''
-				# address.city = ''
-				# address.state = ''
-				# address.zip = ''
-				# address.save()
-
-				# address_id = address.id
-
-				# user.password = pw
-				# user.last_login = '2012-12-12 12:12'
-				# user.is_superuser = 'false'
-				# user.username = ''
-				# user.security_question = ''
-				# user.security_answer = ''
-				# user.first_name = ''
-				# user.last_name = ''
-				# user.email_name = ''
-				# user.phone = ''
-				# user.is_staff = 'false'
-				# user.is_active = 'false'
-				# user.date_joined = '2012-12-12 12:12'
-				# user.address_id = address_id
-
-				# user.save()	
-			try:
-				user = authenticate(username=username,password=password)
+			if c!= None:
+				user = hmod.User.objects.get_or_create(username=username)
 				
-				print("username: %s" %username)
-				print("password: %s" %password)
-				login(request,user)
-				return HttpResponse('''
-						<script>
-							window.location.href = "/account/";
-						</script>
-					''')
-			except:
-				params['form'] = form
-				return templater.render_to_response(request, 'login.login_form.html', params)
+				print("USER>>>>>>>>>>>>>>",username)
+				
+				user.password = pw
+				user.last_login = '2012-12-12 12:12'
+				user.is_superuser = 'false'
+				user.security_question = ''
+				user.security_answer = ''
+				user.first_name = c.first_name
+				user.last_name = c.last_name
+				user.set_password = password
+				user.email_name = ''
+				user.phone = ''
+				user.is_staff = 'false'
+				user.is_active = 'false'
+				user.date_joined = '2012-12-12 12:12'
+				user.address_id = 1
+
+				user.save()	
+
+				u2 = authenticate(username=username,password=password)
+				login(request, u2)
+			
+			else:
+				try:
+					user = authenticate(username=username,password=password)
+					
+					print("username: %s" %username)
+					print("password: %s" %password)
+					login(request,user)
+					return HttpResponse('''
+							<script>
+								window.location.href = "/account/";
+							</script>
+						''')
+				except:
+					params['form'] = form
+					return templater.render_to_response(request, 'login.login_form.html', params)
 		else:
 			print("form not valid")
 			

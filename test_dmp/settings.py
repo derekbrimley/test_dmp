@@ -42,6 +42,7 @@ INSTALLED_APPS = (
 	'account',
 	'base_app',
 	'catalog',
+	'password_reset',
 )
 
 EMAIL_HOST = 'smtp.gmail.com'
