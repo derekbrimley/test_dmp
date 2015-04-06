@@ -29,7 +29,9 @@ def event_info(request):
 	event_id = request.urlparams[0]
 	event = hmod.Event.objects.get(id=event_id)
 	areas = hmod.Area.objects.filter(event_id=event_id)
+	sale_items = hmod.ExpectedSaleItem.objects.all()
 	
+	params['sale_items'] = sale_items 
 	params['event'] = event
 	params['areas'] = areas
 	

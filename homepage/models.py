@@ -51,7 +51,7 @@ class User(AbstractUser):
 	emergency_contact = models.TextField(max_length=200, null=True, blank=True)
 	emergency_phone = models.TextField(max_length=200, null=True, blank=True)
 	emergency_relationship = models.TextField(max_length=200, null=True, blank=True)
-	address = models.ForeignKey(Address, related_name='+')
+	address = models.ForeignKey(Address, related_name='+',null=True)
 	# def __str__(self):
 	# 	return self.user.username
 

@@ -77,7 +77,6 @@ def over_30(request):
 	
 	return templater.render_to_response(request, 'over_30.html',template_vars)
 
-
 ########################################
 ##OVER 60
 @view_function

@@ -9,6 +9,11 @@
 		%for area in areas:
 			<p>Area: ${area.area_name}</p>
 			<p>Description: ${area.description}</p>
+			%for sale_item in sale_items:
+				%if sale_item.area_id == area.id:
+					<p>Item For Sale: ${ sale_item.name }</p>
+				%endif
+			%endfor
 		%endfor	
 	</div>
 </%block>
