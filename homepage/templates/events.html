@@ -11,7 +11,7 @@
 			<th>End Date</th>
 			<th>Map File</th>
 			<th>Venue Name</th>
-			%if request.user.has_perm('homepage.is_manager'):
+			%if request.user.has_perm('homepage.manager'):
 				<th>Actions</th
 			%endif
 		</tr>
@@ -24,7 +24,7 @@
 				<td>${event.end_date}</td>
 				<td>${event.map_file}</td>
 				<td>${event.venue_name}</td>
-				%if request.user.has_perm('homepage.is_manager'):
+				%if request.user.has_perm('homepage.manager'):
 					<td>
 						<a href="/homepage/events.edit/${event.id}/">Edit </a>
 						| 
@@ -34,7 +34,7 @@
 			</tr>
 		%endfor
 	</table>
-	%if request.user.has_perm('homepage.is_manager'):
+	%if request.user.has_perm('homepage.manager'):
 		<div class="text-right">
 			<a class="btn btn-primary" href="/homepage/events.create/">Add New Event</a>
 		</div>
